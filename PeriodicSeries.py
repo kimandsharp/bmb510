@@ -26,6 +26,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 from kimpy_utilities import *
+import sys
 
 def sum_sq(Acoeff,Bcoeff,freq,y,ndata):
     d_sum = 0.
@@ -43,7 +44,10 @@ print("bayesian test for periodicity in equally spaced spatial/time data (ti,yi)
 print("following Jaynes, 'Probability Theory: The Logic of Science' section 17.6 \n")
 # get data
 #
-input_file = input("file with one t, y data pair per line> ")
+if(len(sys.argv) == 2):
+  input_file = sys.argv[1]
+else:
+  input_file = input("file with one t, y data pair per line> ")
 #input_file = 'CparkT_1930.dat' # average january temp in Central Park NY
 #input_file = 'cos4.dat'
 print('input file: ',input_file)
@@ -86,7 +90,8 @@ for i in range(1,ndata+1):
 period_axis[0] = period_axis[1] + 1. # dummy value for infinite period- i.e. constant value
 #
 delta = 2.*(max_y - min_y) # width of gaussian prior for A,B
-ngrid = 51 # grid for marginalization over coefficient magnitudes
+#ngrid = 51 # grid for marginalization over coefficient magnitudes
+ngrid = 37 # grid for marginalization over coefficient magnitudes
 r_up = 2.*delta
 dr = r_up/(ngrid - 1)
 #print(r_up,dr)

@@ -89,9 +89,9 @@ while(n_got > 0):
   n_mle = int(n_tag/f_lab) + n_taken
   print('fraction of resample labelled: {:12.5f} Population size (Max. Like. Est): {:6d}'.format(f_lab,n_mle))
   n_median = quantile(n_axis,n_cdf,50.)
-  limit_5 = quantile(n_axis,n_cdf,5.)
-  limit_95 = quantile(n_axis,n_cdf,95.)
-  print('median {:12.5f} 5%-95% limits: ({:12.5f}, {:12.5f} ) '.format(n_median,limit_5,limit_95))
+  limit_min = quantile(n_axis,n_cdf,CREDIBLE_MIN)
+  limit_max = quantile(n_axis,n_cdf,CREDIBLE_MAX)
+  print('median {:12.5f}\n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(n_median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
   pdf_to_mean(n_axis,n_pdf,discrete=False)
 
   plt.figure()

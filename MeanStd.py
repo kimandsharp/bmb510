@@ -41,14 +41,13 @@ exponent = n_x/2. # result if use log prior for sigma or prob(sigma) = const./si
 #
 #generate posterior pdf and cdf for mean
 #
-npoint = 101
 xrange = 4. # sigma range for x-axis
 av_min = av_x - xrange*sigma_av
-av_incr = 2*xrange*sigma_av/(npoint - 1)
-av_axis = np.zeros(npoint)
-av_pdf = np.zeros(npoint)
-av_pdf_gauss = np.zeros(npoint)
-for i in range(npoint):
+av_incr = 2*xrange*sigma_av/(NPOINT - 1)
+av_axis = np.zeros(NPOINT)
+av_pdf = np.zeros(NPOINT)
+av_pdf_gauss = np.zeros(NPOINT)
+for i in range(NPOINT):
   av_axis[i] = av_min + i*av_incr
   av_pdf[i] = 1./(1. + (av_axis[i] - av_x)**2/var_x)**exponent
   av_pdf_gauss[i] = exp(-1.*(av_axis[i] - av_x)**2/2./sigma_av**2)
@@ -58,11 +57,11 @@ av_cdf = pdf_to_cdf(av_axis,av_pdf)
 av_cdf_gauss = pdf_to_cdf(av_axis,av_pdf_gauss)
 #
 median = quantile(av_axis,av_cdf,50.)
-limit_5 = quantile(av_axis,av_cdf,5.)
-limit_95 = quantile(av_axis,av_cdf,95.)
+limit_min = quantile(av_axis,av_cdf,CREDIBLE_MIN)
+limit_max = quantile(av_axis,av_cdf,CREDIBLE_MAX)
 print('\n estimation of mean')
 print('------------------')
-print('median {:12.5f} 5%-95% limits: ({:12.5f}, {:12.5f} ) '.format(median,limit_5,limit_95))
+print('median {:12.5f}\n {:6.1f}% - {:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
 #
 # plot original data
 #
@@ -92,10 +91,10 @@ plt.show()
 xrange = 4. # range for x-axis
 sd_min = sigma_x/xrange
 sd_max = sigma_x*xrange
-sd_incr = (sd_max - sd_min)/(npoint - 1)
-sd_axis = np.zeros(npoint)
-sd_pdf = np.zeros(npoint)
-for i in range(npoint):
+sd_incr = (sd_max - sd_min)/(NPOINT - 1)
+sd_axis = np.zeros(NPOINT)
+sd_pdf = np.zeros(NPOINT)
+for i in range(NPOINT):
   sd_i = sd_min + i*sd_incr
   var_i = sd_i*sd_i
   sd_axis[i] = sd_i
@@ -105,11 +104,11 @@ sd_pdf = sd_pdf/pdf_max
 sd_cdf = pdf_to_cdf(sd_axis,sd_pdf)
 #
 median = quantile(sd_axis,sd_cdf,50.)
-limit_5 = quantile(sd_axis,sd_cdf,5.)
-limit_95 = quantile(sd_axis,sd_cdf,95.)
+limit_min = quantile(sd_axis,sd_cdf,CREDIBLE_MIN)
+limit_max = quantile(sd_axis,sd_cdf,CREDIBLE_MAX)
 print('\n estimation of standard deviation')
 print('-----------------------------------')
-print('median {:12.5f} 5%-95% limits: ({:12.5f}, {:12.5f} ) '.format(median,limit_5,limit_95))
+print('median {:12.5f}\n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
 plt.figure(1)
 #
 # plot posterior pdf, cdf of st. dev

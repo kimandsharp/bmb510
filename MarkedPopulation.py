@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import lgamma,exp
 from kimpy_utilities import *
+import sys
 #-------------------------------
 #
 print("\n bayesian analysis for population of marked items")
@@ -17,9 +18,14 @@ print(" what is total population of marked items? based on same hypergeometric d
 #n_tot = 15
 #n_got = 10
 #n_lab = 3
-n_tot = int(input('# total> '))
-n_got = int(input('# sampled> '))
-n_lab = int(input('# of samples that are marked> '))
+if(len(sys.argv) == 4):
+  n_tot = int(sys.argv[1])
+  n_got = int(sys.argv[2])
+  n_lab = int(sys.argv[3])
+else:
+  n_tot = int(input('# total> '))
+  n_got = int(input('# sampled> '))
+  n_lab = int(input('# of samples that are marked> '))
 print('from total of: {:8d}   # sampled: {:8d}   of which {:8d}   are marked'.format(n_tot,n_got,n_lab))
 #
 # range of n_lab to explore
@@ -54,9 +60,9 @@ f_lab = float(n_lab)/float(n_got)
 n_mle = int(n_tot*f_lab)
 print('fraction of sample marked: {:12.5f} Max. Like. Est of total Marked: {:6d}'.format(f_lab,n_mle))
 n_median = quantile(n_axis,n_cdf,50.)
-limit_5 = quantile(n_axis,n_cdf,5.)
-limit_95 = quantile(n_axis,n_cdf,95.)
-print('median {:12.5f} 5%-95% limits: ({:12.5f}, {:12.5f} ) '.format(n_median,limit_5,limit_95))
+limit_min = quantile(n_axis,n_cdf,CREDIBLE_MIN)
+limit_max = quantile(n_axis,n_cdf,CREDIBLE_MAX)
+print('median {:12.5f} \n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(n_median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
 
 plt.figure()
 plt.scatter(n_axis,n_pdf,color='green',marker='o')

@@ -19,7 +19,13 @@ if(len(sys.argv) > 2):
 else:
   file1 = input('first data file with one value per line> ')
   file2 = input('second data file with one value per line> ')
+print('\n input file 1: ',file1)
+print(' input file 1: ',file2,'\n')
 same_sigma = int(input('two populations have same variance? 0=no 1=yes '))
+if(same_sigma == 0):
+  print('two populations have different variance')
+else:
+  print('two populations have same variance')
 n_x = read_x(x,file1)
 n_y = read_x(y,file2)
 av_x = average_x(x)
@@ -44,33 +50,32 @@ print(' diff in means: {:12.5f} '.format(d_av))
 #
 #generate pdf and cdf
 #
-npoint = 301
 xrange = 6. # sigma range for x-axis
 d_av_min = d_av - xrange*sigma_xy
-d_av_incr = 2*xrange*sigma_xy/(npoint - 1)
-d_av_axis = np.zeros(npoint)
-d_av_pdf = np.zeros(npoint)
+d_av_incr = 2*xrange*sigma_xy/(NPOINT - 1)
+d_av_axis = np.zeros(NPOINT)
+d_av_pdf = np.zeros(NPOINT)
 #
 av_min = av_x - xrange*sigma_x
-av_incr = 2*xrange*sigma_x/(npoint - 1)
-av_axis = np.zeros(npoint)
-for i in range(npoint):
+av_incr = 2*xrange*sigma_x/(NPOINT - 1)
+av_axis = np.zeros(NPOINT)
+for i in range(NPOINT):
   av_axis[i] = av_min + i*av_incr
 #
 if(not(same_sigma)):
   expnt_x = n_x/-2.
   expnt_y = n_y/-2.
-  for i in range(npoint):
+  for i in range(NPOINT):
     d_av_axis[i] = d_av_min + i*d_av_incr
-    for j in range(npoint):
+    for j in range(NPOINT):
       arg_x = (av_axis[j] - av_x)**2/var_x
       arg_y = (av_axis[j] + d_av_axis[i] - av_y)**2/var_y
       d_av_pdf[i] += ((1 + arg_x)**expnt_x)*((1 + arg_y)**expnt_y)
 else:
   expnt = (n_x + n_y)/-2.
-  for i in range(npoint):
+  for i in range(NPOINT):
     d_av_axis[i] = d_av_min + i*d_av_incr
-    for j in range(npoint):
+    for j in range(NPOINT):
       arg_x = n_x*(var_x + (av_axis[j] - av_x)**2)
       arg_y = n_y*(var_y + (av_axis[j] + d_av_axis[i] - av_y)**2)
       d_av_pdf[i] += (arg_x + arg_y)**expnt
@@ -79,9 +84,9 @@ d_av_pdf = d_av_pdf/pdf_max
 d_av_cdf = pdf_to_cdf(d_av_axis,d_av_pdf)
 #
 d_median = quantile(d_av_axis,d_av_cdf,50.)
-limit_5 = quantile(d_av_axis,d_av_cdf,5.)
-limit_95 = quantile(d_av_axis,d_av_cdf,95.)
-print('median {:12.5f} 5%-95% limits: ({:12.5f}, {:12.5f} ) '.format(d_median,limit_5,limit_95))
+limit_min = quantile(d_av_axis,d_av_cdf,CREDIBLE_MIN)
+limit_max = quantile(d_av_axis,d_av_cdf,CREDIBLE_MAX)
+print('median {:12.5f} \n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(d_median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
 
 
 #

@@ -32,18 +32,17 @@ print(' source     obs. time {:8.3f} and # counts {:6d}'.format(t_source,n_sourc
 #-basic constants
 #
 n_tot = n_back + n_source
-n_point = 100
-dk = 2.*n_source/t_source/n_point
+dk = 2.*n_source/t_source/NPOINT
 t_factor = (1. + t_back/t_source)
 #
-k_axis = np.zeros(n_point)
-pdf_back = np.zeros(n_point)
-pdf_source = np.zeros(n_point)
+k_axis = np.zeros(NPOINT)
+pdf_back = np.zeros(NPOINT)
+pdf_source = np.zeros(NPOINT)
 coeffs = np.zeros(n_source)
 #
 # posterior background rate- poisson in n becomes gamma in k
 #
-for k in range(n_point):
+for k in range(NPOINT):
   k_back = dk*k
   k_axis[k] = k_back
   pdf_back[k] = t_back*poisson_dist(n_back-1,k_back,t_back)
@@ -71,7 +70,7 @@ print(coeffs)
 #
 # source rate posterior is weigthed sum of gamma's
 #
-for k in range(n_point):
+for k in range(NPOINT):
   k_source = dk*k
   pdf_source[k] = 0.
   for indx in range(n_source):
@@ -81,9 +80,9 @@ pdf_max = max(pdf_source)
 pdf_source /= pdf_max
 cdf_source = pdf_to_cdf(k_axis,pdf_source)
 k_median = quantile(k_axis,cdf_source,50.)
-k_5per = quantile(k_axis,cdf_source,5.)
-k_95per = quantile(k_axis,cdf_source,95.)
-print('median rate: {:12.5f}  5% - 95% limits: ({:12.5f}  {:12.5f}) '.format(k_median,k_5per,k_95per))
+k_min = quantile(k_axis,cdf_source,CREDIBLE_MIN)
+k_max = quantile(k_axis,cdf_source,CREDIBLE_MAX)
+print('median {:12.5f} \n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(k_median,CREDIBLE_MIN,CREDIBLE_MAX,k_min,k_max))
 #print(k_axis)
 #print(pdf_source)
 #print(cdf_source)

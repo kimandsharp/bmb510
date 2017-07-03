@@ -5,26 +5,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import gamma,exp,sqrt
 from kimpy_utilities import *
+import sys
 #--------------------------------------
 #
 print("\n bayes analysis of rate of rare events using poisson distbn \n")
 #
-n_source = int(input('# of observed events> '))
-t_source = float(input('time of observation> '))
+if(len(sys.argv) == 3):
+  n_source = int(sys.argv[1])
+  t_source = float(sys.argv[2])
+else:
+  n_source = int(input('# of observed events> '))
+  t_source = float(input('time of observation> '))
+print('# of events: ',n_source,' in time ',t_source)
 r_mean = float(n_source)/t_source
 r_stdev = sqrt(n_source)/t_source
 r_mode = float((n_source - 1.))/t_source
 print(" Rate: {:12.5f} (mean) {:12.5f} (st. dev) {:12.5f} (Max. Lhood)".format(r_mean,r_stdev,r_mode))
 #
 # generate pdf, cdf
-npoint = 101
 r_range = 3.
-d_rate = r_range*r_mean/(npoint - 1)
-print (d_rate)
-r_axis = np.zeros(npoint)
-r_pdf = np.zeros(npoint)
+d_rate = r_range*r_mean/(NPOINT - 1)
+r_axis = np.zeros(NPOINT)
+r_pdf = np.zeros(NPOINT)
 nm1 = n_source - 1
-for i in range(npoint):
+for i in range(NPOINT):
   r_axis[i] = i*d_rate
   rt = r_axis[i]*t_source
   r_pdf[i] = t_source*(rt**nm1)*exp(-1.*rt)/gamma(n_source)
@@ -34,9 +38,9 @@ r_pdf = r_pdf/pdf_max
 r_cdf = pdf_to_cdf(r_axis,r_pdf)
 
 r_median = quantile(r_axis,r_cdf,50.)
-limit_5 = quantile(r_axis,r_cdf,5.)
-limit_95 = quantile(r_axis,r_cdf,95.)
-print('median {:12.5f} 5%-95% limits: ({:12.5f}, {:12.5f} ) '.format(r_median,limit_5,limit_95))
+limit_min = quantile(r_axis,r_cdf,CREDIBLE_MIN)
+limit_max = quantile(r_axis,r_cdf,CREDIBLE_MAX)
+print('median {:12.5f} \n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(r_median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
 #
 # plot posterior pdf of rate
 #

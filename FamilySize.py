@@ -7,14 +7,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import lgamma,exp
 from kimpy_utilities import *
+import sys
 #-------------------------------
 #
 print("\n bayesian analysis of rank order or serial # type: ")
 print(" e.g. birth order, dice problem (Allen Dewney), Locomotive problem (Mostellor) ")
 print(" German tank problem WWII \n")
 #
-file_in = input("file with rank order/serial # data, 1 per line>")
+if(len(sys.argv) == 2):
+  file_in = sys.argv[1]
+else:
+  file_in = input("file with rank order/serial # data, 1 per line>")
 #file_in = 'n_rank.dat'
+print('\n input file: ',file_in,'\n')
 n_rank = []
 ndata = read_n(n_rank,file_in)
 
@@ -34,7 +39,7 @@ for i in range(n_biggest):
 # update with likelihoods
 #
 for j in range(ndata):
-    print(n_rank[j])
+    # print(n_rank[j])
     for i in range(n_biggest):
       nval = i + 1
       if(n_rank[j]>nval):
@@ -47,9 +52,9 @@ pdf_max = max(n_pdf)
 n_pdf = n_pdf/pdf_max
 n_cdf = pdf_to_cdf(n_axis,n_pdf,discrete=True)
 n_median = quantile(n_axis,n_cdf,50.)
-limit_5 = n_max # largest data value is always min pop size
-limit_95 = quantile(n_axis,n_cdf,95.)
-print('median {:12.5f} min to 95% limits: ({:12.5f}, {:12.5f} ) '.format(n_median,limit_5,limit_95))
+limit_min = n_max # largest data value is always min pop size
+limit_max = quantile(n_axis,n_cdf,CREDIBLE_MAX)
+print('median {:12.5f}\n min - {:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(n_median,CREDIBLE_MAX,limit_min,limit_max))
 
 plt.figure()
 plt.scatter(n_axis,n_pdf,color='green',marker='o')
