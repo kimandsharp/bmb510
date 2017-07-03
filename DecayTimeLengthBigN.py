@@ -6,10 +6,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import lgamma,exp,log
 from kimpy_utilities import *
+import sys
 #-------------------------------
 print('\n bayesian analysis of decay length/time data, assuming exponential decay \n ')
 print('work with log prob for large N \n')
-file_in = input("file with event distance or time data, 1 per line>")
+if(len(sys.argv) == 2):
+  file_in = sys.argv[1]
+else:
+  file_in = input("file with event distance or time data, 1 per line>")
 print('\n input file: ',file_in)
 t_data = []
 ndata = read_x(t_data,file_in)
