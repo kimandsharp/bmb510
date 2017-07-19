@@ -4,11 +4,11 @@ some useful defs for bayes programs
 import numpy as np
 #-------
 # globals
-#CREDIBLE_MIN = 2.5 # lower percentile for credible interval
-#CREDIBLE_MAX = 97.5 # upper percentile for credible interval # covers 95%
-CREDIBLE_MIN = 5. # lower percentile for credible interval
-CREDIBLE_MAX = 95. # upper percentile for credible interval # covers 90%
-NPOINT = 501
+CREDIBLE_MIN = 2.5 # lower percentile for credible interval
+CREDIBLE_MAX = 97.5 # upper percentile for credible interval # covers 95%
+#CREDIBLE_MIN = 5. # lower percentile for credible interval
+#CREDIBLE_MAX = 95. # upper percentile for credible interval # covers 90%
+NPOINT = 2501
 #-------
 def read_n(n,filename):
     # read a list of integers from a file

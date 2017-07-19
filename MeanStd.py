@@ -3,7 +3,7 @@ implement bayesian estimation of mean of population, using exact (t-distribution
 and approximation (Gaussian) posterior pdf
 and chi-sq posterior pdf of std. dev
 """
-from math import sqrt, exp
+from math import sqrt, exp,log
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
@@ -120,3 +120,23 @@ plt.xlabel('st.dev')
 plt.ylabel('p(st.dev)')
 plt.grid(True)
 plt.show()
+"""
+#
+# output joint p(mean, stdev) to file for plotting
+#
+print(av_axis)
+print(sd_axis)
+fileout = open('meanStd.dat','w')
+fileout.write('# data for 3d plot of log p(mean,stdev) from MeanStd.py \n')
+ilw = int(NPOINT/2 - 10)
+iup = int(NPOINT/2 + 10)
+#for i in range(ilw,iup):
+for i in range(0,NPOINT,10):
+  av_i = av_axis[i]
+  #for j in range(ilw,iup):
+  for j in range(0,NPOINT,10):
+    sd_i = sd_axis[j]
+    logProb = -(n_x + 1)*log(sd_i) - n_x*(var_x + (av_i - av_x)**2)/2/sd_i**2
+    fileout.write('{:8.3f}  {:8.3f}  {:12.3g}\n'.format(av_i,sd_i,logProb))
+fileout.close
+"""

@@ -6,6 +6,7 @@ now with slope from bayesian analysis of Steve Gull, which treats x, y symmetric
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import colors, ticker, cm
 from kimpy_utilities import *
 import sys
 
@@ -186,6 +187,10 @@ icept_less_2s = icept_fit - 2*slope_icept_corr*icept_stdev
 #slope_less_2s = slope_fit - 2*slope_stdev*slope_icept_corr
 #icept_less_2s = icept_fit - 2*icept_stdev
 print('-2sigma slope %10.5f intercept %10.5f  ' % (slope_less_2s,icept_less_2s))
+resid_sump = sum_sq(x,y,slope_plus_2s,icept_plus_2s,ndata)
+print(' plus 2sigma sum sq %10.5f ' % (resid_sump))
+resid_suml = sum_sq(x,y,slope_less_2s,icept_less_2s,ndata)
+print(' less 2sigma sum sq %10.5f ' % (resid_suml))
 #
 # original data, residuals, +/- 2 sigma data for replotting
 #
@@ -214,10 +219,6 @@ for i in range(ndata):
           (i,x[i],y[i],ycalc[i],resid[i],ycalc_plus_2s[i],ycalc_less_2s[i])
     file_out.write(str_buf)
 file_out.close()
-#resid_sum = sum_sq(x,y,slope_plus_2s,icept_plus_2s,ndata)
-#print(' plus 2sigma sum sq %10.5f ' % (resid_sum))
-#resid_sum = sum_sq(x,y,slope_less_2s,icept_less_2s,ndata)
-#print(' less 2sigma sum sq %10.5f ' % (resid_sum))
 #
 # plotting
 #
@@ -233,21 +234,40 @@ plt.ylabel('y')
 plt.title('Standard fit (blue) with 2-sigma limits (green). Bayes (cyan). Min distance (black) ')
 plt.grid(True)
 plt.show()
-"""
 #
 # produce 2d plot of log prob
 #
 ngrid = 21
-dslope = 6.*slope_stdev/ngrid
-dicept = 6.*slope_stdev/ngrid
-slope_val = slope_fit - dslope*(ngrid-1)/2
+nsigma = 6.
+slope_low = slope_fit - nsigma*slope_stdev
+slope_up = slope_fit + nsigma*slope_stdev
+icept_low = icept_fit - nsigma*icept_stdev
+icept_up = icept_fit + nsigma*icept_stdev
+x2d = np.linspace(slope_low,slope_up,ngrid)
+y2d = np.linspace(icept_low,icept_up,ngrid)
+#print('\n x2d: ',x2d)
+#print('\n y2d: ',y2d)
+z2d = np.zeros((ngrid,ngrid),'float')
+X2d, Y2d = np.meshgrid(x2d,y2d)
 for i in range(ngrid):
-    icept_val = icept_fit - dicept*(ngrid-1)/2
-    for j in range(ngrid):
-        #logprob = math.log10(sum_sq(x,y,slope_val,icept_val,ndata))
-        # print (slope_val,icept_val, logprob)
-        prob = resid_sum/(sum_sq(x,y,slope_val,icept_val,ndata))
-        print ('%10.5f   %10.5f   %10.5f' % (slope_val,icept_val, prob))
-        icept_val += dicept
-    slope_val += dslope
-"""
+  slope_val = x2d[i]
+  for j in range(ngrid):
+    icept_val = y2d[j]
+    #logprob = math.log10(sum_sq(x,y,slope_val,icept_val,ndata))
+    # print (slope_val,icept_val, logprob)
+    prob = resid_sum/(sum_sq(x,y,slope_val,icept_val,ndata))
+    z2d[i][j] = prob
+    #print ('%10.5f   %10.5f   %10.5f' % (slope_val,icept_val, prob))
+    #prob = resid_sum - (sum_sq(x,y,slope_val,icept_val,ndata))
+    #z2d[i][j] = math.exp(prob)
+#print('\n z2d: ',z2d)
+fig, ax = plt.subplots()
+# linear scale
+cs = ax.contourf(X2d, Y2d, z2d, cmap=cm.gray)
+# log scale
+#cs = ax.contourf(X2d, Y2d, z2d, locator=ticker.LogLocator(), cmap=cm.PuBu_r)
+cbar = fig.colorbar(cs)
+plt.xlabel('slope')
+plt.ylabel('intercept')
+plt.grid(True)
+plt.show()
