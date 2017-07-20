@@ -65,26 +65,27 @@ print('median {:12.5f}\n {:6.1f}% - {:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.for
 #
 # plot original data
 #
-plt.figure(1)
-plt.subplot(211)
-plt.boxplot(x,notch=0,sym='b+',vert=0,showmeans=True)
-plt.yticks([1],['X 1'],rotation=0,fontsize=12)
-#plt.title('SciInf Mean of Data')
-#
-# plot posterior pdf, cdf for mean
-#
-plt.subplot(212)
-plt.plot(av_axis,av_pdf,'g-')
-plt.plot(av_axis,av_pdf_gauss,'b-')
-plt.plot(av_axis,av_cdf,'r-')
-plt.plot(av_axis,av_cdf_gauss,'y-')
-plt.scatter(x,y)
-plt.title('posterior pdf,cdf for Mean')
-plt.xlabel('Value')
-plt.ylabel('p(mean)')
-plt.ylim((0.,1.2))
-plt.grid(True)
-plt.show()
+if(MAKEPLOT):
+  plt.figure(1)
+  plt.subplot(211)
+  plt.boxplot(x,notch=0,sym='b+',vert=0,showmeans=True)
+  plt.yticks([1],['X 1'],rotation=0,fontsize=12)
+  #plt.title('SciInf Mean of Data')
+  #
+  # plot posterior pdf, cdf for mean
+  #
+  plt.subplot(212)
+  plt.plot(av_axis,av_pdf,'g-')
+  plt.plot(av_axis,av_pdf_gauss,'b-')
+  plt.plot(av_axis,av_cdf,'r-')
+  plt.plot(av_axis,av_cdf_gauss,'y-')
+  plt.scatter(x,y)
+  plt.title('posterior pdf,cdf for Mean')
+  plt.xlabel('Value')
+  plt.ylabel('p(mean)')
+  plt.ylim((0.,1.2))
+  plt.grid(True)
+  plt.show()
 #
 #generate posterior pdf and cdf for st.dev
 #
@@ -113,13 +114,14 @@ plt.figure(1)
 #
 # plot posterior pdf, cdf of st. dev
 #
-plt.plot(sd_axis,sd_pdf,'g-')
-plt.plot(sd_axis,sd_cdf,'r-')
-plt.title('posterior pdf,cdf for st. dev')
-plt.xlabel('st.dev')
-plt.ylabel('p(st.dev)')
-plt.grid(True)
-plt.show()
+if(MAKEPLOT):
+  plt.plot(sd_axis,sd_pdf,'g-')
+  plt.plot(sd_axis,sd_cdf,'r-')
+  plt.title('posterior pdf,cdf for st. dev')
+  plt.xlabel('st.dev')
+  plt.ylabel('p(st.dev)')
+  plt.grid(True)
+  plt.show()
 """
 #
 # output joint p(mean, stdev) to file for plotting

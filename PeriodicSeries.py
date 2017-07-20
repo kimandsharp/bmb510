@@ -155,24 +155,26 @@ for i in range(ndata):
 #
 #for i in range(ndata):
 #  y[i] = y[i] + av_y
-plt.figure(1)
-plt.subplot(211)
-plt.scatter(t,y,color='red',marker='o')
-plt.plot(t,y_calc,color='blue')
-plt.xlabel('t')
-plt.ylabel('y')
-#plt.ylim(ymin=0.)
-plt.title('T Series ')
-plt.grid(True)
-#
-# plot posterior pdf of frequency/period
-#
-plt.subplot(212)
-#plt.plot(freq_axis,freq_pdf,color='red')
-#plt.xlabel('frequency')
-plt.plot(period_axis,freq_pdf,color='red')
-plt.xlabel('period')
-plt.ylabel('pdf(period)')
-plt.title('PDF ')
-plt.grid(True)
-plt.show()
+MAKEPLOT = True
+if(MAKEPLOT):
+  plt.figure(1)
+  plt.subplot(211)
+  plt.scatter(t,y,color='red',marker='o')
+  plt.plot(t,y_calc,color='blue')
+  plt.xlabel('t')
+  plt.ylabel('y')
+  #plt.ylim(ymin=0.)
+  plt.title('T Series ')
+  plt.grid(True)
+  #
+  # plot posterior pdf of frequency/period
+  #
+  plt.subplot(212)
+  #plt.plot(freq_axis,freq_pdf,color='red')
+  #plt.xlabel('frequency')
+  plt.plot(period_axis,freq_pdf,color='red')
+  plt.xlabel('period')
+  plt.ylabel('pdf(period)')
+  plt.title('PDF ')
+  plt.grid(True)
+  plt.show()

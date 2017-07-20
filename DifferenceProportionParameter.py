@@ -55,20 +55,6 @@ print('set 1: median {:12.5f}\n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} )
 print('set 2: median {:12.5f}\n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '
 .format(f_median2,CREDIBLE_MIN,CREDIBLE_MAX,limit_min2,limit_max2))
 #
-# plot pdf, cdf of f1, f2
-#
-plt.figure()
-plt.plot(f_axis,f_pdf1,'g-')
-plt.plot(f_axis,f_cdf1,'r-')
-plt.plot(f_axis,f_pdf2,color='green',linestyle='--')
-plt.plot(f_axis,f_cdf2,color='red',linestyle='--')
-plt.xlabel(' fraction (r)')
-plt.ylabel(' prob(r)')
-plt.title(' posterior pdf, cdf for fraction')
-plt.ylim((0.,1.2))
-plt.grid(True)
-plt.show()
-#
 # generate pdf, cdf for difference set 2 - set 1
 # by marginalization integral over f1
 #
@@ -98,15 +84,32 @@ dlimit_min = quantile(df_axis,df_cdf,CREDIBLE_MIN)
 dlimit_max = quantile(df_axis,df_cdf,CREDIBLE_MAX)
 print('difference (set 2 - set1): median {:12.5f}\n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '
 .format(df_median,CREDIBLE_MIN,CREDIBLE_MAX,dlimit_min,dlimit_max))
-#
-# plot pdf, cdf of delta f
-#
-plt.figure()
-plt.plot(df_axis,df_pdf,'g-')
-plt.plot(df_axis,df_cdf,'r-')
-plt.xlabel(' delta fraction (df)')
-plt.ylabel(' prob(df)')
-plt.title(' posterior pdf, cdf for delta fraction')
-#plt.ylim((0.,1.2))
-plt.grid(True)
-plt.show()
+if(MAKEPLOT):
+  #
+  # plot pdf, cdf of f1, f2
+  #
+  plt.figure(1)
+  plt.subplot(211)
+  plt.plot(f_axis,f_pdf1,'g-')
+  plt.plot(f_axis,f_cdf1,'r-')
+  plt.plot(f_axis,f_pdf2,color='green',linestyle='--')
+  plt.plot(f_axis,f_cdf2,color='red',linestyle='--')
+  #plt.xlabel(' fraction (r)')
+  plt.xlabel(' f')
+  plt.ylabel(' p(f)')
+  #plt.title(' posterior pdf, cdf for fraction')
+  plt.ylim((0.,1.2))
+  plt.xlim((-1.,1.))
+  plt.grid(True)
+  #
+  # plot pdf, cdf of delta f
+  #
+  plt.subplot(212)
+  plt.plot(df_axis,df_pdf,'g-')
+  plt.plot(df_axis,df_cdf,'r-')
+  plt.xlabel(' df')
+  plt.ylabel(' p(df)')
+  plt.xlim((-1.,1.))
+  #plt.ylim((0.,1.2))
+  plt.grid(True)
+  plt.show()

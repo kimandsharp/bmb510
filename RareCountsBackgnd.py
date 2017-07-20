@@ -89,13 +89,14 @@ print('median {:12.5f} \n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.for
 #
 #--------------------------------------------
 #
-plt.plot(k_axis, pdf_back, 'b--',linewidth=1.0)
-plt.plot(k_axis, pdf_source, 'g-',linewidth=1.0)
-plt.plot(k_axis, cdf_source, 'r-',linewidth=1.0)
-plt.xlabel('rate (/s)')
-plt.ylabel('p(rate)')
-plt.ylim((0.,1.2))
-#plt.title('Posterior pdf of rate (backgnd = blue source = green)')
-plt.grid(True)
-plt.show()
+if(MAKEPLOT):
+  plt.plot(k_axis, pdf_back, 'b--',linewidth=1.0)
+  plt.plot(k_axis, pdf_source, 'g-',linewidth=1.0)
+  plt.plot(k_axis, cdf_source, 'r-',linewidth=1.0)
+  plt.xlabel('rate (/s)')
+  plt.ylabel('p(rate)')
+  plt.ylim((0.,1.2))
+  #plt.title('Posterior pdf of rate (backgnd = blue source = green)')
+  plt.grid(True)
+  plt.show()
 

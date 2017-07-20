@@ -40,12 +40,13 @@ print('median {:12.5f}\n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.form
 #
 # plot
 #
-plt.figure()
-plt.plot(f_axis,f_pdf,'g-')
-plt.plot(f_axis,f_cdf,'r-')
-plt.xlabel(' fraction (r)')
-plt.ylabel(' prob(r)')
-plt.title(' posterior pdf, cdf for fraction')
-plt.ylim((0.,1.2))
-plt.grid(True)
-plt.show()
+if(MAKEPLOT):
+  plt.figure()
+  plt.plot(f_axis,f_pdf,'g-')
+  plt.plot(f_axis,f_cdf,'r-')
+  plt.xlabel(' fraction (r)')
+  plt.ylabel(' prob(r)')
+  plt.title(' posterior pdf, cdf for fraction')
+  plt.ylim((0.,1.2))
+  plt.grid(True)
+  plt.show()

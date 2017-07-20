@@ -92,11 +92,12 @@ file_out.close()
 #
 # plotting
 #
-plt.figure(figsize=(8,7.75))
-plt.scatter(x,y,color='red',marker='o')
-plt.plot(x,ycalc,'b-')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('Least abs. dev. fit (blue) ')
-plt.grid(True)
-plt.show()
+if(MAKEPLOT):
+  plt.figure(figsize=(8,7.75))
+  plt.scatter(x,y,color='red',marker='o')
+  plt.plot(x,ycalc,'b-')
+  plt.xlabel('x')
+  plt.ylabel('y')
+  plt.title('Least abs. dev. fit (blue) ')
+  plt.grid(True)
+  plt.show()

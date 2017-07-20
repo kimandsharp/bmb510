@@ -222,18 +222,19 @@ file_out.close()
 #
 # plotting
 #
-plt.figure(figsize=(8,7.75))
-plt.scatter(x,y,color='red',marker='o')
-plt.plot(x,ycalc,'b-')
-plt.plot(x,ycalcb,color="cyan",linestyle="--")
-plt.plot(x,ycalcp,color="black",linestyle="-.")
-plt.plot(x,ycalc_plus_2s,'g-')
-plt.plot(x,ycalc_less_2s,'g-')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('Standard fit (blue) with 2-sigma limits (green). Bayes (cyan). Min distance (black) ')
-plt.grid(True)
-plt.show()
+if(MAKEPLOT):
+  plt.figure(figsize=(8,7.75))
+  plt.scatter(x,y,color='red',marker='o')
+  plt.plot(x,ycalc,'b-')
+  plt.plot(x,ycalcb,color="cyan",linestyle="--")
+  plt.plot(x,ycalcp,color="black",linestyle="-.")
+  plt.plot(x,ycalc_plus_2s,'g-')
+  plt.plot(x,ycalc_less_2s,'g-')
+  plt.xlabel('x')
+  plt.ylabel('y')
+  plt.title('Standard fit (blue) with 2-sigma limits (green). Bayes (cyan). Min distance (black) ')
+  plt.grid(True)
+  plt.show()
 #
 # produce 2d plot of log prob
 #
@@ -261,13 +262,14 @@ for i in range(ngrid):
     #prob = resid_sum - (sum_sq(x,y,slope_val,icept_val,ndata))
     #z2d[i][j] = math.exp(prob)
 #print('\n z2d: ',z2d)
-fig, ax = plt.subplots()
-# linear scale
-cs = ax.contourf(X2d, Y2d, z2d, cmap=cm.gray)
-# log scale
-#cs = ax.contourf(X2d, Y2d, z2d, locator=ticker.LogLocator(), cmap=cm.PuBu_r)
-cbar = fig.colorbar(cs)
-plt.xlabel('slope')
-plt.ylabel('intercept')
-plt.grid(True)
+if(MAKEPLOT):
+  fig, ax = plt.subplots()
+  # linear scale
+  cs = ax.contourf(X2d, Y2d, z2d, cmap=cm.gray)
+  # log scale
+  #cs = ax.contourf(X2d, Y2d, z2d, locator=ticker.LogLocator(), cmap=cm.PuBu_r)
+  cbar = fig.colorbar(cs)
+  plt.xlabel('slope')
+  plt.ylabel('intercept')
+  plt.grid(True)
 plt.show()

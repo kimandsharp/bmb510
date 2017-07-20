@@ -94,17 +94,18 @@ while(n_got > 0):
   print('median {:12.5f}\n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(n_median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
   pdf_to_mean(n_axis,n_pdf,discrete=False)
 
-  plt.figure()
-  plt.scatter(n_axis,n_prior,color='black',marker='+')
-  plt.scatter(n_axis,n_pdf,color='green',marker='o')
-  plt.scatter(n_axis,n_cdf,color='red',marker='o')
-  plt.ylim((0.,1.2))
-  plt.xlabel('N')
-  plt.ylabel('prob(N)')
-  plt.title('posterior pdf,cdf for population size')
-  #plt.xscale('log')
-  plt.grid(True)
-  plt.show()
+  if(MAKEPLOT):
+    plt.figure()
+    plt.scatter(n_axis,n_prior,color='black',marker='+')
+    plt.scatter(n_axis,n_pdf,color='green',marker='o')
+    plt.scatter(n_axis,n_cdf,color='red',marker='o')
+    plt.ylim((0.,1.2))
+    plt.xlabel('N')
+    plt.ylabel('prob(N)')
+    plt.title('posterior pdf,cdf for population size')
+    #plt.xscale('log')
+    plt.grid(True)
+    plt.show()
   #
   # move post pdf to prior, and update totals
   #
