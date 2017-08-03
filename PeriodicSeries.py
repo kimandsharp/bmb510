@@ -25,7 +25,7 @@ POSTERIOR
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-from kimpy_utilities import *
+from SciInf_utilities import *
 import sys
 
 def sum_sq(Acoeff,Bcoeff,freq,y,ndata):

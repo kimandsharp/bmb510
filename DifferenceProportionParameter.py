@@ -5,7 +5,7 @@ proportion/fraction/percent type parameters
 from math import sqrt, exp
 import numpy as np
 import matplotlib.pyplot as plt
-from kimpy_utilities import *
+from SciInf_utilities import *
 import sys
 #--------------------------------------
 #

@@ -5,7 +5,7 @@ least sum of |y - mx - b|, or L1 norm instead of sum of sq's
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-from kimpy_utilities import *
+from SciInf_utilities import *
 import sys
 
 """ main

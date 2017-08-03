@@ -5,7 +5,7 @@ like bias of coin, % of mutations etc
 from math import sqrt, exp
 import numpy as np
 import matplotlib.pyplot as plt
-from kimpy_utilities import *
+from SciInf_utilities import *
 import sys
 #--------------------------------------
 #
@@ -36,7 +36,8 @@ f_cdf = pdf_to_cdf(f_axis,f_pdf)
 f_median = quantile(f_axis,f_cdf,50.)
 limit_min = quantile(f_axis,f_cdf,CREDIBLE_MIN)
 limit_max = quantile(f_axis,f_cdf,CREDIBLE_MAX)
-print('median {:12.5f}\n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(f_median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
+print('median {:12.5f}\n {:6.1f}% - {:6.1f}% limits: ({:12.5f}, {:12.5f}) '.format(f_median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
+
 #
 # plot
 #

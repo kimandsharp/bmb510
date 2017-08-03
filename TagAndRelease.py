@@ -5,7 +5,7 @@ resample Nb, and find Nc of Nb labelled
 import numpy as np
 import matplotlib.pyplot as plt
 from math import lgamma,exp
-from kimpy_utilities import *
+from SciInf_utilities import *
 import sys
 #-------------------------------
 #
@@ -35,7 +35,6 @@ n_min = n_found
 n_max = 15*n_found
 print('computing pdf from min {:6d} up to max N of {:6d} '.format(n_found,n_max))
 n = n_min
-factor = 1.10
 #
 # generate pdf, cdf
 #
@@ -54,16 +53,15 @@ while(n<=n_max):
   lpdf_max = max(lpdf_max,lpdf)
   #print(n_axis[npoint],n_pdf[npoint])
   npoint += 1
-  #n = int(n*factor)
   n += 1
 #
-#print('\n # of pdf points generated: {:8d} \n '.format(npoint))
+print('\n # of pdf points generated: {:8d} \n '.format(npoint))
 #
 for i in range(npoint):
   n_pdf[i] = exp(n_pdf[i] - lpdf_max)
   #print(n_axis[i],n_pdf[i])
 
-n_cdf = pdf_to_cdf(n_axis,n_pdf)
+n_cdf = pdf_to_cdf(n_axis,n_pdf,discrete=True)
 f_lab = float(n_lab)/float(n_got)
 n_mle = int(n_tag/f_lab)
 print('fraction of resample labelled: {:12.5f} Population size (Max. Like. Est): {:6d}'.format(f_lab,n_mle))

@@ -7,7 +7,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import colors, ticker, cm
-from kimpy_utilities import *
+from SciInf_utilities import *
 import sys
 
 def sum_dist(x,y,slope,icept,ndata):

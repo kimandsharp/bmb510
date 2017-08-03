@@ -4,7 +4,7 @@ implement bayesian analysis of two diff pops, X1 and X2, called here x and y
 from math import sqrt, exp
 import numpy as np
 import matplotlib.pyplot as plt
-from kimpy_utilities import *
+from SciInf_utilities import *
 import sys
 #--------------------------------------
 

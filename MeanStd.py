@@ -7,7 +7,7 @@ from math import sqrt, exp,log
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
-from kimpy_utilities import *
+from SciInf_utilities import *
 #--------------------------------------
 
 print("\n implement bayesian estimation of mean of population, using exact (t-distribution)")

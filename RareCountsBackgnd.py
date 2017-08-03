@@ -7,7 +7,7 @@ from math import factorial,exp
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
-from kimpy_utilities import *
+from SciInf_utilities import *
 #-----------------------------------------
 def poisson_dist(n,l,t):
   val = exp(-1.*l*t)*(l*t)**n/factorial(n)
@@ -20,12 +20,12 @@ print(" taken from Tom Loredo's tutorial: From Laplace to supernova 1987a \n")
 #input
 #
 if(len(sys.argv)<5):
-  print('Usage: poisson_background.py time_background count_background time_source count_source')
+  print('Usage: poisson_background.py count_background time_background count_source time_source')
   sys.exit()
-t_back = float(sys.argv[1])
-n_back = int(sys.argv[2])
-t_source = float(sys.argv[3])
-n_source = int(sys.argv[4])
+n_back = int(sys.argv[1])
+t_back = float(sys.argv[2])
+n_source = int(sys.argv[3])
+t_source = float(sys.argv[4])
 print('\n background obs. time {:8.3f} and # counts {:6d}'.format(t_back,n_back))
 print(' source     obs. time {:8.3f} and # counts {:6d}'.format(t_source,n_source))
 #

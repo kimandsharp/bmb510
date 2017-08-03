@@ -6,7 +6,7 @@ what is total population of marked items? based on same hypergeometric distribut
 import numpy as np
 import matplotlib.pyplot as plt
 from math import lgamma,exp
-from kimpy_utilities import *
+from SciInf_utilities import *
 import sys
 #-------------------------------
 #

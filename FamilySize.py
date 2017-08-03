@@ -6,7 +6,7 @@ German tank problem WWII
 import numpy as np
 import matplotlib.pyplot as plt
 from math import lgamma,exp
-from kimpy_utilities import *
+from SciInf_utilities import *
 import sys
 #-------------------------------
 #
@@ -25,7 +25,8 @@ ndata = read_n(n_rank,file_in)
 
 n_max = max(n_rank)
 n_biggest = 5*n_max
-print('largest rank: {:8d} Setting upper size limit as 5 times Max: {:8d}'.format(n_max,n_biggest))
+print('largest rank: {:8d} is set to minimum population size '.format(n_max))
+print('Setting upper size limit as 5 times Max: {:8d}'.format(n_biggest))
 
 #
 # set prior pdf

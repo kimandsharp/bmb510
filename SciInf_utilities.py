@@ -9,7 +9,7 @@ CREDIBLE_MAX = 97.5 # upper percentile for credible interval # covers 95%
 #CREDIBLE_MIN = 5. # lower percentile for credible interval
 #CREDIBLE_MAX = 95. # upper percentile for credible interval # covers 90%
 NPOINT = 501
-MAKEPLOT = False
+MAKEPLOT = True
 print('number of integration points: ',NPOINT)
 #-------
 def read_n(n,filename):
@@ -168,3 +168,15 @@ def sort_1_by_2(x,y,rev=False):
     print('lists of different length- not sorting')
 #  for i in range(len(x)):
 #    print(x[i],y[i])
+#
+def summarize(x_axis,pdf,cdf,discrete=False):
+  median = quantile(x_axis,cdf,50.)
+  limit_min = quantile(x_axis,cdf,CREDIBLE_MIN)
+  limit_max = quantile(x_axis,cdf,CREDIBLE_MAX)
+  mean,mode = pdf_to_mean(f_axis,f_pdf,discrete)
+  print('===================================================')
+  print('SUMMARY of posterior distribution')
+  print('===================================================')
+  print('mean: {: 12.5f}  mode: {:12.5f} \n'.format(f_mean, f_mode))
+  print('median {:12.5f}\n {:6.1f}% to {:6.1f}% limits: ({:12.5f}, {:12.5f} ) \n'.format
+  (_median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))

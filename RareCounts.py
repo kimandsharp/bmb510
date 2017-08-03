@@ -4,7 +4,7 @@ bayes analysis of rare events using poisson distbn
 import numpy as np
 import matplotlib.pyplot as plt
 from math import gamma,exp,sqrt
-from kimpy_utilities import *
+from SciInf_utilities import *
 import sys
 #--------------------------------------
 #
@@ -20,7 +20,7 @@ print('# of events: ',n_source,' in time ',t_source)
 r_mean = float(n_source)/t_source
 r_stdev = sqrt(n_source)/t_source
 r_mode = float((n_source - 1.))/t_source
-print(" Rate: {:12.5f} (mean) {:12.5f} (st. dev) {:12.5f} (Max. Lhood)".format(r_mean,r_stdev,r_mode))
+print("Mean Rate: {:12.5f} Std.Dev: {:12.5f} Max. Lhood Rate: {:12.5f} ".format(r_mean,r_stdev,r_mode))
 #
 # generate pdf, cdf
 r_range = 3.
