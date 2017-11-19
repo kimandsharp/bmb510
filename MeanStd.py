@@ -34,8 +34,12 @@ sigma_av = sqrt(var_x/n_x)
 for i in range(len(x)):
   y.append(0.5)
 #
-print(' Min X {:12.5f} Max X {:12.5f} '.format(min_x,max_x))
-print(' Av X {:12.5f} Var of X {:12.5f} Sigma of <X> {:12.5f}'.format(av_x,var_x,sigma_x))
+print('\n===========================================================')
+print('sample (data) summary')
+print('===========================================================')
+print(' Min X {:12.5f} Max X    {:12.5f} '.format(min_x,max_x))
+print(' Av X  {:12.5f} Var of X {:12.5f} Sigma of <X> {:12.5f}'.format(av_x,var_x,sigma_x))
+print('===========================================================\n')
 exponent = n_x/2. # result if use log prior for sigma or prob(sigma) = const./sigma
 #exponent = (n_x-1)/2. # result if use flat prior for sigma or prob(sigma) = const
 #
@@ -56,12 +60,7 @@ av_pdf = av_pdf/pdf_max
 av_cdf = pdf_to_cdf(av_axis,av_pdf)
 av_cdf_gauss = pdf_to_cdf(av_axis,av_pdf_gauss)
 #
-median = quantile(av_axis,av_cdf,50.)
-limit_min = quantile(av_axis,av_cdf,CREDIBLE_MIN)
-limit_max = quantile(av_axis,av_cdf,CREDIBLE_MAX)
-print('\n estimation of mean')
-print('------------------')
-print('median {:12.5f}\n {:6.1f}% - {:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
+summarize(av_axis,av_pdf,av_cdf,title='population mean')
 #
 # plot original data
 #
@@ -104,17 +103,12 @@ pdf_max = max(sd_pdf)
 sd_pdf = sd_pdf/pdf_max
 sd_cdf = pdf_to_cdf(sd_axis,sd_pdf)
 #
-median = quantile(sd_axis,sd_cdf,50.)
-limit_min = quantile(sd_axis,sd_cdf,CREDIBLE_MIN)
-limit_max = quantile(sd_axis,sd_cdf,CREDIBLE_MAX)
-print('\n estimation of standard deviation')
-print('-----------------------------------')
-print('median {:12.5f}\n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
-plt.figure(1)
+summarize(sd_axis,sd_pdf,sd_cdf,title='population std. deviation')
 #
 # plot posterior pdf, cdf of st. dev
 #
 if(MAKEPLOT):
+  plt.figure(1)
   plt.plot(sd_axis,sd_pdf,'g-')
   plt.plot(sd_axis,sd_cdf,'r-')
   plt.title('posterior pdf,cdf for st. dev')

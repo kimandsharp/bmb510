@@ -59,10 +59,7 @@ n_cdf = pdf_to_cdf(n_axis,n_pdf,discrete=True)
 f_lab = float(n_lab)/float(n_got)
 n_mle = int(n_tot*f_lab)
 print('fraction of sample marked: {:12.5f} Max. Like. Est of total Marked: {:6d}'.format(f_lab,n_mle))
-n_median = quantile(n_axis,n_cdf,50.)
-limit_min = quantile(n_axis,n_cdf,CREDIBLE_MIN)
-limit_max = quantile(n_axis,n_cdf,CREDIBLE_MAX)
-print('median {:12.5f} \n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(n_median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
+summarize(n_axis,n_pdf,n_cdf,discrete=True,title='total # marked')
 
 if(MAKEPLOT):
   plt.figure()

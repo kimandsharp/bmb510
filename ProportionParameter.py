@@ -33,11 +33,7 @@ for i in range(NPOINT):
 pdf_max = max(f_pdf)
 f_pdf = f_pdf/pdf_max
 f_cdf = pdf_to_cdf(f_axis,f_pdf)
-f_median = quantile(f_axis,f_cdf,50.)
-limit_min = quantile(f_axis,f_cdf,CREDIBLE_MIN)
-limit_max = quantile(f_axis,f_cdf,CREDIBLE_MAX)
-print('median {:12.5f}\n {:6.1f}% - {:6.1f}% limits: ({:12.5f}, {:12.5f}) '.format(f_median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
-
+summarize(f_axis,f_pdf,f_cdf,title='fraction parameter')
 #
 # plot
 #

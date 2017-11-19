@@ -20,7 +20,7 @@ else:
   file1 = input('first data file with one value per line> ')
   file2 = input('second data file with one value per line> ')
 print('\n input file 1: ',file1)
-print(' input file 1: ',file2,'\n')
+print(' input file 2: ',file2,'\n')
 n_x = read_x(x,file1)
 n_y = read_x(y,file2)
 av_x = average_x(x)
@@ -40,33 +40,34 @@ sigma_y = sqrt(var_y/(n_y - 1.))
 # 'joint' distbn. sigma
 #
 sigma_xy = sqrt(var_x/(n_x - 1.) + var_y/(n_y - 1.))
+s_ratio = sd_x/sd_y
+dav = av_y - av_x
+print('\n===========================================================')
+print('sample (data) summary')
+print('===========================================================')
 print(' Av X1 {:12.5f} Av X2 {:12.5f} Var of X1 {:12.5f} Var of X2 {:12.5f} '.format(av_x,av_y,var_x,var_y))
+print(' Av X2 - Av X1 {:12.5f} '.format(dav))
 print(' sigma of X1 data {:12.5f} sigma of X2 data {:12.5f} '.format(sd_x,sd_y))
 print(' sigma of <X1> {:12.5f} sigma of <X2> {:12.5f} sigma of <X2-X1> {:12.5f} '.format(sigma_x,sigma_y,sigma_xy))
-d_av = av_y - av_x
+print(' st.dev ratio data (s1/s2): {:12.5} '.format(s_ratio))
+print('===========================================================\n')
 #
 # generate posterior pdf and cdf for diff in means
 #
 #npoint = 301
 xrange = 4. # sigma range for x-axis
-d_av_min = d_av - xrange*sigma_xy
-d_av_incr = 2*xrange*sigma_xy/(NPOINT - 1)
-d_av_axis = np.zeros(NPOINT)
-d_av_pdf = np.zeros(NPOINT)
+dav_min = dav - xrange*sigma_xy
+dav_incr = 2*xrange*sigma_xy/(NPOINT - 1)
+dav_axis = np.zeros(NPOINT)
+dav_pdf = np.zeros(NPOINT)
 for i in range(NPOINT):
-  d_av_axis[i] = d_av_min + i*d_av_incr
-  d_av_pdf[i] = exp(-1.*(d_av_axis[i] - d_av)**2/2./sigma_xy**2)
-pdf_max = max(d_av_pdf)
-d_av_pdf = d_av_pdf/pdf_max
-d_av_cdf = pdf_to_cdf(d_av_axis,d_av_pdf)
+  dav_axis[i] = dav_min + i*dav_incr
+  dav_pdf[i] = exp(-1.*(dav_axis[i] - dav)**2/2./sigma_xy**2)
+pdf_max = max(dav_pdf)
+dav_pdf = dav_pdf/pdf_max
+dav_cdf = pdf_to_cdf(dav_axis,dav_pdf)
 #
-d_median = quantile(d_av_axis,d_av_cdf,50.)
-limit_min = quantile(d_av_axis,d_av_cdf,CREDIBLE_MIN)
-limit_max = quantile(d_av_axis,d_av_cdf,CREDIBLE_MAX)
-print('\n estimation of difference in means m2 - m1')
-print('-----------------------------------')
-print('diff in means (data): {:12.5f} '.format(d_av))
-print('median {:12.5f}\n {:6.1f}% to {:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(d_median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
+summarize(dav_axis,dav_pdf,dav_cdf,title='difference (set 2 - set 1) of population means')
 #
 # plot original data
 #
@@ -80,8 +81,8 @@ if(MAKEPLOT):
   #plt.xlim(xmin=0.3,xmax=1.)
   #plt.show()
   plt.subplot(212)
-  plt.plot(d_av_axis,d_av_pdf,'g-')
-  plt.plot(d_av_axis,d_av_cdf,'r-')
+  plt.plot(dav_axis,dav_pdf,'g-')
+  plt.plot(dav_axis,dav_cdf,'r-')
   #plt.title('posterior pdf,cdf for diff. in means')
   plt.ylim((0.,1.2))
   plt.xlabel('Difference in means')
@@ -111,18 +112,9 @@ pdf_max = max(sd_y_pdf)
 sd_y_pdf = sd_y_pdf/pdf_max
 sd_y_cdf = pdf_to_cdf(sd_axis,sd_y_pdf)
 #
-print('\n estimation of standard deviations')
-print('-----------------------------------')
-median = quantile(sd_axis,sd_x_cdf,50.)
-limit_min = quantile(sd_axis,sd_x_cdf,CREDIBLE_MIN)
-limit_max = quantile(sd_axis,sd_x_cdf,CREDIBLE_MAX)
-print('X1 median {:12.5f}\n {:6.1f}% to {:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
-median = quantile(sd_axis,sd_y_cdf,50.)
-limit_min = quantile(sd_axis,sd_y_cdf,CREDIBLE_MIN)
-limit_max = quantile(sd_axis,sd_y_cdf,CREDIBLE_MAX)
-s_ratio = sd_x/sd_y
-print('X2 median {:12.5f}\n {:6.1f}% to {:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
-print('st.dev ratio data (s1/s2): {:12.5} '.format(s_ratio))
+summarize(sd_axis,sd_x_pdf,sd_x_cdf,title='set 1 std. deviation')
+summarize(sd_axis,sd_y_pdf,sd_y_cdf,title='set 2 std. deviation')
+#
 #
 # plot posterior pdf, cdf of st. dev
 #
@@ -136,11 +128,11 @@ if(MAKEPLOT):
   plt.grid(True)
   plt.show()
 #
-# calculate pdf for f = ratio of (sample variance/st.dev^2)
+# calculate pdf for F = ratio of (sample variance/st.dev^2)
 # using marginalization integral over sd_x
 #
 xrange = 5. # range for x-axis
-f_min = 1./xrange
+f_min = 0.25/xrange
 f_max = xrange
 f_incr = (f_max - f_min)/(NPOINT - 1)
 f_axis = np.zeros(NPOINT)
@@ -155,43 +147,19 @@ for i in range(NPOINT):
   for j in range(NPOINT):
     sd_x = sd_axis[j]
     f_dp[j] = f_i**f_exp * exp(-0.5*var_x*(n_x + n_y*f_i)/sd_x**2) * sd_x**s_exp
-    #sd_y = sd_x*sqrt(var_y/f_i/var_x)
-    #e_x = n_x - 0
-    #e_y = n_y - 0
-    #f_dp[j] = sd_y*(exp(-0.5*n_x*var_x/sd_x**2)/sd_x**e_x) * exp(-0.5*n_y*var_y/sd_y**2)/sd_y**e_y
-    #f_dp[j] = (exp(-0.5*n_x*var_x/sd_x**2)/sd_x**n_x) * exp(-0.5*n_y*var_y/sd_y**2)/sd_y**n_y
   for j in range(1,NPOINT):
     f_pdf[i] += 0.5*(f_dp[j] + f_dp[j-1])/(sd_axis[j] - sd_axis[j-1])
 pdf_max = max(f_pdf)
 f_pdf = f_pdf/pdf_max
 f_cdf = pdf_to_cdf(f_axis,f_pdf)
-print('\n estimation of f = (s1^2/V1) / (s2^2/V2) ')
-print('-----------------------------------')
-print(' ')
-# f: dimensionaless ratio
+#summarize(f_axis,f_pdf,f_cdf,title='F = (V2/V1)*(sigma1/sigma2)^2')
 #
-f_mean, f_mode = pdf_to_mean(f_axis,f_pdf,discrete=False)
-print(' f mean: {: 12.5f}  mode: {:12.5f} '.format(f_mean, f_mode))
-f_median = quantile(f_axis,f_cdf,50.)
-print(' f median: {: 12.5f}  '.format(f_median))
+# convert from F to ratio of population std. devs
 #
-# st.dev ratio
+for i in range(NPOINT):
+  f_axis[i] = sqrt(f_axis[i]*var_x/var_y)
+summarize(f_axis,f_pdf,f_cdf,title='sigma1/sigma2')
 #
-print(' ')
-s_ratio = sqrt(f_mode*var_x/var_y)
-print('st.dev ratio (mode)   (s1/s2): {:12.5} '.format(s_ratio))
-s_ratio = sqrt(f_mean*var_x/var_y)
-print('st.dev ratio (mean)   (s1/s2): {:12.5} '.format(s_ratio))
-s_ratio = sqrt(f_median*var_x/var_y)
-print('st.dev ratio (median) (s1/s2): {:12.5} '.format(s_ratio))
-f_min = quantile(f_axis,f_cdf,CREDIBLE_MIN)
-f_max = quantile(f_axis,f_cdf,CREDIBLE_MAX)
-s_rat_min = sqrt(f_min*var_x/var_y)
-s_rat_max = sqrt(f_max*var_x/var_y)
-print('st.dev ratio {:6.1f}% to {:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(CREDIBLE_MIN,CREDIBLE_MAX,s_rat_min,s_rat_max))
-#print(f_axis)
-#print(f_pdf)
-#print(f_cdf)
 if(MAKEPLOT):
   plt.figure(3)
   plt.plot(f_axis,f_pdf,'g-')

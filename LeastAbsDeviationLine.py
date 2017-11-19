@@ -30,28 +30,33 @@ ndata = read_xy(x,y,input_file)
 av_x = average_x(x)
 av_y = average_x(y)
 av_xy = average_xy(x,y)
-print('av x    %12.5f y   %12.5f xy %12.5f ' % (av_x,av_y,av_xy))
 #
 av_xx = average_xy(x,x)
 av_yy = average_xy(y,y)
-print('av x^2  %12.5f y^2 %12.5f  ' % (av_xx,av_yy))
 #
 var_x = av_xx - av_x**2
 var_y = av_yy - av_y**2
 var_xy = av_xy - av_x*av_y
 stdev_x = math.sqrt(var_x)
 stdev_y = math.sqrt(var_y)
-print('var x, y, xy: ',var_x,var_y,var_xy)
-print('stdev x %12.5f y   %12.5f  ' % (stdev_x,stdev_y))
 #Rpearson = (av_xy - av_x*av_y)/(stdev_x*stdev_y)
 Rpearson = var_xy/(stdev_x*stdev_y)
+print('\n===========================================================')
+print('data summary')
+print('===========================================================')
+print('av x    %12.5f y   %12.5f xy %12.5f ' % (av_x,av_y,av_xy))
+print('av x^2  %12.5f y^2 %12.5f  ' % (av_xx,av_yy))
+print('var x   %12.5f y   %12.5f xy %12.5f ' % (var_x,var_y,var_xy))
+print('stdev x %12.5f y   %12.5f  ' % (stdev_x,stdev_y))
 print('Pearson R %12.5f R^2 %12.5f ' %(Rpearson, Rpearson**2))
+print('===========================================================\n')
 #
 #
 # best fit slope, intercept etc, using property of least. abs. dev
 # that line goes through at least 2 of points- brute force search over all pairs
 #
 sum_ad_min = 1.e6
+print('minimizing absolute Y-deviation...')
 for i in range(ndata):
   for j in range(i+1,ndata):
     m = (y[j] - y[i])/(x[j] - x[i])
@@ -62,19 +67,19 @@ for i in range(ndata):
     if(sum_ad < sum_ad_min):
       sum_ad_min = sum_ad
       minpts = [(i,j)]
-      print(sum_ad,i,j)
+      #print(sum_ad,i,j)
     elif(sum_ad == sum_ad_min):
       minpts.append((i,j))
 if(len(minpts) > 1):
   print('multiple fits for point pairs: ',minpts)
   print('choosing the first pair')
-print('sum abs dev: ',sum_ad)
-sum_ad /= ndata
+sum_ad_min /= ndata
 i_min = minpts[0][0]
 j_min = minpts[0][1]
+print('mean abs deviation %12.5f by passing through points %d and %d' % (sum_ad_min,i_min,j_min))
 m_min = (y[j_min] - y[i_min])/(x[j_min] - x[i_min])
 b_min= y[j_min] - m_min * x[j_min]
-print('mean absolute deviation %10.5f slope %10.5f intercept %10.5f  ' % (sum_ad,m_min,b_min))
+print('mean absolute deviation %10.5f slope %10.5f intercept %10.5f  ' % (sum_ad_min,m_min,b_min))
 #
 file_out = open('ladline_plot.dat','w')
 file_out.write('#  n       x         y        yfit       yresid    \n')

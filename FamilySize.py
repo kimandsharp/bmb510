@@ -31,7 +31,7 @@ print('Setting upper size limit as 5 times Max: {:8d}'.format(n_biggest))
 #
 # set prior pdf
 #
-n_pdf = np.ones(n_biggest)
+n_pdf = np.zeros(n_biggest)
 n_axis = np.zeros(n_biggest)
 for i in range(n_biggest):
     n_pdf[i] = 1./float(n_biggest)
@@ -52,10 +52,14 @@ for j in range(ndata):
 pdf_max = max(n_pdf)
 n_pdf = n_pdf/pdf_max
 n_cdf = pdf_to_cdf(n_axis,n_pdf,discrete=True)
+print('\n===========================================================')
+print('Summary of posterior distribution for population size')
+print('===========================================================')
 n_median = quantile(n_axis,n_cdf,50.)
 limit_min = n_max # largest data value is always min pop size
 limit_max = quantile(n_axis,n_cdf,CREDIBLE_MAX)
 print('median {:12.5f}\n min - {:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(n_median,CREDIBLE_MAX,limit_min,limit_max))
+print('===========================================================\n')
 
 if(MAKEPLOT):
   plt.figure()

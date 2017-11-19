@@ -27,6 +27,8 @@ t_win_lw = float(input('enter lower exptl. window: must be less than min of data
 t_win_up = float(input('enter upper exptl. window: must be more than max of data> '))
 if((t_win_lw > t_min) or (t_win_up < t_max)):
   print('Error: experimental window must cover all observed data!')
+  #t_win_lw = t_min
+  #t_win_up = t_max
   sys.exit()
 print('\n lower {:f} and upper {:} length or time windows '.format(t_win_lw,t_win_up))
 #
@@ -36,7 +38,7 @@ print('\n lower {:f} and upper {:} length or time windows '.format(t_win_lw,t_wi
 t_axis = np.zeros(NPOINT)
 t_pdf = np.zeros(NPOINT)
 t_norm = np.zeros(NPOINT)
-t_ratio = 10.*t_win_up/t_win_lw
+t_ratio = 20.*t_win_up/t_win_lw
 t_fact = exp(log(t_ratio)/NPOINT)
 t_val = t_win_lw/3.
 
@@ -56,10 +58,7 @@ for i in range(NPOINT):
   t_pdf[i] = exp(t_pdf[i])
 t_cdf = pdf_to_cdf(t_axis,t_pdf)
 #
-t_median = quantile(t_axis,t_cdf,50.)
-limit_min = quantile(t_axis,t_cdf,CREDIBLE_MIN)
-limit_max = quantile(t_axis,t_cdf,CREDIBLE_MAX)
-print('median {:12.5f} \n {:6.1f}% to {:6.1f} limits: ({:12.5f}, {:12.5f} ) '.format(t_median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
+summarize(t_axis,t_pdf,t_cdf,title='decay length/time')
 if(MAKEPLOT):
   plt.figure()
   plt.plot(t_axis,t_pdf,color='green')

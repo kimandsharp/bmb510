@@ -21,12 +21,21 @@ else:
   n_neg1 = int(input('Enter first # of negative events/samples> '))
   n_pos2 = int(input('Enter second # of positive events/samples> '))
   n_neg2 = int(input('Enter second # of negative events/samples> '))
-print('\n first # of positive, negative events: ',n_pos1,n_neg1)
-print(' second # of positive, negative events: ',n_pos2,n_neg2,'\n')
+f1 = (1.*n_pos1)/(1.*n_pos1 + 1.*n_neg1)
+f2 = (1.*n_pos2)/(1.*n_pos2 + 1.*n_neg2)
+df21 = f2 - f1
+print(' ')
+print('===========================================================')
+print('sample (data) summary')
+print('===========================================================')
+print(' first  # of positive {:5d} negative {:5d} events'.format(n_pos1,n_neg1))
+print(' second # of positive {:5d} negative {:5d} events'.format(n_pos2,n_neg2))
+print(' fraction 1 {:12.5f} fraction 2 {:12.5f} difference (2-1) {:12.5f} '.format(f1,f2,df21))
+print('===========================================================')
+print(' ')
 #
 #generate pdf and cdf for each individual fraction
 #
-NPOINT = 501
 df = 1./(NPOINT + 1)
 f_axis = np.zeros(NPOINT)
 f_pdf1 = np.zeros(NPOINT)
@@ -44,16 +53,8 @@ f_pdf1 = f_pdf1/pdf_max1
 f_pdf2 = f_pdf2/pdf_max2
 f_cdf1 = pdf_to_cdf(f_axis,f_pdf1)
 f_cdf2 = pdf_to_cdf(f_axis,f_pdf2)
-f_median1 = quantile(f_axis,f_cdf1,50.)
-f_median2 = quantile(f_axis,f_cdf2,50.)
-limit_min1 = quantile(f_axis,f_cdf1,CREDIBLE_MIN)
-limit_max1 = quantile(f_axis,f_cdf1,CREDIBLE_MAX)
-limit_min2 = quantile(f_axis,f_cdf2,CREDIBLE_MIN)
-limit_max2 = quantile(f_axis,f_cdf2,CREDIBLE_MAX)
-print('set 1: median {:12.5f}\n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '
-.format(f_median1,CREDIBLE_MIN,CREDIBLE_MAX,limit_min1,limit_max1))
-print('set 2: median {:12.5f}\n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '
-.format(f_median2,CREDIBLE_MIN,CREDIBLE_MAX,limit_min2,limit_max2))
+summarize(f_axis,f_pdf1,f_cdf1,title='set 1 fraction parameter')
+summarize(f_axis,f_pdf2,f_cdf2,title='set 2 fraction parameter')
 #
 # generate pdf, cdf for difference set 2 - set 1
 # by marginalization integral over f1
@@ -79,11 +80,8 @@ for i in range(2*NPOINT+1):
 dpdf_max = max(df_pdf)
 df_pdf = df_pdf/dpdf_max
 df_cdf = pdf_to_cdf(df_axis,df_pdf)
-df_median = quantile(df_axis,df_cdf,50.)
-dlimit_min = quantile(df_axis,df_cdf,CREDIBLE_MIN)
-dlimit_max = quantile(df_axis,df_cdf,CREDIBLE_MAX)
-print('difference (set 2 - set1): median {:12.5f}\n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '
-.format(df_median,CREDIBLE_MIN,CREDIBLE_MAX,dlimit_min,dlimit_max))
+summarize(df_axis,df_pdf,df_cdf,title='difference (set 2 - set 1) fraction parameter')
+#
 if(MAKEPLOT):
   #
   # plot pdf, cdf of f1, f2

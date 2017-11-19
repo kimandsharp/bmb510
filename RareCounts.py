@@ -20,7 +20,7 @@ print('# of events: ',n_source,' in time ',t_source)
 r_mean = float(n_source)/t_source
 r_stdev = sqrt(n_source)/t_source
 r_mode = float((n_source - 1.))/t_source
-print("Mean Rate: {:12.5f} Std.Dev: {:12.5f} Max. Lhood Rate: {:12.5f} ".format(r_mean,r_stdev,r_mode))
+#print("Mean Rate: {:12.5f} Std.Dev: {:12.5f} Max. Lhood Rate: {:12.5f} ".format(r_mean,r_stdev,r_mode))
 #
 # generate pdf, cdf
 r_range = 3.
@@ -37,10 +37,13 @@ pdf_max = max(r_pdf)
 r_pdf = r_pdf/pdf_max
 r_cdf = pdf_to_cdf(r_axis,r_pdf)
 
+summarize(r_axis,r_pdf,r_cdf,title='rate')
+"""
 r_median = quantile(r_axis,r_cdf,50.)
 limit_min = quantile(r_axis,r_cdf,CREDIBLE_MIN)
 limit_max = quantile(r_axis,r_cdf,CREDIBLE_MAX)
 print('median {:12.5f} \n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(r_median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
+"""
 #
 # plot posterior pdf of rate
 #

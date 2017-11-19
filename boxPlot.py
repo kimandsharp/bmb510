@@ -11,7 +11,7 @@ def read_x(x,filename):
     ndata = 0
     try:
       data_file = open(filename,"r")
-      if(len(filename) > 5):
+      if(len(filename) > 8):
         label = filename[0:8]
       else:
         label = filename
@@ -19,6 +19,8 @@ def read_x(x,filename):
       for line in contents:
           if(line[0] == '#'):
               print(line[0:-1])
+              continue
+          if(len(line) <= 1):
               continue
           field = line.split()
           #print(field)
@@ -28,7 +30,7 @@ def read_x(x,filename):
       # print ('# data points ',ndata)
       # print(x)
     except:
-      print('cannot find file ',filename)
+      print('error reading file, or cannot find file ',filename)
       label = 'unknown'
     return ndata,label
 #------------------------------------------------

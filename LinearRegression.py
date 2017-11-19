@@ -41,7 +41,7 @@ def slope_derivative(var_x,var_y,var_xy,slope):
 #
 print("\n implement linear regression equations with variances of slope, intercept, and 2-sigma lines")
 print(" see mendenhall and schaeffer, sivia & skilling ")
-print('slope from bayesian analysis which treats x, y symmetrically - see S. Gull (1988)\n')
+print(' slope from bayesian analysis which treats x, y symmetrically - see S. Gull (1988)\n')
 # get data
 #
 if(len(sys.argv)>1):
@@ -59,22 +59,28 @@ ndata = read_xy(x,y,input_file)
 av_x = average_x(x)
 av_y = average_x(y)
 av_xy = average_xy(x,y)
-print('av x    %12.5f y   %12.5f xy %12.5f ' % (av_x,av_y,av_xy))
 #
 av_xx = average_xy(x,x)
 av_yy = average_xy(y,y)
-print('av x^2  %12.5f y^2 %12.5f  ' % (av_xx,av_yy))
 #
 var_x = av_xx - av_x**2
 var_y = av_yy - av_y**2
 var_xy = av_xy - av_x*av_y
 stdev_x = math.sqrt(var_x)
 stdev_y = math.sqrt(var_y)
-print('var x, y, xy: ',var_x,var_y,var_xy)
-print('stdev x %12.5f y   %12.5f  ' % (stdev_x,stdev_y))
+#
 #Rpearson = (av_xy - av_x*av_y)/(stdev_x*stdev_y)
 Rpearson = var_xy/(stdev_x*stdev_y)
+#
+print('\n===========================================================')
+print('data summary')
+print('===========================================================')
+print('av x    %12.5f y   %12.5f xy %12.5f ' % (av_x,av_y,av_xy))
+print('av x^2  %12.5f y^2 %12.5f  ' % (av_xx,av_yy))
+print('var x   %12.5f y   %12.5f xy %12.5f ' % (var_x,var_y,var_xy))
+print('stdev x %12.5f y   %12.5f  ' % (stdev_x,stdev_y))
 print('Pearson R %12.5f R^2 %12.5f ' %(Rpearson, Rpearson**2))
+print('===========================================================\n')
 #
 # best fit slope, intercept etc
 #
@@ -84,40 +90,39 @@ print('Pearson R %12.5f R^2 %12.5f ' %(Rpearson, Rpearson**2))
 slope_fit = var_xy/var_x
 #slope_fit = (av_xy - av_x*av_y)/var_x
 icept_fit = (av_y*av_xx - av_x*av_xy)/var_x
-print('standard slope %10.5f intercept %10.5f  ' % (slope_fit,icept_fit))
 #
 # slope forcing line through origin = intercept 0
 #
 slope0_fit = av_xy/av_xx
 Rpearson0 = slope0_fit*math.sqrt(av_xx/av_yy)
+print('\n===========================================================')
+print('"Standard" fitting, that minimizes mean sq Y-distance to line')
+print('===========================================================')
+print('standard slope %10.5f intercept %10.5f  ' % (slope_fit,icept_fit))
 print('zero intercept slope %10.5f Pearson R %10.5f ' % (slope0_fit,Rpearson0))
+print('===========================================================\n')
 #
 # slope that minimizes sum square of perpendicular distances to line, rather than conventional sum square of dy**2
 #
 temp1 = (var_y - var_x)/(2*var_xy)
 slope_perp1 = temp1 + math.sqrt(temp1**2 + 1)
 slope_perp2 = temp1 - math.sqrt(temp1**2 + 1)
-print('candidates for slopes with Dperp minimized %10.5f %10.5f : ' % (slope_perp1,slope_perp2))
+#print('candidates for slopes with Dperp minimized %10.5f %10.5f : ' % (slope_perp1,slope_perp2))
 # we don't know which solution to quadratic gives min SSdist or max, so calculate residuals and take min
 icept_perp1 = av_y - slope_perp1*av_x
 icept_perp2 = av_y - slope_perp2*av_x
-print('candidates for intercepts with Dperp minimized %10.5f %10.5f : ' % (icept_perp1,icept_perp2))
+#print('candidates for intercepts with Dperp minimized %10.5f %10.5f : ' % (icept_perp1,icept_perp2))
 resid1 = sum_dist(x,y,slope_perp1,icept_perp1,ndata)
 resid2 = sum_dist(x,y,slope_perp2,icept_perp2,ndata)
-print('Residuals for two candidates: %10.5f %10.5f : ' % (resid1,resid2))
+#print('Residuals for two candidates: %10.5f %10.5f : ' % (resid1,resid2))
 if(resid1 < resid2):
   slope_perp = slope_perp1
 else:
   slope_perp = slope_perp2
 icept_perp = av_y - slope_perp*av_x
-## we don't know which solution to quadratic gives min SSdist or max, so take one closest to standard
-#d1 = abs(slope_perp1 - slope_fit)
-#d2 = abs(slope_perp2 - slope_fit)
-#if(d1 < d2):
-#  slope_perp = slope_perp1
-#else:
-#  slope_perp = slope_perp2
-#icept_perp = av_y - slope_perp*av_x
+print('\n===========================================================')
+print('"Alternative" fitting parameters')
+print('===========================================================')
 print('slope %10.5f intercept %10.5f that minimize distance to line ' % (slope_perp,icept_perp))
 #
 # slope from bayesian analysis of Steve Gull, which treats x, y symmetrically
@@ -134,7 +139,7 @@ if(sign >=0):
   slope_fitb = slope_fit
   icept_fitb = icept_fit
 else:
-  print('finding Bayesian best fit slope...')
+  #print('finding Bayesian best fit slope...')
   d_slope = 100.
   while(d_slope > 1.):
     s_mid = (s_up + s_low)/2.
@@ -151,9 +156,13 @@ else:
   slope_fitb = s_mid
   icept_fitb = av_y - slope_fitb*av_x
   print('Bayesian best slope {:10.5f} intercept {:10.5f}'.format(slope_fitb,icept_fitb))
+print('===========================================================\n')
 #
 # residuals to fit
 #
+print('\n===========================================================')
+print('confidence intervals for fit')
+print('===========================================================')
 resid = []
 for i in range(ndata):
     resid_i = (y[i] - (slope_fit*x[i] + icept_fit))
@@ -165,13 +174,13 @@ print('sum sq residuals: %12.5f  ' % (resid_sum))
 #
 slope_var = resid_sum/(var_x*ndata*(ndata - 2))
 icept_var = resid_sum*av_xx/(var_x*ndata*(ndata - 2))
-print('variances slope %12.5f intercept %12.5f  ' % (slope_var,icept_var))
+#print('variances slope %12.5f intercept %12.5f  ' % (slope_var,icept_var))
 slope_stdev = math.sqrt(slope_var)
 icept_stdev = math.sqrt(icept_var)
 print('stdev slope     %12.5f intercept %12.5f  ' % (slope_stdev,icept_stdev))
 slope_icept_covar = -1.*resid_sum*av_x/(var_x*ndata*(ndata - 2))
 slope_icept_corr = slope_icept_covar/(slope_stdev*icept_stdev)
-print('slope/intercept covar %12.5f R   %12.5f  ' % (slope_icept_covar,slope_icept_corr))
+print('slope/intercept covariance %12.5f  and R %12.5f  ' % (slope_icept_covar,slope_icept_corr))
 #
 # +/- 2 sigma fit lines
 #
@@ -188,9 +197,10 @@ icept_less_2s = icept_fit - 2*slope_icept_corr*icept_stdev
 #icept_less_2s = icept_fit - 2*icept_stdev
 print('-2sigma slope %10.5f intercept %10.5f  ' % (slope_less_2s,icept_less_2s))
 resid_sump = sum_sq(x,y,slope_plus_2s,icept_plus_2s,ndata)
-print(' plus 2sigma sum sq %10.5f ' % (resid_sump))
+#print(' plus 2sigma sum sq %10.5f ' % (resid_sump))
 resid_suml = sum_sq(x,y,slope_less_2s,icept_less_2s,ndata)
-print(' less 2sigma sum sq %10.5f ' % (resid_suml))
+#print(' less 2sigma sum sq %10.5f ' % (resid_suml))
+print('===========================================================\n')
 #
 # original data, residuals, +/- 2 sigma data for replotting
 #

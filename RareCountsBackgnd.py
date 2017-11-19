@@ -79,10 +79,7 @@ for k in range(NPOINT):
 pdf_max = max(pdf_source)
 pdf_source /= pdf_max
 cdf_source = pdf_to_cdf(k_axis,pdf_source)
-k_median = quantile(k_axis,cdf_source,50.)
-k_min = quantile(k_axis,cdf_source,CREDIBLE_MIN)
-k_max = quantile(k_axis,cdf_source,CREDIBLE_MAX)
-print('median {:12.5f} \n {:6.1f}% -{:6.1f}% limits: ({:12.5f}, {:12.5f} ) '.format(k_median,CREDIBLE_MIN,CREDIBLE_MAX,k_min,k_max))
+summarize(k_axis,pdf_source,cdf_source,title='rate of source \n accounting for background')
 #print(k_axis)
 #print(pdf_source)
 #print(cdf_source)

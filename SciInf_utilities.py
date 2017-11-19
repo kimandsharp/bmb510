@@ -4,10 +4,10 @@ some useful defs for bayes programs
 import numpy as np
 #-------
 # globals
-CREDIBLE_MIN = 2.5 # lower percentile for credible interval
-CREDIBLE_MAX = 97.5 # upper percentile for credible interval # covers 95%
-#CREDIBLE_MIN = 5. # lower percentile for credible interval
-#CREDIBLE_MAX = 95. # upper percentile for credible interval # covers 90%
+#CREDIBLE_MIN = 2.5 # lower percentile for credible interval
+#CREDIBLE_MAX = 97.5 # upper percentile for credible interval # covers 95%
+CREDIBLE_MIN = 5. # lower percentile for credible interval
+CREDIBLE_MAX = 95. # upper percentile for credible interval # covers 90%
 NPOINT = 501
 MAKEPLOT = True
 print('number of integration points: ',NPOINT)
@@ -19,6 +19,8 @@ def read_n(n,filename):
     for line in contents:
         if(line[0] == '#'):
             print('%s' % line)
+            continue
+        if(len(line) <= 1):
             continue
         field = line.split()
         n.append(int(field[0]))
@@ -34,6 +36,8 @@ def read_x(x,filename):
     for line in contents:
         if(line[0] == '#'):
             print('%s' % line)
+            continue
+        if(len(line) <= 1):
             continue
         field = line.split()
         #print(field)
@@ -51,6 +55,8 @@ def read_xy(x,y,filename):
     for line in contents:
         if(line[0] == '#'):
             print('%s' % line)
+            continue
+        if(len(line) <= 1):
             continue
         field = line.split()
         #vprint(field)
@@ -138,7 +144,7 @@ def pdf_to_mean(x_axis,pdf,discrete=False):
       if(pdf[i] > pdf_max):
         pdf_max = pdf[i]
         x_mode = x_axis[i]
-    xmean /= pdf_sum
+    x_mean /= pdf_sum
   else:
     pdf_max = pdf[0]
     x_mode = x_axis[0]
@@ -169,14 +175,15 @@ def sort_1_by_2(x,y,rev=False):
 #  for i in range(len(x)):
 #    print(x[i],y[i])
 #
-def summarize(x_axis,pdf,cdf,discrete=False):
+def summarize(x_axis,pdf,cdf,discrete=False,title='parameter'):
   median = quantile(x_axis,cdf,50.)
   limit_min = quantile(x_axis,cdf,CREDIBLE_MIN)
   limit_max = quantile(x_axis,cdf,CREDIBLE_MAX)
-  mean,mode = pdf_to_mean(f_axis,f_pdf,discrete)
-  print('===================================================')
-  print('SUMMARY of posterior distribution')
-  print('===================================================')
-  print('mean: {: 12.5f}  mode: {:12.5f} \n'.format(f_mean, f_mode))
-  print('median {:12.5f}\n {:6.1f}% to {:6.1f}% limits: ({:12.5f}, {:12.5f} ) \n'.format
-  (_median,CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
+  mean,mode = pdf_to_mean(x_axis,pdf,discrete)
+  print('\n===========================================================')
+  print('SUMMARY of posterior distribution for {:s} '.format(title))
+  print('===========================================================')
+  print('mean:   {: 12.5f}  mode: {:12.5f} '.format(mean, mode))
+  print('median: {:12.5f}'.format(median))
+  print('{:6.1f}% to {:6.1f}% limits: ({:12.5f} to {:12.5f})'.format(CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
+  print('===========================================================\n')
