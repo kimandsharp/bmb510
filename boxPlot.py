@@ -67,12 +67,12 @@ while(1):
 print('------------------------------------------------')
 print('# of sets read: ',nset)
 print('------------------------------------------------')
-print('DATA: ')
-print('------------------------------------------------')
-for i in range(nset):
-  print(label_all[i])
-  print(data_all[i])
-print('------------------------------------------------')
+#print('DATA: ')
+#print('------------------------------------------------')
+#for i in range(nset):
+#  print(label_all[i])
+#  print(data_all[i])
+#print('------------------------------------------------')
 #
 # here we do actual plotting
 #

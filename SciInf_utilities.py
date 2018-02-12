@@ -4,10 +4,10 @@ some useful defs for bayes programs
 import numpy as np
 #-------
 # globals
-#CREDIBLE_MIN = 2.5 # lower percentile for credible interval
-#CREDIBLE_MAX = 97.5 # upper percentile for credible interval # covers 95%
-CREDIBLE_MIN = 5. # lower percentile for credible interval
-CREDIBLE_MAX = 95. # upper percentile for credible interval # covers 90%
+CREDIBLE_MIN = 2.5 # lower percentile for credible interval
+CREDIBLE_MAX = 97.5 # upper percentile for credible interval # covers 95%
+#CREDIBLE_MIN = 5. # lower percentile for credible interval
+#CREDIBLE_MAX = 95. # upper percentile for credible interval # covers 90%
 NPOINT = 501
 MAKEPLOT = True
 print('number of integration points: ',NPOINT)

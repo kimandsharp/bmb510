@@ -77,10 +77,43 @@ for i in range(2*NPOINT+1):
       df_pdf[i] = df_pdf[i] + pf1*pf2
 #print(f_axis)
 #print(df_axis)
+
+"""
+unnecessary because limits on integration for f2 autmomatically attenuate contributions moving
+away from |df| = 0
+#
+# multiply by prior: 
+# uniform priors for f1, f2, become triangular prior for df
+#
+for i in range(2*NPOINT+1):
+  df = (i+1)*ddf - 1.
+  if(df < 0.):
+    df_prior = 1. + df
+  else:
+    df_prior = 1. - df
+  #print(df,df_prior)
+  df_pdf[i] *= df_prior
+"""
+
 dpdf_max = max(df_pdf)
 df_pdf = df_pdf/dpdf_max
 df_cdf = pdf_to_cdf(df_axis,df_pdf)
 summarize(df_axis,df_pdf,df_cdf,title='difference (set 2 - set 1) fraction parameter')
+#
+# calculate probability f1 < f2
+p_neg = 0.
+p_pos = 0.
+for i in range(NPOINT):
+  f1 = f_axis[i]
+  for j in range(NPOINT):
+    f2 = f_axis[j]
+    if(f1 >= f2): 
+      p_pos += f_pdf1[i]*f_pdf2[j]*df**2
+    else:
+      p_neg += f_pdf1[i]*f_pdf2[j]*df**2
+p_neg = 100.*p_neg/(p_neg + p_pos)
+p_pos = 100. - p_neg
+print('p(f1 >= f2): %10.3f%%    p(f1 < f2) %10.3f%% ' % (p_pos,p_neg))
 #
 if(MAKEPLOT):
   #
@@ -108,6 +141,6 @@ if(MAKEPLOT):
   plt.xlabel(' df')
   plt.ylabel(' p(df)')
   plt.xlim((-1.,1.))
-  #plt.ylim((0.,1.2))
+  plt.ylim((0.,1.2))
   plt.grid(True)
   plt.show()

@@ -124,13 +124,45 @@ print('\n===========================================================')
 print('"Alternative" fitting parameters')
 print('===========================================================')
 print('slope %10.5f intercept %10.5f that minimize distance to line ' % (slope_perp,icept_perp))
+#
+# slope from bayesian analysis of Steve Gull, which treats x, y symmetrically
+# iterative solution- start with range around standard expression for slope 
+#
+s_low = 0.1*slope_fit
+s_up = 10.*slope_fit
+d_low = slope_derivative(var_x,var_y,var_xy,s_low)
+d_up = slope_derivative(var_x,var_y,var_xy,s_up)
+sign = d_low*d_up
+#var_xy = av_xy - av_x*av_y
+if(sign >=0):
+  print('failure to bracket best slope or slope value is zero: use standard slope and intercept')
+  slope_fitb = slope_fit
+  icept_fitb = icept_fit
+else:
+  #print('finding Bayesian best fit slope...')
+  d_slope = 100.
+  while(d_slope > 1.):
+    s_mid = (s_up + s_low)/2.
+    d_mid =  slope_derivative(var_x,var_y,var_xy,s_mid)
+    #s_function = (s_mid*var_x - 2*var_xy + var_y/s_mid)/(s_mid*var_x + var_y/s_mid)
+    #print('current range of slopes ',d_slope,' % ',s_low,s_up,s_mid,s_function)
+    sign = d_low*d_mid
+    if(sign > 0):
+      s_low = s_mid
+    else:
+      s_up = s_mid
+    d_slope = 200.*(s_up - s_low)/(s_up + s_low)
+  s_mid = (s_up + s_low)/2.
+  slope_fitb = s_mid
+  icept_fitb = av_y - slope_fitb*av_x
+  print('Bayesian best slope {:10.5f} intercept {:10.5f}'.format(slope_fitb,icept_fitb))
 print('===========================================================\n')
-print('\n===========================================================')
-print('confidence intervals for fit')
-print('===========================================================')
 #
 # residuals to fit
 #
+print('\n===========================================================')
+print('confidence intervals for fit')
+print('===========================================================')
 resid = []
 for i in range(ndata):
     resid_i = (y[i] - (slope_fit*x[i] + icept_fit))
@@ -183,8 +215,8 @@ ycalc_less_2s = []
 for i in range(ndata):
     ytemp = x[i]*slope_fit + icept_fit
     ycalc.append(float(ytemp))
-    #ytemp = x[i]*slope_fitb + icept_fitb
-    #ycalcb.append(float(ytemp))
+    ytemp = x[i]*slope_fitb + icept_fitb
+    ycalcb.append(float(ytemp))
     ytemp = x[i]*slope_perp + icept_perp
     ycalcp.append(float(ytemp))
     ytemp = x[i]*slope_plus_2s + icept_plus_2s
@@ -204,13 +236,13 @@ if(MAKEPLOT):
   plt.figure(figsize=(8,7.75))
   plt.scatter(x,y,color='red',marker='o')
   plt.plot(x,ycalc,'b-')
-  #plt.plot(x,ycalcb,color="cyan",linestyle="--")
-  plt.plot(x,ycalcp,color="black")
+  plt.plot(x,ycalcb,color="cyan",linestyle="--")
+  plt.plot(x,ycalcp,color="black",linestyle="-.")
   plt.plot(x,ycalc_plus_2s,'g-')
   plt.plot(x,ycalc_less_2s,'g-')
   plt.xlabel('x')
   plt.ylabel('y')
-  plt.title('Standard fit (blue) with 2-sigma limits (green). Min distance (black) ')
+  plt.title('Standard fit (blue) with 2-sigma limits (green). Bayes (cyan). Min distance (black) ')
   plt.grid(True)
   plt.show()
 #
