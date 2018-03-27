@@ -52,8 +52,7 @@ for i in range(n_range):
   n += 1
 lpdf_max = max(n_pdf)
 n_pdf = n_pdf - lpdf_max
-for i in range(n_range):
-  n_pdf[i] = exp(n_pdf[i])
+n_pdf = np.exp(n_pdf)
 #
 n_cdf = pdf_to_cdf(n_axis,n_pdf,discrete=True)
 f_lab = float(n_lab)/float(n_got)
@@ -68,7 +67,7 @@ if(MAKEPLOT):
   plt.ylim((0.,1.2))
   plt.xlabel('N')
   plt.ylabel('prob(N)')
-  #plt.title('posterior pdf,cdf for size of marked population')
+  plt.title('posterior pdf,cdf for size of marked population')
   #plt.xscale('log')
   plt.grid(True)
   plt.show()

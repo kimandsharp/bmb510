@@ -107,14 +107,14 @@ print('===========================================================\n')
 temp1 = (var_y - var_x)/(2*var_xy)
 slope_perp1 = temp1 + math.sqrt(temp1**2 + 1)
 slope_perp2 = temp1 - math.sqrt(temp1**2 + 1)
-#print('candidates for slopes with Dperp minimized %10.5f %10.5f : ' % (slope_perp1,slope_perp2))
+print('candidates for slopes with Dperp minimized %10.5f %10.5f : ' % (slope_perp1,slope_perp2))
 # we don't know which solution to quadratic gives min SSdist or max, so calculate residuals and take min
 icept_perp1 = av_y - slope_perp1*av_x
 icept_perp2 = av_y - slope_perp2*av_x
-#print('candidates for intercepts with Dperp minimized %10.5f %10.5f : ' % (icept_perp1,icept_perp2))
+print('candidates for intercepts with Dperp minimized %10.5f %10.5f : ' % (icept_perp1,icept_perp2))
 resid1 = sum_dist(x,y,slope_perp1,icept_perp1,ndata)
 resid2 = sum_dist(x,y,slope_perp2,icept_perp2,ndata)
-#print('Residuals for two candidates: %10.5f %10.5f : ' % (resid1,resid2))
+print('Residuals for two candidates: %10.5f %10.5f : ' % (resid1,resid2))
 if(resid1 < resid2):
   slope_perp = slope_perp1
 else:

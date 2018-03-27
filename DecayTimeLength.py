@@ -9,7 +9,7 @@ from SciInf_utilities import *
 import sys
 #-------------------------------
 print('\n bayesian analysis of decay length/time data, assuming exponential decay \n ')
-print('work with log prob for large N \n')
+print('work with log p for large N \n')
 if(len(sys.argv) == 2):
   file_in = sys.argv[1]
 else:
@@ -36,7 +36,7 @@ print('\n lower {:f} and upper {:} length or time windows '.format(t_win_lw,t_wi
 # and normalization factors
 #
 t_axis = np.zeros(NPOINT)
-t_pdf = np.zeros(NPOINT)
+log_t_pdf = np.zeros(NPOINT)
 t_norm = np.zeros(NPOINT)
 t_ratio = 20.*t_win_up/t_win_lw
 t_fact = exp(log(t_ratio)/NPOINT)
@@ -49,13 +49,15 @@ for i in range(NPOINT):
   t_axis[i] = t_val
   t_norm[i] = ndata*log(t_val*(exp(-1.*t_win_lw/t_val) - exp(-1.*t_win_up/t_val)))
   # liklihood
-  t_pdf[i] = -t_sum/t_val - log(t_val) - t_norm[i]
+  log_t_pdf[i] = -t_sum/t_val - log(t_val) - t_norm[i]
   t_val *= t_fact
 #
-pdf_max = max(t_pdf)
-for i in range(NPOINT):
-  t_pdf[i] -= pdf_max
-  t_pdf[i] = exp(t_pdf[i])
+pdf_max = max(log_t_pdf)
+log_t_pdf -= pdf_max
+t_pdf = np.exp(log_t_pdf)
+#for i in range(NPOINT):
+#  t_pdf[i] -= pdf_max
+#  t_pdf[i] = exp(t_pdf[i])
 t_cdf = pdf_to_cdf(t_axis,t_pdf)
 #
 summarize(t_axis,t_pdf,t_cdf,title='decay length/time')

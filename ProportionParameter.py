@@ -2,7 +2,7 @@
 implement bayesian analysis of proportion/fraction/percent type parameter
 like bias of coin, % of mutations etc
 """
-from math import sqrt, exp
+from math import sqrt, exp, log
 import numpy as np
 import matplotlib.pyplot as plt
 from SciInf_utilities import *
@@ -10,7 +10,8 @@ import sys
 #--------------------------------------
 #
 print("\n implement bayesian analysis of proportion/fraction/percent type parameter")
-print(" like bias of coin, % of mutations etc \n")
+print(" like bias of coin, % of mutations etc")
+print(" work with log p \n")
 if(len(sys.argv) == 3):
   n_pos = int(sys.argv[1])
   n_neg = int(sys.argv[2])
@@ -24,14 +25,16 @@ print('\n # of positive, negative events: ',n_pos,n_neg,'\n')
 #
 df = 1./(NPOINT + 1)
 f_axis = np.zeros(NPOINT)
-f_pdf = np.zeros(NPOINT)
+log_f_pdf = np.zeros(NPOINT)
 for i in range(NPOINT):
   f_axis[i] = (i+1)*df
   ff = f_axis[i]
   ffm1 = 1. - ff
-  f_pdf[i] = (ff**n_pos)*(ffm1**n_neg)
-pdf_max = max(f_pdf)
-f_pdf = f_pdf/pdf_max
+  # f_pdf[i] = (ff**n_pos)*(ffm1**n_neg)
+  log_f_pdf[i] = n_pos*log(ff) + n_neg*log(ffm1)
+pdf_max = max(log_f_pdf)
+log_f_pdf = log_f_pdf - pdf_max
+f_pdf = np.exp(log_f_pdf)
 f_cdf = pdf_to_cdf(f_axis,f_pdf)
 summarize(f_axis,f_pdf,f_cdf,title='fraction parameter')
 #

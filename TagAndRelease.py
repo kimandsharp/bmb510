@@ -74,7 +74,7 @@ if(MAKEPLOT):
   plt.ylim((0.,1.2))
   plt.xlabel('N')
   plt.ylabel('prob(N)')
-  #plt.title('posterior pdf,cdf for population size')
+  plt.title('posterior pdf,cdf for population size')
   #plt.xscale('log')
   plt.grid(True)
   plt.show()

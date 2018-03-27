@@ -3,12 +3,13 @@ bayes analysis of rare events using poisson distbn
 """
 import numpy as np
 import matplotlib.pyplot as plt
-from math import gamma,exp,sqrt
+from math import gamma,exp,sqrt,log,lgamma
 from SciInf_utilities import *
 import sys
 #--------------------------------------
 #
-print("\n bayes analysis of rate of rare events using poisson distbn \n")
+print("\n bayes analysis of rate of rare events using poisson distbn")
+print(" work with log p \n")
 #
 if(len(sys.argv) == 3):
   n_source = int(sys.argv[1])
@@ -26,15 +27,16 @@ r_mode = float((n_source - 1.))/t_source
 r_range = 3.
 d_rate = r_range*r_mean/(NPOINT - 1)
 r_axis = np.zeros(NPOINT)
-r_pdf = np.zeros(NPOINT)
+log_r_pdf = np.zeros(NPOINT)
 nm1 = n_source - 1
 for i in range(NPOINT):
-  r_axis[i] = i*d_rate
+  r_axis[i] = (i+1)*d_rate
   rt = r_axis[i]*t_source
-  r_pdf[i] = t_source*(rt**nm1)*exp(-1.*rt)/gamma(n_source)
-pdf_max = max(r_pdf)
-
-r_pdf = r_pdf/pdf_max
+  # r_pdf[i] = t_source*(rt**nm1)*exp(-1.*rt)/gamma(n_source)
+  log_r_pdf[i] = nm1*log(rt) + log(t_source) - rt - lgamma(n_source)
+pdf_max = max(log_r_pdf)
+log_r_pdf = log_r_pdf - pdf_max
+r_pdf = np.exp(log_r_pdf)
 r_cdf = pdf_to_cdf(r_axis,r_pdf)
 
 summarize(r_axis,r_pdf,r_cdf,title='rate')
@@ -66,7 +68,9 @@ if(MAKEPLOT):
   n_freq = np.zeros(n_range*n_source)
   for i in range(n_range*n_source):
     n_axis[i] = i
-    n_freq[i] = rt**i * exp(-1.*rt)/gamma(i+1)
+    logn = i*log(rt) - rt - lgamma(i+1)
+    n_freq[i] = exp(logn)
+    #n_freq[i] = rt**i * exp(-1.*rt)/gamma(i+1)
   plt.subplot(212)
   plt.plot(n_axis,n_freq,'gs')
   plt.xlabel(' N ')

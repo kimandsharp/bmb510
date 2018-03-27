@@ -26,10 +26,15 @@ python DifferenceProportionParameter.py 2 9 3 8
 #
 python MeanStd.py mean1_test.dat
 #
+python MeanStdTnoise.py mean1_test.dat
+#
 python  DifferenceInMeans.py mean1_test.dat mean2_test.dat
 #
 python DifferenceInMeansTdist.py mean1_test.dat mean2_test.dat 0
-***
+#
+# rank test has two parts- turn ranked data into quantiles, then use standard difference in means
+python RankTest.py rank1_test.dat rank2_test.dat
+python  DifferenceInMeans.py quantile_rank1.dat quantile_rank2.dat
 #
 python  LinearRegression.py linearRegression_test.dat
 #

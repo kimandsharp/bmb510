@@ -1,7 +1,7 @@
 """
 implement bayesian analysis of two diff pops, X1 and X2, called here x and y
 """
-from math import sqrt, exp
+from math import sqrt, exp, log
 import numpy as np
 import matplotlib.pyplot as plt
 from SciInf_utilities import *
@@ -9,7 +9,8 @@ import sys
 #--------------------------------------
 
 print("\n implement bayesian analysis of two diff population means")
-print(" using gaussian approx to distributions, i.e. large sample case\n")
+print(" using gaussian approx to distributions, i.e. large sample case")
+print(" work with logp \n")
 # main
 x = []
 y = []
@@ -97,19 +98,21 @@ sd_min = min(sd_x/xrange,sd_y/xrange)
 sd_max = max(sd_x*xrange,sd_y*xrange)
 sd_incr = (sd_max - sd_min)/(NPOINT - 1)
 sd_axis = np.zeros(NPOINT)
-sd_x_pdf = np.zeros(NPOINT)
-sd_y_pdf = np.zeros(NPOINT)
+log_sd_x_pdf = np.zeros(NPOINT)
+log_sd_y_pdf = np.zeros(NPOINT)
 for i in range(NPOINT):
   sd_i = sd_min + i*sd_incr
   var_i = sd_i*sd_i
   sd_axis[i] = sd_i
-  sd_x_pdf[i] = exp(-0.5*n_x*var_x/var_i)/sd_i**n_x
-  sd_y_pdf[i] = exp(-0.5*n_y*var_y/var_i)/sd_i**n_y
-pdf_max = max(sd_x_pdf)
-sd_x_pdf = sd_x_pdf/pdf_max
+  log_sd_x_pdf[i] = -0.5*n_x*var_x/var_i - n_x*log(sd_i)
+  log_sd_y_pdf[i] = -0.5*n_y*var_y/var_i - n_y*log(sd_i)
+pdf_max = max(log_sd_x_pdf)
+log_sd_x_pdf = log_sd_x_pdf - pdf_max
+sd_x_pdf = np.exp(log_sd_x_pdf)
 sd_x_cdf = pdf_to_cdf(sd_axis,sd_x_pdf)
-pdf_max = max(sd_y_pdf)
-sd_y_pdf = sd_y_pdf/pdf_max
+pdf_max = max(log_sd_y_pdf)
+log_sd_y_pdf = log_sd_y_pdf - pdf_max
+sd_y_pdf = np.exp(log_sd_y_pdf)
 sd_y_cdf = pdf_to_cdf(sd_axis,sd_y_pdf)
 #
 summarize(sd_axis,sd_x_pdf,sd_x_cdf,title='set 1 std. deviation')

@@ -14,6 +14,7 @@ import pymol_cgo
 print("\n implement bayesian estimation of mean of population, using exact (t-distribution)")
 print("\n and approximation (Gaussian) posterior pdf")
 print("\n and chi-sq posterior pdf of std. dev\n")
+print("\n work with logp \n")
 # main
 x = []
 y = []
@@ -50,14 +51,15 @@ xrange = 4. # sigma range for x-axis
 av_min = av_x - xrange*sigma_av
 av_incr = 2*xrange*sigma_av/(NPOINT - 1)
 av_axis = np.zeros(NPOINT)
-av_pdf = np.zeros(NPOINT)
+log_av_pdf = np.zeros(NPOINT)
 av_pdf_gauss = np.zeros(NPOINT)
 for i in range(NPOINT):
   av_axis[i] = av_min + i*av_incr
-  av_pdf[i] = 1./(1. + (av_axis[i] - av_x)**2/var_x)**exponent
+  log_av_pdf[i] = -1.*exponent*log(1. + (av_axis[i] - av_x)**2/var_x)
   av_pdf_gauss[i] = exp(-1.*(av_axis[i] - av_x)**2/2./sigma_av**2)
-pdf_max = max(av_pdf)
-av_pdf = av_pdf/pdf_max
+pdf_max = max(log_av_pdf)
+log_av_pdf = log_av_pdf - pdf_max
+av_pdf = np.exp(log_av_pdf)
 av_cdf = pdf_to_cdf(av_axis,av_pdf)
 av_cdf_gauss = pdf_to_cdf(av_axis,av_pdf_gauss)
 #
@@ -94,14 +96,16 @@ sd_min = sigma_x/xrange
 sd_max = sigma_x*xrange
 sd_incr = (sd_max - sd_min)/(NPOINT - 1)
 sd_axis = np.zeros(NPOINT)
-sd_pdf = np.zeros(NPOINT)
+log_sd_pdf = np.zeros(NPOINT)
 for i in range(NPOINT):
   sd_i = sd_min + i*sd_incr
   var_i = sd_i*sd_i
   sd_axis[i] = sd_i
-  sd_pdf[i] = exp(-0.5*n_x*var_x/var_i)/sd_i**n_x
-pdf_max = max(sd_pdf)
-sd_pdf = sd_pdf/pdf_max
+  #sd_pdf[i] = exp(-0.5*n_x*var_x/var_i)/sd_i**n_x
+  log_sd_pdf[i] = (-0.5*n_x*var_x/var_i) - n_x*log(sd_i)
+pdf_max = max(log_sd_pdf)
+log_sd_pdf = log_sd_pdf - pdf_max
+sd_pdf = np.exp(log_sd_pdf)
 sd_cdf = pdf_to_cdf(sd_axis,sd_pdf)
 #
 summarize(sd_axis,sd_pdf,sd_cdf,title='population std. deviation')

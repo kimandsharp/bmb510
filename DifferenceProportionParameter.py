@@ -2,15 +2,17 @@
 implement bayesian analysis of difference in two
 proportion/fraction/percent type parameters
 """
-from math import sqrt, exp
+from math import sqrt, exp, log
 import numpy as np
 import matplotlib.pyplot as plt
 from SciInf_utilities import *
 import sys
 #--------------------------------------
 #
+#NPOINT=11
 print("\n implement bayesian analysis of difference in two")
-print(" proportion/fraction/percent type parameters \n")
+print(" proportion/fraction/percent type parameters ")
+print(" work with logp \n")
 if(len(sys.argv) == 5):
   n_pos1 = int(sys.argv[1])
   n_neg1 = int(sys.argv[2])
@@ -38,19 +40,21 @@ print(' ')
 #
 df = 1./(NPOINT + 1)
 f_axis = np.zeros(NPOINT)
-f_pdf1 = np.zeros(NPOINT)
-f_pdf2 = np.zeros(NPOINT)
+log_f_pdf1 = np.zeros(NPOINT)
+log_f_pdf2 = np.zeros(NPOINT)
 for i in range(NPOINT):
   f_axis[i] = (i+1)*df
   ff = f_axis[i]
   ffm1 = 1. - ff
-  f_pdf1[i] = (ff**n_pos1)*(ffm1**n_neg1)
-  f_pdf2[i] = (ff**n_pos2)*(ffm1**n_neg2)
+  log_f_pdf1[i] = n_pos1*log(ff) + n_neg1*log(ffm1)
+  log_f_pdf2[i] = n_pos2*log(ff) + n_neg2*log(ffm1)
 #print(f_axis)
-pdf_max1 = max(f_pdf1)
-pdf_max2 = max(f_pdf2)
-f_pdf1 = f_pdf1/pdf_max1
-f_pdf2 = f_pdf2/pdf_max2
+pdf_max1 = max(log_f_pdf1)
+pdf_max2 = max(log_f_pdf2)
+log_f_pdf1 = log_f_pdf1 - pdf_max1
+log_f_pdf2 = log_f_pdf2 - pdf_max2
+f_pdf1 = np.exp(log_f_pdf1)
+f_pdf2 = np.exp(log_f_pdf2)
 f_cdf1 = pdf_to_cdf(f_axis,f_pdf1)
 f_cdf2 = pdf_to_cdf(f_axis,f_pdf2)
 summarize(f_axis,f_pdf1,f_cdf1,title='set 1 fraction parameter')
@@ -58,42 +62,20 @@ summarize(f_axis,f_pdf2,f_cdf2,title='set 2 fraction parameter')
 #
 # generate pdf, cdf for difference set 2 - set 1
 # by marginalization integral over f1
+# rather than recalculate pdf 1, 2 on fly, with possible overflow, just multiply previous pdfs
 #
-df_axis = np.zeros(2*NPOINT+1,'float')
-df_pdf = np.zeros(2*NPOINT+1,'float')
-ddf = 1./(NPOINT + 1)
-for i in range(2*NPOINT+1):
-  df = (i+1)*ddf - 1.
-  df_axis[i] = df
-  # print(' ')
-  for j in range(NPOINT):
-    f1 = f_axis[j]
-    pf1 = (f1**n_pos1)*((1. - f1)**n_neg1)
-    f2 = df_axis[i] + f1
-    if((f2 > 0.) and (f2 < 1.)):
-      #print('df {:12.5f} f1 {:12.5f} f2 {:12.5f} : '.format(df,f1,f2))
-      #df_pdf[i] += 1.
-      pf2 = (f2**n_pos2)*((1. - f2)**n_neg2)
-      df_pdf[i] = df_pdf[i] + pf1*pf2
-#print(f_axis)
+df_axis = np.zeros(2*NPOINT-1,'float')
+df_pdf = np.zeros(2*NPOINT-1,'float')
+for i in range(2*NPOINT-1):
+  df_axis[i] = (i+2)*df - 1.
 #print(df_axis)
-
-"""
-unnecessary because limits on integration for f2 autmomatically attenuate contributions moving
-away from |df| = 0
-#
-# multiply by prior: 
-# uniform priors for f1, f2, become triangular prior for df
-#
-for i in range(2*NPOINT+1):
-  df = (i+1)*ddf - 1.
-  if(df < 0.):
-    df_prior = 1. + df
-  else:
-    df_prior = 1. - df
-  #print(df,df_prior)
-  df_pdf[i] *= df_prior
-"""
+for i in range(NPOINT):
+  for j in range(NPOINT):
+    i1 = j - i + (NPOINT -1)
+    #df_pdf[i1] +=1
+    df_pdf[i1] += f_pdf1[i]*f_pdf2[j]
+    #print(df,i1)
+#print(df_pdf)
 
 dpdf_max = max(df_pdf)
 df_pdf = df_pdf/dpdf_max

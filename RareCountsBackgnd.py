@@ -3,19 +3,16 @@
   implement bayesian method for pdf of rate k_source for source with a background rate k_rate
   taken from Tom Loredo's tutorial: From Laplace to supernova 1987a
 """
-from math import factorial,exp
+from math import factorial,exp,log,lgamma
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
 from SciInf_utilities import *
 #-----------------------------------------
-def poisson_dist(n,l,t):
-  val = exp(-1.*l*t)*(l*t)**n/factorial(n)
-  return val
-#-----------------------------------------
 print("\n implement bayesian method for pdf of rate k_source for source ")
 print(" with a background rate k_rate")
-print(" taken from Tom Loredo's tutorial: From Laplace to supernova 1987a \n")
+print(" taken from Tom Loredo's tutorial: From Laplace to supernova 1987a ")
+print(" work with logp \n")
 #
 #input
 #
@@ -36,45 +33,47 @@ dk = 2.*n_source/t_source/NPOINT
 t_factor = (1. + t_back/t_source)
 #
 k_axis = np.zeros(NPOINT)
-pdf_back = np.zeros(NPOINT)
-pdf_source = np.zeros(NPOINT)
-coeffs = np.zeros(n_source)
+log_pdf_back = np.zeros(NPOINT)
 #
 # posterior background rate- poisson in n becomes gamma in k
 #
 for k in range(NPOINT):
-  k_back = dk*k
+  k_back = dk*(k+1)
   k_axis[k] = k_back
-  pdf_back[k] = t_back*poisson_dist(n_back-1,k_back,t_back)
-pdf_max = max(pdf_back)
-pdf_back /= pdf_max
+  log_pdf_back[k] = (n_back - 1)*log(k_back*t_back) + log(t_back) - k_back*t_back - lgamma(n_back)
+pdf_max = max(log_pdf_back)
+log_pdf_back -= pdf_max
+pdf_back = np.exp(log_pdf_back)
 #
 # source- coefficients for each source count 1 to n_source
 #
-#sum_coeffs = 0.
+coeffs = np.zeros(n_source)
+log_coeffs = np.zeros(n_source)
 for indx in range(n_source):
   i = indx + 1
   farg1 = n_tot - i - 1
   farg2 = n_source - i
-  coeffs[indx] = (t_factor**i)*factorial(farg1)/factorial(farg2)
-  #coeffs[indx] = (t_factor**i)
-  #j = farg2 + 1
-  #while(j<=farg1):
-  #  coeffs[indx] *= j
-  #  j += 1
-#  sum_coeffs += coeffs[indx]
+  #coeffs[indx] = (t_factor**i)*factorial(farg1)/factorial(farg2)
+  log_coeffs[indx] = i*log(t_factor) + lgamma(farg1+1) - lgamma(farg2+1)
+coeffs_max = max(log_coeffs)
+log_coeffs -= coeffs_max
+coeffs = np.exp(log_coeffs)
 sum_coeffs = sum(coeffs)
 coeffs = coeffs/sum_coeffs
-print ('coefficients: ')
-print(coeffs)
+#print ('coefficients: ')
+#print(coeffs)
+log_coeffs = np.log(coeffs)
 #
-# source rate posterior is weigthed sum of gamma's
+# source rate posterior is weighted sum of gamma's
 #
+pdf_source = np.zeros(NPOINT)
 for k in range(NPOINT):
-  k_source = dk*k
+  k_source = dk*(k + 1)
   pdf_source[k] = 0.
   for indx in range(n_source):
-    pdf_source[k] += coeffs[indx]*t_source*poisson_dist(indx,k_source,t_source)
+    logterm = log_coeffs[indx] + indx*log(k_source*t_source) - (k_source*t_source) - lgamma(indx+1)
+    pdf_source[k] += exp(logterm)
+    #pdf_source[k] += coeffs[indx]*(k_source*t_source)**indx*exp(-1.*k_source*t_source)/factorial(indx)
 #
 pdf_max = max(pdf_source)
 pdf_source /= pdf_max
@@ -93,7 +92,7 @@ if(MAKEPLOT):
   plt.xlabel('rate (/s)')
   plt.ylabel('p(rate)')
   plt.ylim((0.,1.2))
-  #plt.title('Posterior pdf of rate (backgnd = blue source = green)')
+  plt.title('Posterior pdf of rate (backgnd = blue source = green)')
   plt.grid(True)
   plt.show()
 

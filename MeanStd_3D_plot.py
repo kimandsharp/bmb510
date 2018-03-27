@@ -131,6 +131,8 @@ s1 = 0.
 s2 = 0.
 lp1 = 0.
 lp2 = 0.
+print(av_axis)
+print(sd_axis)
 #
 # x axis
 #
