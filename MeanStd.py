@@ -72,15 +72,15 @@ if(MAKEPLOT):
   plt.subplot(211)
   plt.boxplot(x,notch=0,sym='b+',vert=0,showmeans=True)
   plt.yticks([1],['X 1'],rotation=0,fontsize=12)
-  #plt.title('SciInf Mean of Data')
+  plt.title('SciInf Mean of Data')
   #
   # plot posterior pdf, cdf for mean
   #
   plt.subplot(212)
-  plt.plot(av_axis,av_pdf,'g-')
+  plt.plot(av_axis,av_pdf,'b--')
   plt.plot(av_axis,av_pdf_gauss,'b-')
-  plt.plot(av_axis,av_cdf,'r-')
-  plt.plot(av_axis,av_cdf_gauss,'y-')
+  plt.plot(av_axis,av_cdf,'r--')
+  plt.plot(av_axis,av_cdf_gauss,'r-')
   plt.scatter(x,y)
   plt.title('posterior pdf,cdf for Mean')
   plt.xlabel('Value')

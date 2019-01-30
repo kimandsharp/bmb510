@@ -9,7 +9,7 @@ from SciInf_utilities import *
 import sys
 #-------------------------------
 #
-print("\n bayesian analysis for population size whereby label Na, mix/release,")
+print("\nbayesian analysis for population size whereby label Na, mix/release,")
 print("resample Nb, and find Nc of Nb labelled \n")
 #
 if(len(sys.argv) == 4):
@@ -23,6 +23,9 @@ else:
 #n_tag = 10
 #n_got = 10
 #n_lab = 3
+if(n_lab == 0):
+  print('if no labelled members recovered, cannot estimate population size')
+  sys.exit()
 print(' labelled: {:8d} sampled: {:8d} of which {:8d} are labelled'.format(n_tag,n_got,n_lab))
 #
 n_not = n_got - n_lab
@@ -70,7 +73,7 @@ summarize(n_axis,n_pdf,n_cdf,discrete=True,title='population size')
 if(MAKEPLOT):
   plt.figure()
   plt.scatter(n_axis,n_pdf,color='green',marker='o')
-  plt.scatter(n_axis,n_cdf,color='red',marker='o')
+  plt.scatter(n_axis,n_cdf,color='red',marker='s')
   plt.ylim((0.,1.2))
   plt.xlabel('N')
   plt.ylabel('prob(N)')

@@ -20,6 +20,9 @@ if(len(sys.argv)<5):
   print('Usage: poisson_background.py count_background time_background count_source time_source')
   sys.exit()
 n_back = int(sys.argv[1])
+if(n_back == 0):
+  print('if there is no background, use RareCounts.py instead')
+  sys.exit()
 t_back = float(sys.argv[2])
 n_source = int(sys.argv[3])
 t_source = float(sys.argv[4])
@@ -34,6 +37,7 @@ t_factor = (1. + t_back/t_source)
 #
 k_axis = np.zeros(NPOINT)
 log_pdf_back = np.zeros(NPOINT)
+#
 #
 # posterior background rate- poisson in n becomes gamma in k
 #

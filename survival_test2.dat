@@ -1,0 +1,24 @@
+# test data for survival curves, taken from table 1.1 of
+# cox and oakes 'analysis of survival data' p8,
+# treatment with 6-MP group - censored data flagged by -ve time
+-9
+-10
+6
+-32
+-35
+-34
+6
+-6
+6
+7
+10
+-11
+13
+16
+-25
+-32
+-17
+-19
+-20
+22
+23

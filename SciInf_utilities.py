@@ -9,8 +9,8 @@ CREDIBLE_MAX = 97.5 # upper percentile for credible interval # covers 95%
 #CREDIBLE_MIN = 5. # lower percentile for credible interval
 #CREDIBLE_MAX = 95. # upper percentile for credible interval # covers 90%
 NPOINT = 2501
-MAKEPLOT = True
 print('number of integration points: ',NPOINT)
+MAKEPLOT = True
 #-------
 def read_n(n,filename):
     # read a list of integers from a file
@@ -18,7 +18,7 @@ def read_n(n,filename):
     contents = data_file.readlines()
     for line in contents:
         if(line[0] == '#'):
-            print('%s' % line)
+            print('%s' % line[:-1])
             continue
         if(len(line) <= 1):
             continue
@@ -35,7 +35,7 @@ def read_x(x,filename):
     contents = data_file.readlines()
     for line in contents:
         if(line[0] == '#'):
-            print('%s' % line)
+            print('%s' % line[:-1])
             continue
         if(len(line) <= 1):
             continue
@@ -54,7 +54,7 @@ def read_xy(x,y,filename):
     contents = data_file.readlines()
     for line in contents:
         if(line[0] == '#'):
-            print('%s' % line)
+            print('%s' % line[:-1])
             continue
         if(len(line) <= 1):
             continue
@@ -163,7 +163,7 @@ def sort_1_by_2(x,y,rev=False):
   """
   sort one list by elements in another list
   """
-  print('reverse',rev)
+  #print('reverse',rev)
   if(len(x) == len(y)):
     y_x = zip(y,x)
     y_x_sorted = sorted(y_x,reverse=rev)
@@ -187,3 +187,4 @@ def summarize(x_axis,pdf,cdf,discrete=False,title='parameter'):
   print('median: {:12.5f}'.format(median))
   print('{:6.1f}% to {:6.1f}% limits: ({:12.5f} to {:12.5f})'.format(CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
   print('===========================================================\n')
+  return limit_min,limit_max

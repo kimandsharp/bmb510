@@ -129,7 +129,8 @@ for k in range(1,ndata+1):
   if(freq_pdf[k] > pdf_max):
     pdf_max = freq_pdf[k]
     freq_max = freq_axis[k]
-print("max pdf {:12.5f} for frequency {:12.5f}".format(pdf_max,freq_max))
+period_max = dt*2.*math.pi/freq_max
+print("max pdf {:12.5f} for frequency {:12.5f}, period{:12.5f} ".format(pdf_max,freq_max,period_max))
 pdf_max = 0.
 for i in range(ngrid):
   r_val = i*dr
@@ -155,6 +156,7 @@ for i in range(ndata):
 #
 #for i in range(ndata):
 #  y[i] = y[i] + av_y
+freq_pdf[0] = freq_pdf[1]
 MAKEPLOT = True
 if(MAKEPLOT):
   plt.figure(1)

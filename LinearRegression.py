@@ -1,7 +1,7 @@
 """
 implement linear regression equations with variances of slope, intercept, and 2-sigma lines
 see mendenhall and schaeffer, sivia & skilling
-now with slope from bayesian analysis of Steve Gull, which treats x, y symmetrically
+also do model where minimize perpendicular distance from line, not dy
 """
 import math
 import numpy as np
@@ -41,7 +41,7 @@ def slope_derivative(var_x,var_y,var_xy,slope):
 #
 print("\n implement linear regression equations with variances of slope, intercept, and 2-sigma lines")
 print(" see mendenhall and schaeffer, sivia & skilling ")
-print(' slope from bayesian analysis which treats x, y symmetrically - see S. Gull (1988)\n')
+print(' also do model where minimize perpendicular distance from line, not dy - this is symmetric in x &y \n')
 # get data
 #
 if(len(sys.argv)>1):

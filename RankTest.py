@@ -11,6 +11,10 @@ import sys
 print(" \n bayesian analysis of two sets of non-parametric data")
 print(" bayesian version of wilcoxon rank test, as suggested in")
 print(" ch. 4 of Gelman, BDA3 \n")
+print(" preprocesses two data files, produces output quantile_rank1.dat, quantile_rank2.dat")
+print(" then use DifferenceInMeans.py on these two files to compare mean ranks ")
+print(" HOWEVER, only quantity that has meaning is probability 'mean rank' ")
+print(" of A is < or > than 'mean rank' of B \n")
 # main
 #
 # read in data
@@ -49,15 +53,19 @@ print(d1)
 print(d2)
 #
 # generate quantile values for each data set
+# ties simply get quantile value of first value
 #
 q1 = []
 q2 = []
 for i in range(n_all):
   qtile = 100.*(2*i + 1.)/(2.*n_all)
+  if((i >0) and (d2[i] == d2[i-1])):
+    qtile = qtile_last
   if (d1[i] == 1):
     q1.append(qtile)
   else:
     q2.append(qtile)
+  qtile_last = qtile
 print(q1)
 print(q2)
 #
