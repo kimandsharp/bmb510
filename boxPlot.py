@@ -11,8 +11,8 @@ def read_x(x,filename):
     ndata = 0
     try:
       data_file = open(filename,"r")
-      if(len(filename) > 8):
-        label = filename[0:8]
+      if(len(filename) > 15):
+        label = filename[0:15]
       else:
         label = filename
       contents = data_file.readlines()
@@ -58,9 +58,10 @@ while(1):
     print(ndata,' data points read')
     print('------------------------------------------------')
     label_all.append(label)
-    data_all.append([])
-    for i in range(ndata):
-      data_all[nset].append(x[i])
+    data_all.append(x)
+    # data_all.append([])
+    # for i in range(ndata):
+    # data_all[nset].append(x[i])
     nset += 1
     x = []
     if(nset == nset_max): break

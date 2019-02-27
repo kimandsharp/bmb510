@@ -1,5 +1,6 @@
 """
-implement linear regression equations with variances of slope, intercept, and 2-sigma lines
+implement linear regression equations with variances of slope, intercept, and 2-sigma (95%
+credible interval) lines
 see mendenhall and schaeffer, sivia & skilling
 also do model where minimize perpendicular distance from line, not dy
 """
@@ -39,7 +40,8 @@ def slope_derivative(var_x,var_y,var_xy,slope):
 """ main
 """
 #
-print("\n implement linear regression equations with variances of slope, intercept, and 2-sigma lines")
+print("\n implement linear regression equations with variances of slope, intercept, and 2-sigma ")
+print(" (95% credible interval) lines ")
 print(" see mendenhall and schaeffer, sivia & skilling ")
 print(' also do model where minimize perpendicular distance from line, not dy - this is symmetric in x &y \n')
 # get data
@@ -150,20 +152,20 @@ slope_icept_covar = -1.*resid_sum*av_x/(var_x*ndata*(ndata - 2))
 slope_icept_corr = slope_icept_covar/(slope_stdev*icept_stdev)
 print('slope/intercept covariance %12.5f  and R %12.5f  ' % (slope_icept_covar,slope_icept_corr))
 #
-# +/- 2 sigma fit lines
+# +/- 2 sigma (95% CI) fit lines
 #
 slope_plus_2s = slope_fit + 2*slope_stdev
 icept_plus_2s = icept_fit + 2*slope_icept_corr*icept_stdev
 # alternate- v similar
 #slope_plus_2s = slope_fit + 2*slope_stdev*slope_icept_corr
 #icept_plus_2s = icept_fit + 2*icept_stdev
-print('+2sigma slope %10.5f intercept %10.5f  ' % (slope_plus_2s,icept_plus_2s))
+print('upper 95 percent CI slope %10.5f intercept %10.5f  ' % (slope_plus_2s,icept_plus_2s))
 slope_less_2s = slope_fit - 2*slope_stdev
 icept_less_2s = icept_fit - 2*slope_icept_corr*icept_stdev
 # alternate- v similar
 #slope_less_2s = slope_fit - 2*slope_stdev*slope_icept_corr
 #icept_less_2s = icept_fit - 2*icept_stdev
-print('-2sigma slope %10.5f intercept %10.5f  ' % (slope_less_2s,icept_less_2s))
+print('lower 95 percent CI slope %10.5f intercept %10.5f  ' % (slope_less_2s,icept_less_2s))
 resid_sump = sum_sq(x,y,slope_plus_2s,icept_plus_2s,ndata)
 #print(' plus 2sigma sum sq %10.5f ' % (resid_sump))
 resid_suml = sum_sq(x,y,slope_less_2s,icept_less_2s,ndata)
@@ -210,7 +212,7 @@ if(MAKEPLOT):
   plt.plot(x,ycalc_less_2s,'g-')
   plt.xlabel('x')
   plt.ylabel('y')
-  plt.title('Standard fit (blue) with 2-sigma limits (green). Min distance (black) ')
+  plt.title('Standard fit (blue) with 95% CI limits (green). Min distance (black) ')
   plt.grid(True)
   plt.show()
 #

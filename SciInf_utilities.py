@@ -100,15 +100,12 @@ def pdf_to_cdf(x_axis,pdf,norm=True,discrete=False):
     cdf[0] = pdf[0]
     for i in range(1,n):
       cdf[i] = cdf[i-1] + pdf[i]
-    if(norm==1):
-      cmax = cdf[n-1]
-      cdf = cdf/cmax
   else:
     for i in range(1,n):
       cdf[i] = cdf[i-1] + 0.5*(pdf[i]+pdf[i-1])*(x_axis[i] - x_axis[i-1])
-    if(norm):
-      cmax = cdf[n-1]
-      cdf = cdf/cmax
+  if(norm):
+    cmax = cdf[n-1]
+    cdf = cdf/cmax
   return cdf
 
 def quantile(x_axis,cdf,percent,reverse=False):

@@ -1,5 +1,5 @@
 """
-implement linear regression equations with variances of slope, intercept, and 2-sigma lines
+implement linear regression equations with variances of slope, intercept, and 2-sigma(95% CI)  lines
 see mendenhall and schaeffer, sivia & skilling
 now with slope from bayesian analysis of Steve Gull, which treats x, y symmetrically
 """
@@ -39,7 +39,7 @@ def slope_derivative(var_x,var_y,var_xy,slope):
 """ main
 """
 #
-print("\n implement linear regression equations with variances of slope, intercept, and 2-sigma lines")
+print("\n implement linear regression equations with variances of slope, intercept, and 2-sigma(95% CI)  lines")
 print(" see mendenhall and schaeffer, sivia & skilling ")
 print(' slope from bayesian analysis which treats x, y symmetrically - see S. Gull (1988)\n')
 # get data
@@ -242,7 +242,7 @@ if(MAKEPLOT):
   plt.plot(x,ycalc_less_2s,'g-')
   plt.xlabel('x')
   plt.ylabel('y')
-  plt.title('Standard fit (blue) with 2-sigma limits (green). Bayes (cyan). Min distance (black) ')
+  plt.title('Standard fit (blue) with 95% CI limits (green). Bayes (cyan). Min distance (black) ')
   plt.grid(True)
   plt.show()
 #

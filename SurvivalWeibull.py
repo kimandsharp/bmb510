@@ -106,9 +106,9 @@ for i in range(ndata):
   else:
     ncensor += 1
 t_axis.append(t_last)
+t_left.append(nleft)
 t_events.append(ncroak)
 t_censor.append(ncensor)
-t_left.append(nleft)
 #
 # put out data nicely
 print(' ')
@@ -163,7 +163,7 @@ for i in range(1,nt):
   #print('%6d   %6d  %7.3f %9.5f' %(npop,t_events[i],t_survive[indx],t_survive_err[indx]))
   indx += 1
   t_km.append(t_axis[i])
-print("data for survivial curve plot")
+print("data for survival curve plot")
 print("------------------------------------")
 print('t          f(Survive) error')
 for i in range(len(t_km)):
@@ -182,9 +182,13 @@ if(MAKEPLOT):
   plt.grid(True)
   plt.show()
 #
-hazard_t = []
-for i in range(0,nt):
-  rate = t_events[i]/t_left[i] # nelson-aalen
+# hazard is defined as prob of event per unit time per unit population
+#hazard_t = []
+hazard_t = [0.]
+#for i in range(0,nt):
+for i in range(1,nt):
+  #rate = t_events[i]/t_left[i] # nelson-aalen
+  rate = t_events[i]/t_left[i]/(t_axis[i] - t_axis[i-1])  # nelson-aalen
   hazard_t.append(rate)
 #print(hazard_t)
 #
@@ -201,7 +205,7 @@ if(MAKEPLOT):
 # the likelihood model:
 # weibull pdf: f(x) = (k/l)(x/l)**(k-1)*exp(-(x/l)**k)
 # weibull cdf: F(x) = 1 - exp(-(x/l)**k)
-# weibull survivor S(x) - 1-F(x) = exp(-(x/l)**k)
+# weibull survivor S(x) = 1-F(x) = exp(-(x/l)**k)
 #
 # priors for kappa (shape), lambda (scale, called here ell) are uniform in log(), or C/kappa, C/lambda
 #
@@ -224,15 +228,15 @@ rate_mle = nevent/sumTall
 print('MLE estimate of hazard: %9.4f ' % (rate_mle))
 #
 # figure out ranges, increments for kappa, lambda
-# kappa shape unlikely to be out of range 0.1 --5 ??
+# kappa shape unlikely to be out of range 0.1 -- 20 ??
 # and we will space values uniformly on log scale, as befits log() prior
 #
 kappa_axis = np.zeros(NPOINT)
 kappa_lw = 0.1
-kappa_up = 5.0
+kappa_up = 20.0
 imid = int(NPOINT/2)
 #print(imid)
-kappa_axis[imid] = 1. # make sure we always kappa value == the exact exponential model
+kappa_axis[imid] = 1. # make sure we always do kappa value 1 == the exact exponential model
 dkappa = exp((log(kappa_up/kappa_lw))/(NPOINT - 1))
 #dkappa = 1. # debug- force to exponential
 for i in range(imid+1,NPOINT):
@@ -241,7 +245,7 @@ for i in range(imid-1,-1,-1):
   kappa_axis[i] = kappa_axis[i+1]/dkappa
 #print(kappa_axis)
 #
-tscale = 5. # shorter, longer factors
+tscale = 3. # shorter, longer factors
 ell_axis = np.zeros(NPOINT)
 ell_lw = t_min/tscale
 ell_up = t_max*tscale
@@ -298,6 +302,9 @@ pdf_max = np.max(ell_pdf)
 ell_pdf /= pdf_max
 ell_cdf = pdf_to_cdf(ell_axis,ell_pdf)
 ell_lw,ell_up = summarize(ell_axis,ell_pdf,ell_cdf,title='scale parameter')
+t_half_up = ell_up*log(2.)**(1./kappa_up)
+t_half_lw = ell_lw*log(2.)**(1./kappa_lw)
+print('\n 95% half life: ( {:12.5f} - {:12.5f} ) \n'.format(t_half_lw,t_half_up))
 #
 MAKEPLOT = True
 if(MAKEPLOT):
