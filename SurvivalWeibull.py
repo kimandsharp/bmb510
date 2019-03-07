@@ -232,8 +232,8 @@ print('MLE estimate of hazard: %9.4f ' % (rate_mle))
 # and we will space values uniformly on log scale, as befits log() prior
 #
 kappa_axis = np.zeros(NPOINT)
-kappa_lw = 0.1
-kappa_up = 20.0
+kappa_lw = 0.2
+kappa_up = 2.0
 imid = int(NPOINT/2)
 #print(imid)
 kappa_axis[imid] = 1. # make sure we always do kappa value 1 == the exact exponential model
@@ -245,7 +245,7 @@ for i in range(imid-1,-1,-1):
   kappa_axis[i] = kappa_axis[i+1]/dkappa
 #print(kappa_axis)
 #
-tscale = 3. # shorter, longer factors
+tscale = 1. # shorter, longer factors
 ell_axis = np.zeros(NPOINT)
 ell_lw = t_min/tscale
 ell_up = t_max*tscale
@@ -394,6 +394,7 @@ plt.plot(t_axis,left_t,'g-')
 plt.plot(t_axis,left_t_up,'g--')
 plt.plot(t_axis,left_t_lw,'g--')
 plt.ylabel('hazard')
+plt.ylim(-0.1,1.1)
 plt.xlabel('time')
 plt.title('Exptl. (red) and model (green) Hazard, Survival Curves')
 plt.grid(True)
