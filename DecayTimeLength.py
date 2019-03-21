@@ -59,6 +59,7 @@ t_pdf = np.exp(log_t_pdf)
 #  t_pdf[i] -= pdf_max
 #  t_pdf[i] = exp(t_pdf[i])
 t_cdf = pdf_to_cdf(t_axis,t_pdf)
+write_pdf_cdf(t_axis,t_pdf,t_cdf,title='t pdf cdf',filename='tDecay_pdf_cdf.dat')
 #
 summarize(t_axis,t_pdf,t_cdf,title='decay length/time')
 if(MAKEPLOT):

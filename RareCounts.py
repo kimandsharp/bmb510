@@ -38,6 +38,7 @@ pdf_max = max(log_r_pdf)
 log_r_pdf = log_r_pdf - pdf_max
 r_pdf = np.exp(log_r_pdf)
 r_cdf = pdf_to_cdf(r_axis,r_pdf)
+write_pdf_cdf(r_axis,r_pdf,r_cdf,title='x pdf cdf',filename='rate_pdf_cdf.dat')
 
 summarize(r_axis,r_pdf,r_cdf,title='rate')
 """

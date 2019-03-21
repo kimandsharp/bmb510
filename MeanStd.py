@@ -61,6 +61,7 @@ pdf_max = max(log_av_pdf)
 log_av_pdf = log_av_pdf - pdf_max
 av_pdf = np.exp(log_av_pdf)
 av_cdf = pdf_to_cdf(av_axis,av_pdf)
+write_pdf_cdf(av_axis,av_pdf,av_cdf,title='mean pdf cdf',filename='mean_pdf_cdf.dat')
 av_cdf_gauss = pdf_to_cdf(av_axis,av_pdf_gauss)
 #
 summarize(av_axis,av_pdf,av_cdf,title='population mean')
@@ -107,6 +108,7 @@ pdf_max = max(log_sd_pdf)
 log_sd_pdf = log_sd_pdf - pdf_max
 sd_pdf = np.exp(log_sd_pdf)
 sd_cdf = pdf_to_cdf(sd_axis,sd_pdf)
+write_pdf_cdf(sd_axis,sd_pdf,sd_cdf,title='stdev pdf cdf',filename='stdev_pdf_cdf.dat')
 #
 summarize(sd_axis,sd_pdf,sd_cdf,title='population std. deviation')
 #

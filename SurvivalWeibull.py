@@ -18,40 +18,59 @@ import sys
 NPOINT = 201
 MAKEPLOT = False
 #------------------------------------------
-def lhood_weibull(t_data,ndata,nevent,sumLogT,ell,kappa):
+def lhood_weibull(t_data,ndata,nevent,sumLogT,tau,rexpnt):
   # technically lhood times priors, as weve already
-  # subracted 1 from exponents of lambda, kappa
-  sumTell = 0.
+  # subracted 1 from exponents of tau, rexpnt
+  sumTtau = 0.
   for i in range(ndata):
-    sumTell += (t_data[i]/ell)**kappa
+    sumTtau += (t_data[i]/tau)**rexpnt
   # log() priors for l,k
-  lhood = (nevent - 1.)*log(kappa) - (kappa*nevent + 1.)*log(ell) \
-        + (kappa - 1.)*sumLogT - sumTell
+  lhood = (nevent - 1.)*log(rexpnt) - (rexpnt*nevent + 1.)*log(tau) \
+        + (rexpnt - 1.)*sumLogT - sumTtau
   # log() prior for k
-  #lhood = (nevent - 1.)*log(kappa) - (kappa*nevent)*log(ell) \
-  #      + (kappa - 1.)*sumLogT - sumTell
+  #lhood = (nevent - 1.)*log(rexpnt) - (rexpnt*nevent)*log(tau) \
+  #      + (rexpnt - 1.)*sumLogT - sumTtau
   return lhood
 #------------------------------------------
 print('\nbasic bayesian version of parametric model of survival data')
 print('using the general, flexible Weibull distbn.')
-print('input file with 1 decay time or observation stop (censored) time per line')
+print('input file with 1 decay time or observation stop (right censored) time per line')
 print('latter flagged by negative value (!) to indicate that ')
-print('observation was censored, i.e. still surviving after observation stopped.\n')
+print('observation was right censored, i.e. still surviving after observation stopped.')
+print('optionally followed by left censor time - defaults to 0.\n')
 #
 #=========================================================
-#read in data, identify events vs. stopped/censored obs.
+#read in data, identify events vs. stopped/right censored obs.
 #=========================================================
-if(len(sys.argv) == 2):
+if(len(sys.argv) >= 2):
   file_in = sys.argv[1]
+  if(len(sys.argv) == 3):
+    dead_time = float(sys.argv[2])
+  elif(len(sys.argv) == 2):
+    dead_time = 0.
 else:
   print("file with decay/die time data, 1 per line ")
-  file_in = input("censored data flagged by -ve value of time! > ")
-  print('\n input file: ',file_in)
+  file_in = input("right censored data flagged by -ve value of time! > ")
+  dead_time = float(input(" dead time/left (left censoring) > "))
+print('\n input file: \n',file_in)
+#t_data_raw = []
+#ndata = read_x(t_data_raw,file_in)
+t_data_temp = []
+ndata = read_x(t_data_temp,file_in)
+#
+# remove left censored data
 t_data_raw = []
-ndata = read_x(t_data_raw,file_in)
+ndata = 0
+ndead = 0
+for i in range(len(t_data_temp)):
+  if(abs(t_data_temp[i]) > dead_time):
+    t_data_raw.append(t_data_temp[i])
+    ndata += 1
+  else:
+    ndead += 1
 #
 #=========================================================
-# identify uncensored and censored data
+# identify uncensored and right censored data
 # and sort in ascending order of time for survival/hazard plots
 #=========================================================
 #
@@ -62,23 +81,26 @@ for i in range(ndata):
   if(t_data_raw[i] < 0.):
     nstop +=1
     stops_raw[i] = 1
-    t_data_raw[i] = -1*t_data_raw[i]
+    #t_data_raw[i] = -1*t_data_raw[i]
+    t_data_raw[i] = -1*t_data_raw[i] - dead_time
   else:
     nevent +=1
+    t_data_raw[i] = t_data_raw[i] - dead_time
 stops,t_data = sort_1_by_2(stops_raw,t_data_raw)
-#print(' ')
-#print('         time  censored')
-#print('--------------------------')
-#for i in range(ndata):
-#  print('%12.5f   %5d ' % (t_data[i],stops[i]))
-#print('--------------------------')
+print(' ')
+print('         time  right censored')
+print('--------------------------')
+for i in range(ndata):
+  print('%12.5f   %5d ' % (t_data[i],stops[i]))
+print('--------------------------')
 t_min = min(t_data)
 t_max = max(t_data)
+print('dead time (left censor limit), # in dead time: ',dead_time, ndead)
 print('# of events, stopped observations: ',nevent,nstop)
 print('min, max times: ',t_min,t_max)
 # 
 #=========================================================
-# now create the lists of events, # survivors, taking into account censored data
+# now create the lists of events, # survivors, taking into account right censored data
 # and ties
 #=========================================================
 #
@@ -110,9 +132,14 @@ t_left.append(nleft)
 t_events.append(ncroak)
 t_censor.append(ncensor)
 #
+# now adjust for left censor time
+#
+for i in range(len(t_axis)):
+  t_axis[i] += dead_time
+#
 # put out data nicely
 print(' ')
-print('    time   events censored left')
+print('    time   events right censored left')
 print('------------------------------------------')
 #print('t: ',t_axis)
 #print('e: ',t_events)
@@ -131,6 +158,7 @@ print('------------------------------------------')
 #
 t_km = [0.]
 nt = len(t_axis)
+print('nt = ',nt)
 t_survive = np.zeros(2*nt-1)
 t_survive_err = np.zeros(2*nt-1)
 t_survive[0] = 1.
@@ -163,12 +191,14 @@ for i in range(1,nt):
   #print('%6d   %6d  %7.3f %9.5f' %(npop,t_events[i],t_survive[indx],t_survive_err[indx]))
   indx += 1
   t_km.append(t_axis[i])
+"""
 print("data for survival curve plot")
 print("------------------------------------")
 print('t          f(Survive) error')
 for i in range(len(t_km)):
   print('%8.3f %8.3f  %9.5f' %(t_km[i],t_survive[i],t_survive_err[i]))
 print("------------------------------------")
+"""
 #print(t_km)
 #print(t_survive)
 #print(t_survive_err)
@@ -207,55 +237,56 @@ if(MAKEPLOT):
 # weibull cdf: F(x) = 1 - exp(-(x/l)**k)
 # weibull survivor S(x) = 1-F(x) = exp(-(x/l)**k)
 #
-# priors for kappa (shape), lambda (scale, called here ell) are uniform in log(), or C/kappa, C/lambda
+# priors for rexpnt (shape), scale, called here tau are uniform in log(), or C/rexpnt, C/tau
 #
 # we can precalculate term involving sum(log(x)) over events (non-censored data) as it is k & l free:
 #
 sumLogT = 0.
 sumTall = 0.
-sumTevent = 0.
-sumTstop = 0.
+#sumTevent = 0.
+#sumTstop = 0.
 for i in range(ndata):
   sumTall += t_data[i]
   if(stops[i] == 0):
     sumLogT += log(t_data[i])
-    sumTevent += t_data[i]
+    #sumTevent += t_data[i]
   else:
-    sumTstop += t_data[i]
+    #sumTstop += t_data[i]
+    continue
 #print('sum log(td): ',sumLogT)
-print('sum of times for all, events, censored : ',sumTall,sumTevent,sumTstop)
+#print('sum of times for all, events, right censored : ',sumTall,sumTevent,sumTstop)
 rate_mle = nevent/sumTall
-print('MLE estimate of hazard: %9.4f ' % (rate_mle))
+print('MLE estimate of hazard: %12.5g ' % (rate_mle))
 #
-# figure out ranges, increments for kappa, lambda
-# kappa shape unlikely to be out of range 0.1 -- 20 ??
+# figure out ranges, increments for rexpnt, tau
+# rexpnt shape unlikely to be out of range 0.1 -- 20 ??
 # and we will space values uniformly on log scale, as befits log() prior
 #
-kappa_axis = np.zeros(NPOINT)
-kappa_lw = 0.2
-kappa_up = 2.0
+rexpnt_axis = np.zeros(NPOINT)
+rexpnt_lw = 0.2
+rexpnt_up = 5.0
 imid = int(NPOINT/2)
 #print(imid)
-kappa_axis[imid] = 1. # make sure we always do kappa value 1 == the exact exponential model
-dkappa = exp((log(kappa_up/kappa_lw))/(NPOINT - 1))
-#dkappa = 1. # debug- force to exponential
+rexpnt_axis[imid] = 1. # make sure we always do rexpnt value 1 == the exact exponential model
+drexpnt = exp((log(rexpnt_up/rexpnt_lw))/(NPOINT - 1))
+#drexpnt = 1. # debug- force to exponential
 for i in range(imid+1,NPOINT):
-  kappa_axis[i] = dkappa*kappa_axis[i-1]
+  rexpnt_axis[i] = drexpnt*rexpnt_axis[i-1]
 for i in range(imid-1,-1,-1):
-  kappa_axis[i] = kappa_axis[i+1]/dkappa
-#print(kappa_axis)
+  rexpnt_axis[i] = rexpnt_axis[i+1]/drexpnt
+#print(rexpnt_axis)
 #
-tscale = 1. # shorter, longer factors
-ell_axis = np.zeros(NPOINT)
-ell_lw = t_min/tscale
-ell_up = t_max*tscale
-ell_axis = np.zeros(NPOINT)
-dell = exp((log(ell_up/ell_lw))/(NPOINT - 1))
-ell = ell_lw
+tscale = 4. # shorter, longer factors
+tau_axis = np.zeros(NPOINT)
+tau_lw = t_min/tscale
+tau_up = t_max*tscale
+tau_axis = np.zeros(NPOINT)
+dtau = exp((log(tau_up/tau_lw))/(NPOINT - 1))
+tau = tau_lw
 for i in range(NPOINT):
-  ell_axis[i] = ell
-  ell *= dell
-#print(ell_axis)
+  tau_axis[i] = tau
+  tau *= dtau
+#print(tau_axis)
 #
 # space for posterior
 #
@@ -264,10 +295,10 @@ log_kl_pdf = np.zeros((NPOINT,NPOINT))
 # posteriors on 2D parameter grid
 #
 for l in range(NPOINT):
-  ell = ell_axis[l]
+  tau = tau_axis[l]
   for k in range(NPOINT):
-    kappa = kappa_axis[k]
-    log_kl_pdf[l][k] = lhood_weibull(t_data,ndata,nevent,sumLogT,ell,kappa)
+    rexpnt = rexpnt_axis[k]
+    log_kl_pdf[l][k] = lhood_weibull(t_data,ndata,nevent,sumLogT,tau,rexpnt)
 #
 # normalize, convert to probs
 #
@@ -280,30 +311,37 @@ kl_pdf_total = np.sum(kl_pdf)
 kl_pdf = kl_pdf/kl_pdf_total
 #print(kl_pdf)
 #===============================
-# analyse 2D posterior pdf for kappa, ell
+# analyse 2D posterior pdf for rexpnt, tau
 #===============================
 #
-# marginals for kappa, lambda
+# now adjust for left censor time
 #
-kappa_pdf = np.zeros(NPOINT)
+for i in range(len(tau_axis)):
+  tau_axis[i] += dead_time
+#
+# marginals for rexpnt, tau
+#
+rexpnt_pdf = np.zeros(NPOINT)
 for k in range(NPOINT):
   for l in range(NPOINT):
-    kappa_pdf[k] += kl_pdf[l][k]
-pdf_max = np.max(kappa_pdf)
-kappa_pdf /= pdf_max
-kappa_cdf = pdf_to_cdf(kappa_axis,kappa_pdf)
-kappa_lw,kappa_up = summarize(kappa_axis,kappa_pdf,kappa_cdf,title='shape parameter')
+    rexpnt_pdf[k] += kl_pdf[l][k]
+pdf_max = np.max(rexpnt_pdf)
+rexpnt_pdf /= pdf_max
+rexpnt_cdf = pdf_to_cdf(rexpnt_axis,rexpnt_pdf)
+write_pdf_cdf(rexpnt_axis,rexpnt_pdf,rexpnt_cdf,title='rexpnt pdf cdf',filename='rExponent_pdf_cdf.dat')
+rexpnt_lw,rexpnt_up = summarize(rexpnt_axis,rexpnt_pdf,rexpnt_cdf,title='shape parameter')
 #
-ell_pdf = np.zeros(NPOINT)
+tau_pdf = np.zeros(NPOINT)
 for l in range(NPOINT):
   for k in range(NPOINT):
-    ell_pdf[l] += kl_pdf[l][k]
-pdf_max = np.max(ell_pdf)
-ell_pdf /= pdf_max
-ell_cdf = pdf_to_cdf(ell_axis,ell_pdf)
-ell_lw,ell_up = summarize(ell_axis,ell_pdf,ell_cdf,title='scale parameter')
-t_half_up = ell_up*log(2.)**(1./kappa_up)
-t_half_lw = ell_lw*log(2.)**(1./kappa_lw)
+    tau_pdf[l] += kl_pdf[l][k]
+pdf_max = np.max(tau_pdf)
+tau_pdf /= pdf_max
+tau_cdf = pdf_to_cdf(tau_axis,tau_pdf)
+write_pdf_cdf(tau_axis,tau_pdf,tau_cdf,title='tau pdf cdf',filename='tSurvival_pdf_cdf.dat')
+tau_lw,tau_up = summarize(tau_axis,tau_pdf,tau_cdf,title='scale parameter')
+t_half_up = (tau_up - dead_time)*log(2.)**(1./rexpnt_up) + dead_time
+t_half_lw = (tau_lw - dead_time)*log(2.)**(1./rexpnt_lw) + dead_time
 print('\n 95% half life: ( {:12.5f} - {:12.5f} ) \n'.format(t_half_lw,t_half_up))
 #
 MAKEPLOT = True
@@ -311,55 +349,55 @@ if(MAKEPLOT):
   plt.figure(3)
   plt.subplot(211)
   plt.tight_layout()
-  plt.plot(kappa_axis,kappa_pdf,'g-')
-  plt.plot(kappa_axis,kappa_cdf,'r-')
-  plt.xlabel('shape (kappa)')
-  plt.ylabel('p(kappa)')
-  plt.title('Shape parameter Marginal p(kappa)')
+  plt.plot(rexpnt_axis,rexpnt_pdf,'g-')
+  plt.plot(rexpnt_axis,rexpnt_cdf,'r-')
+  plt.xlabel('shape (r)')
+  plt.ylabel('p(r)')
+  plt.title('Marginal for Shape parameter r')
   plt.grid(True)
   #
   plt.subplot(212)
   plt.tight_layout()
-  plt.plot(ell_axis,ell_pdf,'g-')
-  plt.plot(ell_axis,ell_cdf,'r-')
-  plt.xlabel('scale (lambda)')
-  plt.ylabel('p(lambda)')
-  plt.title('\n Scale Parameter Marginal p(lambda)')
+  plt.plot(tau_axis,tau_pdf,'g-')
+  plt.plot(tau_axis,tau_cdf,'r-')
+  plt.xlabel('scale (tau)')
+  plt.ylabel('p(tau)')
+  plt.title('\n Marginal for Scale Parameter Marginal tau')
   plt.grid(True)
   plt.show()
 #
 # generate model rate vs. t, and survival curves  using median parameter values
-# we could just plug 95% lower, upper bounds of kappa, ell in to produce credible
+# we could just plug 95% lower, upper bounds of rexpnt, tau in to produce credible
 # 95% bound curves, 
 #
-# but eventually we must allow for correlation between kappa, ell estimates 
+# but eventually we must allow for correlation between rexpnt, tau estimates 
 # using full 2D pdf
 #
-kappa_med = quantile(kappa_axis,kappa_cdf,50.)
-ell_med = quantile(ell_axis,ell_cdf,50.)
+rexpnt_med = quantile(rexpnt_axis,rexpnt_cdf,50.)
+tau_med = quantile(tau_axis,tau_cdf,50.)
 #
-kappa_mean = 0.
-ell_mean = 0.
-kappa2 = 0.
-ell2 = 0.
-kappa_ell = 0.
+rexpnt_mean = 0.
+tau_mean = 0.
+rexpnt2 = 0.
+tau2 = 0.
+rexpnt_tau = 0.
 for l in range(NPOINT):
   for k in range(NPOINT):
-    kappa_mean += kl_pdf[l][k]*(kappa_axis[k])
-    kappa2 += kl_pdf[l][k]*(kappa_axis[k])**2
-    ell_mean += kl_pdf[l][k]*(ell_axis[l])
-    ell2 += kl_pdf[l][k]*(ell_axis[l])**2
-    kappa_ell += kl_pdf[l][k]*(ell_axis[l])*(kappa_axis[k])
-kappa_sig = sqrt(kappa2 - kappa_mean**2)
-ell_sig = sqrt(ell2 - ell_mean**2)
-kappa_ell_corr = (kappa_ell - kappa_mean*ell_mean)/(kappa_sig*ell_sig)
-#print('k mean, std.dev: ',kappa_mean,kappa_sig)
-#print('l mean, std.dev: ',ell_mean,ell_sig)
-#print('k-l correlation coefficient R: ',kappa_ell_corr)
+    rexpnt_mean += kl_pdf[l][k]*(rexpnt_axis[k])
+    rexpnt2 += kl_pdf[l][k]*(rexpnt_axis[k])**2
+    tau_mean += kl_pdf[l][k]*(tau_axis[l])
+    tau2 += kl_pdf[l][k]*(tau_axis[l])**2
+    rexpnt_tau += kl_pdf[l][k]*(tau_axis[l])*(rexpnt_axis[k])
+rexpnt_sig = sqrt(rexpnt2 - rexpnt_mean**2)
+tau_sig = sqrt(tau2 - tau_mean**2)
+rexpnt_tau_corr = (rexpnt_tau - rexpnt_mean*tau_mean)/(rexpnt_sig*tau_sig)
+#print('k mean, std.dev: ',rexpnt_mean,rexpnt_sig)
+#print('l mean, std.dev: ',tau_mean,tau_sig)
+#print('k-l correlation coefficient R: ',rexpnt_tau_corr)
 """
-# now correct ell bounds for correlation
-ell_up = (1. - kappa_ell_corr)*(ell_up - ell_med) + ell_med # right??
-ell_lw = (1. - kappa_ell_corr)*(ell_lw - ell_med) + ell_med # right??
+# now correct tau bounds for correlation
+tau_up = (1. - rexpnt_tau_corr)*(tau_up - tau_med) + tau_med # right??
+tau_lw = (1. - rexpnt_tau_corr)*(tau_lw - tau_med) + tau_med # right??
 """
 #
 # generate median, upper, lower bound survival curves
@@ -369,10 +407,13 @@ left_t = np.zeros(nt)
 left_t_up = np.zeros(nt)
 left_t_lw = np.zeros(nt)
 for i in range(nt):
-  rate_t[i] = (kappa_med/ell_med)*(t_axis[i]/ell_med)**(kappa_med -1.)
-  left_t[i] = exp(-1.*(t_axis[i]/ell_med)**kappa_med)
-  left_t_up[i] = exp(-1.*(t_axis[i]/ell_up)**kappa_up)
-  left_t_lw[i] = exp(-1.*(t_axis[i]/ell_lw)**kappa_lw)
+  if(i==0) and (rexpnt_med < 1. ): # prevent / by 0 for t=0 point
+    rate_t[i] = (rexpnt_med/tau_med)*((t_axis[i+1]-dead_time)/tau_med)**(rexpnt_med -1.)
+  else:
+    rate_t[i] = (rexpnt_med/tau_med)*((t_axis[i]-dead_time)/tau_med)**(rexpnt_med -1.)
+  left_t[i] = exp(-1.*((t_axis[i]-dead_time)/(tau_med-dead_time))**rexpnt_med)
+  left_t_up[i] = exp(-1.*((t_axis[i]-dead_time)/(tau_up-dead_time))**rexpnt_up)
+  left_t_lw[i] = exp(-1.*((t_axis[i]-dead_time)/(tau_lw-dead_time))**rexpnt_lw)
 #print(rate_t)
 #print(left_t)
 #
@@ -383,20 +424,34 @@ for i in range(len(t_survive)):
   t_survive_lw[i] = t_survive[i] - 2.*t_survive_err[i]
 #
 plt.figure(4)
+# survival
+#--------------
+plt.subplot(211)
 # expt.
-plt.scatter(t_axis,hazard_t,color='red',marker='o')
 plt.plot(t_km,t_survive,'r-')
 plt.plot(t_km,t_survive_up,'r--')
 plt.plot(t_km,t_survive_lw,'r--')
 # model
-plt.plot(t_axis,rate_t,'g-')
 plt.plot(t_axis,left_t,'g-')
 plt.plot(t_axis,left_t_up,'g--')
 plt.plot(t_axis,left_t_lw,'g--')
-plt.ylabel('hazard')
+plt.title('Exptl. (red) and model (green) Survival, Hazard Curves')
+plt.ylabel('survival')
 plt.ylim(-0.1,1.1)
 plt.xlabel('time')
-plt.title('Exptl. (red) and model (green) Hazard, Survival Curves')
+plt.grid(True)
+#
+# rate/hazard
+#--------------
+plt.subplot(212)
+# expt.
+plt.scatter(t_axis,hazard_t,color='red',marker='o')
+# model
+plt.plot(t_axis,rate_t,'g-')
+plt.ylabel('hazard rate')
+rate_max = max(rate_t)*2.
+plt.ylim(0.0,rate_max)
+plt.xlabel('time')
 plt.grid(True)
 plt.show()
 #

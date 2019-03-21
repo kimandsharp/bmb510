@@ -36,6 +36,7 @@ pdf_max = max(log_f_pdf)
 log_f_pdf = log_f_pdf - pdf_max
 f_pdf = np.exp(log_f_pdf)
 f_cdf = pdf_to_cdf(f_axis,f_pdf)
+write_pdf_cdf(f_axis,f_pdf,f_cdf,title='fraction pdf cdf',filename='fraction_pdf_cdf.dat')
 summarize(f_axis,f_pdf,f_cdf,title='fraction parameter')
 #
 # plot

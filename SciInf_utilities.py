@@ -185,3 +185,14 @@ def summarize(x_axis,pdf,cdf,discrete=False,title='parameter'):
   print('{:6.1f}% to {:6.1f}% limits: ({:12.5f} to {:12.5f})'.format(CREDIBLE_MIN,CREDIBLE_MAX,limit_min,limit_max))
   print('===========================================================\n')
   return limit_min,limit_max
+
+def write_pdf_cdf(x_axis,pdf,cdf,title='x pdf cdf',filename='pdf_cdf.dat'):
+  head1 = '#' + title + '\n'
+  head2 = '#  x      p(x)     cdf(x) ' + '\n'
+  fileout = open(filename,'w')
+  fileout.write(head1)
+  fileout.write(head2)
+  for i in range(len(x_axis)):
+    strbuf = '{:15.5g}  {:15.5g}   {:15.5g}  \n'.format(x_axis[i],pdf[i],cdf[i])
+    fileout.write(strbuf)
+  fileout.close()

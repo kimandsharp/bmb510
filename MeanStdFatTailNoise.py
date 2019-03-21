@@ -143,6 +143,7 @@ for i in range(NPOINT):
 pdf_max = max(av_pdf)
 av_pdf = av_pdf/pdf_max
 av_cdf = pdf_to_cdf(av_axis,av_pdf)
+write_pdf_cdf(av_axis,av_pdf,av_cdf,title='mean pdf cdf',filename='mean_fattail_pdf_cdf.dat')
 #
 summarize(av_axis,av_pdf,av_cdf,title='population mean')
 #
@@ -177,6 +178,7 @@ for j in range(NPOINT):
 pdf_max = max(sd_pdf)
 sd_pdf = sd_pdf/pdf_max
 sd_cdf = pdf_to_cdf(sd_axis,sd_pdf)
+write_pdf_cdf(sd_axis,sd_pdf,sd_cdf,title='stdev pdf cdf',filename='stdev_fattail_pdf_cdf.dat')
 #
 summarize(sd_axis,sd_pdf,sd_cdf,title='population std. deviation')
 #

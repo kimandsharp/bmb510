@@ -17,7 +17,7 @@ print(" work with logp \n")
 #input
 #
 if(len(sys.argv)<5):
-  print('Usage: poisson_background.py count_background time_background count_source time_source')
+  print('Usage: RareCountsBackgnd.py count_background time_background count_source time_source')
   sys.exit()
 n_back = int(sys.argv[1])
 if(n_back == 0):
@@ -82,6 +82,7 @@ for k in range(NPOINT):
 pdf_max = max(pdf_source)
 pdf_source /= pdf_max
 cdf_source = pdf_to_cdf(k_axis,pdf_source)
+write_pdf_cdf(k_axis,pdf_source,cdf_source,title='rate pdf cdf',filename='rate_source_pdf_cdf.dat')
 summarize(k_axis,pdf_source,cdf_source,title='rate of source \n accounting for background')
 #print(k_axis)
 #print(pdf_source)
