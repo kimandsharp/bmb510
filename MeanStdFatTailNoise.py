@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 from SciInf_utilities import *
-import pymol_cgo
+#import pymol_cgo
 #--------------------------------------
 NPOINT = 251
 print("\n implement bayesian estimation of mean of population, using ")

@@ -16,16 +16,24 @@ print(" work with logp \n")
 #
 #input
 #
-if(len(sys.argv)<5):
-  print('Usage: RareCountsBackgnd.py count_background time_background count_source time_source')
-  sys.exit()
-n_back = int(sys.argv[1])
-if(n_back == 0):
-  print('if there is no background, use RareCounts.py instead')
-  sys.exit()
-t_back = float(sys.argv[2])
-n_source = int(sys.argv[3])
-t_source = float(sys.argv[4])
+if(len(sys.argv) == 5):
+  n_back = int(sys.argv[1])
+  if(n_back == 0):
+    print('if there is no background, use RareCounts.py instead')
+    sys.exit()
+  t_back = float(sys.argv[2])
+  n_source = int(sys.argv[3])
+  t_source = float(sys.argv[4])
+else:
+  n_back = int(input('# of background events> '))
+  if(n_back == 0):
+    print('if there is no background, use RareCounts.py instead')
+    sys.exit()
+  t_back = float(input('time of background observation> '))
+  n_source = int(input('# of observed events with source> '))
+  t_source = float(input('time of observation with source> '))
+  #print('Usage: RareCountsBackgnd.py count_background time_background count_source time_source')
+  #sys.exit()
 print('\n background obs. time {:8.3f} and # counts {:6d}'.format(t_back,n_back))
 print(' source     obs. time {:8.3f} and # counts {:6d}'.format(t_source,n_source))
 #
