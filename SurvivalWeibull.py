@@ -87,12 +87,12 @@ for i in range(ndata):
     nevent +=1
     t_data_raw[i] = t_data_raw[i] - dead_time
 stops,t_data = sort_1_by_2(stops_raw,t_data_raw)
-print(' ')
-print('         time  right censored')
-print('--------------------------')
-for i in range(ndata):
-  print('%12.5f   %5d ' % (t_data[i],stops[i]))
-print('--------------------------')
+#print(' ')
+#print('         time  right censored')
+#print('--------------------------')
+#for i in range(ndata):
+#  print('%12.5f   %5d ' % (t_data[i],stops[i]))
+#print('--------------------------')
 t_min = min(t_data)
 t_max = max(t_data)
 print('dead time (left censor limit), # in dead time: ',dead_time, ndead)
@@ -138,17 +138,17 @@ for i in range(len(t_axis)):
   t_axis[i] += dead_time
 #
 # put out data nicely
-print(' ')
-print('    time   events right censored left')
-print('------------------------------------------')
+#print(' ')
+#print('    time   events right censored left')
+#print('------------------------------------------')
 #print('t: ',t_axis)
 #print('e: ',t_events)
 #print('c: ',t_censor)
 #print('l: ',t_left)
-print
-for i in range(len(t_axis)):
-  print('%10.3f %6d %6d %6d ' % (t_axis[i],t_events[i],t_censor[i],t_left[i]))
-print('------------------------------------------')
+#print
+#for i in range(len(t_axis)):
+#  print('%10.3f %6d %6d %6d ' % (t_axis[i],t_events[i],t_censor[i],t_left[i]))
+#print('------------------------------------------')
 #
 #=========================================================
 # generate, plot extpl. survival and hazard curves. 

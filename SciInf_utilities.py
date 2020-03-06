@@ -30,7 +30,7 @@ def read_n(n,filename):
     return ndata
 
 def read_x(x,filename):
-    # read a list of reals (floats) froma file
+    # read a list of reals (floats) from a file
     data_file = open(filename,"r")
     contents = data_file.readlines()
     for line in contents:

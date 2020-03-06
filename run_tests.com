@@ -1,8 +1,8 @@
 #!/bin/csh 
 # run all python programs for sci inf class
 #
-goto new
-exit
+#goto new
+#exit
 python  ProportionParameter.py 2 9
 #
 python  TagAndRelease.py 10 10 3
@@ -44,5 +44,6 @@ python PeriodicSeries.py testdata/CparkT_periodic_test.dat
 #
 python SurvivalWeibull.py testdata/survival_test1.dat 
 python SurvivalWeibull.py testdata/survival_test2.dat 
-new:
 python CurveFitBIC.py testdata/curve3.dat
+new:
+python DiffMeansFromStats.py 4 0.6777 0.0555 4 0.8384 0.1279
