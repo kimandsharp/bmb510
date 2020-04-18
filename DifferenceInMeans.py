@@ -67,8 +67,23 @@ for i in range(NPOINT):
 pdf_max = max(dav_pdf)
 dav_pdf = dav_pdf/pdf_max
 dav_cdf = pdf_to_cdf(dav_axis,dav_pdf)
+write_pdf_cdf(dav_axis,dav_pdf,dav_cdf,title='Diff in means pdf cdf',filename='dMean_pdf_cdf.dat')
 #
 summarize(dav_axis,dav_pdf,dav_cdf,title='difference (set 2 - set 1) of population means')
+#
+# calculate p(dMean) <, > 0
+#
+i = 0
+dav_val = dav_axis[i]
+while((dav_val < 0.) and (i < len(dav_axis))):
+  dav_val = dav_axis[i]
+  i += 1
+if(i >= len(dav_axis)):
+  print('Could not find cdf value for dMean = 0.')
+else:
+  p_dmean_neg = dav_cdf[i]
+  p_dmean_pos = 1. - p_dmean_neg
+  print('p(dMean) < 0., >0.: %10.3f  %10.3f' % (p_dmean_neg,p_dmean_pos))
 #
 # plot original data
 #
@@ -162,6 +177,7 @@ f_cdf = pdf_to_cdf(f_axis,f_pdf)
 for i in range(NPOINT):
   f_axis[i] = sqrt(f_axis[i]*var_x/var_y)
 summarize(f_axis,f_pdf,f_cdf,title='sigma1/sigma2')
+write_pdf_cdf(f_axis,f_pdf,f_cdf,title='sigma1/sigma2 pdf cdf',filename='sigma_ratio_pdf_cdf.dat')
 #
 if(MAKEPLOT):
   plt.figure(3)
