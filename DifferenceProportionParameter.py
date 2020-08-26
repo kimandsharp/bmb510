@@ -81,6 +81,10 @@ dpdf_max = max(df_pdf)
 df_pdf = df_pdf/dpdf_max
 df_cdf = pdf_to_cdf(df_axis,df_pdf)
 summarize(df_axis,df_pdf,df_cdf,title='difference (set 2 - set 1) fraction parameter')
+fileout = open('diffFrac_pdf_cdf.dat','w')
+fileout.write('#pdf,cdf from DifferenceProportionParameter.py')
+for i in range(2*NPOINT-1):
+  fileout.write('%9.3f  %9.3f  %9.3f \n' % (df_axis[i],df_pdf[i],df_cdf[i]))
 #
 # calculate probability f1 < f2
 p_neg = 0.
