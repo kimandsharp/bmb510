@@ -117,7 +117,7 @@ for n in range(0,ncup):
       yyfit[i] += Cmin[j]*base_func(j,xx[i])
     dyy[i] = yyfit[i] - yy[i]
     Vmin += dyy[i]**2
-  print('Sum Sq. dev: ',Vmin)
+  print('Sum Sq. dev: %15.6g '% (Vmin))
   Vmin = V0
   for j in range(nc):
     Vmin -= Bvec[j]*Cmin[j] # alternative way to find SS dev

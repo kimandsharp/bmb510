@@ -5,6 +5,7 @@ best way to run is install anaconda- contains python3, matplotlib, numpy, pandas
 """
 import matplotlib.pyplot as plt
 import numpy as np
+from math import sqrt
 #------------------------------------------------
 def read_x(x,filename):
     # read a list of reals (floats) from a file, take 1st 8 characters of file as title
@@ -26,7 +27,23 @@ def read_x(x,filename):
           #print(field)
           x.append(float(field[0]))
       data_file.close()
+      print(x)
       ndata = len(x)
+      x.sort()
+      xmin = x[0]
+      xmax = x[len(x)-1]
+      i1 = (len(x)-1)//2
+      i2 = (len(x))//2
+      xmedian = (x[i1] + x[i2])/2
+      print('min, median, max: ',xmin,xmedian,xmax)
+      xsum = 0.
+      x2sum = 0.
+      for xval in x:
+        xsum += xval
+        x2sum += xval**2
+      xav = xsum/len(x)
+      xstdev = sqrt(x2sum/len(x) - xav*xav)
+      print('mean, std.dev: ',xav,xstdev)
       # print ('# data points ',ndata)
       # print(x)
     except:
