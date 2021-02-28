@@ -55,7 +55,7 @@ def read_x(x,filename):
 #------------------------------------------------
 nset_max = 8
 print('\n ------------------------------------------------')
-print('simple box and whisker plot kas 2016')
+print('simple box and whisker plot kas 2016. Updated 27f2021')
 print('reads up to ',nset_max,' data files')
 print('1st 8 characters of file name will be used as a label on the plot')
 print('data file format: one numeric value per line, lines starting with #')
