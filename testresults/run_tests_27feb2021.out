@@ -1,3 +1,4 @@
+penn vpn connect type pennvpn
 number of integration points:  2501
 
  implement bayesian analysis of proportion/fraction/percent type parameter
@@ -123,8 +124,8 @@ number of integration points:  2501
  background obs. time    1.000 and # counts      9
  source     obs. time    1.000 and # counts      9
 coefficients: 
-[ 0.18547058  0.18547058  0.17456055  0.15274048  0.12219238  0.08728027
-  0.05371094  0.02685547  0.00976562  0.00195312]
+[0.18547058 0.18547058 0.17456055 0.15274048 0.12219238 0.08728027
+ 0.05371094 0.02685547 0.00976562 0.00195312]
 
 ===========================================================
 SUMMARY of posterior distribution for rate of source 
@@ -303,6 +304,7 @@ median:     -0.08582
    2.5% to   97.5% limits: (    -0.23076 to      0.05889)
 ===========================================================
 
+p(dMean) < 0., >0.:      0.878       0.122
 
 ===========================================================
 SUMMARY of posterior distribution for set 1 std. deviation 
@@ -426,6 +428,7 @@ median:     -6.25000
    2.5% to   97.5% limits: (   -51.57333 to     38.99939)
 ===========================================================
 
+p(dMean) < 0., >0.:      0.608       0.392
 
 ===========================================================
 SUMMARY of posterior distribution for set 1 std. deviation 
@@ -535,51 +538,9 @@ optionally followed by left censor time - defaults to 0.
 # cox and oakes 'analysis of survival data' p8,
 # control group - censored data flagged by -ve time
 # data points 21 
- 
-         time  right censored
---------------------------
-     1.00000       0 
-     1.00000       0 
-     2.00000       0 
-     2.00000       0 
-     3.00000       0 
-     4.00000       0 
-     4.00000       0 
-     5.00000       0 
-     5.00000       0 
-     8.00000       0 
-     8.00000       0 
-     8.00000       0 
-     8.00000       0 
-    11.00000       0 
-    11.00000       0 
-    12.00000       0 
-    12.00000       0 
-    15.00000       0 
-    17.00000       0 
-    22.00000       0 
-    23.00000       0 
---------------------------
 dead time (left censor limit), # in dead time:  0.0 0
 # of events, stopped observations:  21 0
 min, max times:  1.0 23.0
- 
-    time   events right censored left
-------------------------------------------
-     0.000      0      0     21 
-     1.000      2      0     21 
-     2.000      2      0     19 
-     3.000      1      0     17 
-     4.000      2      0     16 
-     5.000      2      0     14 
-     8.000      4      0     12 
-    11.000      2      0      8 
-    12.000      2      0      6 
-    15.000      1      0      4 
-    17.000      1      0      3 
-    22.000      1      0      2 
-    23.000      1      0      1 
-------------------------------------------
 nt =  13
 MLE estimate of hazard:      0.11538 
 
@@ -619,55 +580,9 @@ optionally followed by left censor time - defaults to 0.
 # cox and oakes 'analysis of survival data' p8,
 # treatment with 6-MP group - censored data flagged by -ve time
 # data points 21 
- 
-         time  right censored
---------------------------
-     6.00000       0 
-     6.00000       0 
-     6.00000       0 
-     6.00000       1 
-     7.00000       0 
-     9.00000       1 
-    10.00000       0 
-    10.00000       1 
-    11.00000       1 
-    13.00000       0 
-    16.00000       0 
-    17.00000       1 
-    19.00000       1 
-    20.00000       1 
-    22.00000       0 
-    23.00000       0 
-    25.00000       1 
-    32.00000       1 
-    32.00000       1 
-    34.00000       1 
-    35.00000       1 
---------------------------
 dead time (left censor limit), # in dead time:  0.0 0
 # of events, stopped observations:  9 12
 min, max times:  6.0 35.0
- 
-    time   events right censored left
-------------------------------------------
-     0.000      0      0     21 
-     6.000      3      1     21 
-     7.000      1      0     17 
-     9.000      0      1     16 
-    10.000      1      1     15 
-    11.000      0      1     13 
-    13.000      1      0     12 
-    16.000      1      0     11 
-    17.000      0      1     10 
-    19.000      0      1      9 
-    20.000      0      1      8 
-    22.000      1      0      7 
-    23.000      1      0      6 
-    25.000      0      1      5 
-    32.000      0      2      4 
-    34.000      0      1      2 
-    35.000      0      1      1 
-------------------------------------------
 nt =  17
 MLE estimate of hazard:      0.02507 
 
@@ -720,6 +635,7 @@ y  min:        1.002 max:         1.82
 ---------------
 1  Basis function
 ---------------
+Sum Sq. dev:         0.59283 
 MLE   coefficients   sigma
       1.3652      0.08116  
 |noise|      0.25665     Sum. Sq. dev. fit:      0.59283 
@@ -727,6 +643,7 @@ Bayesian Info. Criterion log10 P(#basis=1):     -0.62844
 ---------------
 2  Basis functions
 ---------------
+Sum Sq. dev:        0.011885 
 MLE   coefficients   sigma
      0.98758     0.022654  
      0.83915     0.042435  
@@ -735,6 +652,7 @@ Bayesian Info. Criterion log10 P(#basis=2):       2.1299
 ---------------
 3  Basis functions
 ---------------
+Sum Sq. dev:      0.00424852 
 MLE   coefficients   sigma
       1.0332      0.01937  
      0.49688      0.10023  
@@ -744,6 +662,7 @@ Bayesian Info. Criterion log10 P(#basis=3):       2.0073
 ---------------
 4  Basis functions
 ---------------
+Sum Sq. dev:     0.000964738 
 MLE   coefficients   sigma
       1.0072     0.011509  
      0.97221      0.11715  
@@ -754,6 +673,7 @@ Bayesian Info. Criterion log10 P(#basis=4):       2.3385
 ---------------
 5  Basis functions
 ---------------
+Sum Sq. dev:     0.000940368 
 MLE   coefficients   sigma
       1.0056     0.013275  
       1.0414      0.23031  
@@ -765,6 +685,7 @@ Bayesian Info. Criterion log10 P(#basis=5):       1.2128
 ---------------
 6  Basis functions
 ---------------
+Sum Sq. dev:     0.000395363 
 MLE   coefficients   sigma
       1.0006    0.0098581  
       1.5491      0.27316  
@@ -777,6 +698,7 @@ Bayesian Info. Criterion log10 P(#basis=6):      0.92795
 ---------------
 7  Basis functions
 ---------------
+Sum Sq. dev:      0.00017078 
 MLE   coefficients   sigma
       1.0023    0.0075318  
       1.0302      0.33344  
@@ -787,17 +709,30 @@ MLE   coefficients   sigma
       26.736       13.458  
 |noise|    0.0075436     Sum. Sq. dev. fit:   0.00017072 
 Bayesian Info. Criterion log10 P(#basis=7):      0.61644 
----------------
-8  Basis functions
----------------
-MLE   coefficients   sigma
-      1.0019    0.0072715  
-      1.5422       0.5616  
-     -8.3753       9.2574  
-       44.32       58.218  
-     -140.45       178.43  
-         251       285.36  
-     -227.12       228.71  
-      80.591        72.49  
-|noise|    0.0072729     Sum. Sq. dev. fit:   0.00010579 
-Bayesian Info. Criterion log10 P(#basis=8):    -0.056282 
+number of integration points:  2501
+
+Calculate posterior difference in means given only 
+# of sample points, sample mean and sample standard deviation for each 
+data set, without original raw data
+
+using t-dist
+
+===========================================================
+sample (data) summary
+===========================================================
+ Av X1      0.67770 Av X2      0.83840 Var of X1      0.00308 Var of X2      0.01636 
+ Av X2 - Av X1      0.16070 
+ sigma of X1 data      0.05550 sigma of X2 data      0.12790 
+ sigma of <X1>      0.03204 sigma of <X2>      0.07384 sigma of <X2-X1>      0.08050 
+ st.dev ratio data (s1/s2):      0.43393 
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for difference (set 2 - set 1) of population means 
+===========================================================
+mean:        0.16070  mode:      0.16070 
+median:      0.15941
+   2.5% to   97.5% limits: (    -0.00931 to      0.32942)
+===========================================================
+
