@@ -37,7 +37,7 @@ print('\n===========================================================')
 print('sample (data) summary')
 print('===========================================================')
 print(' Min X {:12.5f} Max X    {:12.5f} '.format(min_x,max_x))
-print(' Av X  {:12.5f} Var of X {:12.5f} Sigma of <X> {:12.5f}'.format(av_x,var_x,sigma_x))
+print(' Av X  {:12.5f} Var of X {:12.5f} Sigma of  X  {:12.5f}'.format(av_x,var_x,sigma_x))
 print('===========================================================\n')
 #
 #generate joint posterior pdf for mean and noise std. dev
