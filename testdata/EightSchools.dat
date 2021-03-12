@@ -1,0 +1,11 @@
+#
+# 8 schoools data from gelman et al DBA3 table 5.2
+# example of hierarch gaussian bayes analysis of multiple means
+28.   15.
+8.    10.
+-3.   16.
+7.    11.
+-1.   9.
+1.    11.
+18.   10.
+12.   18.

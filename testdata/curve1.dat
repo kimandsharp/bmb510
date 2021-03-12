@@ -1,3 +1,5 @@
+# test data for bayesian information criterion CurveFitBIC.py
+# linear: a + bx plus noise
     0.000     0.983 
     0.100     1.085 
     0.200     1.185 
