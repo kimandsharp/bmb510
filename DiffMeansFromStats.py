@@ -70,10 +70,11 @@ dav_pdf = dav_pdf/pdf_max
 dav_cdf = pdf_to_cdf(dav_axis,dav_pdf)
 #
 summarize(dav_axis,dav_pdf,dav_cdf,title='difference (set 2 - set 1) of population means')
-plt.figure(1)
-plt.plot(dav_axis,dav_pdf,'g-')
-plt.plot(dav_axis,dav_cdf,'r-')
-plt.title('posterior pdf,cdf for diff. in means')
-plt.ylim((0.,1.2))
-plt.grid(True)
+if(MAKEPLOT):
+  plt.figure(1)
+  plt.plot(dav_axis,dav_pdf,'g-')
+  plt.plot(dav_axis,dav_cdf,'r-')
+  plt.title('posterior pdf,cdf for diff. in means')
+  plt.ylim((0.,1.2))
+  plt.grid(True)
 plt.show()

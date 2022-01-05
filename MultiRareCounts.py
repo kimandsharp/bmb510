@@ -7,7 +7,7 @@ using eq. 2.14b of gelman et al, DBA3 chapter 2.6
 import random as rn
 import numpy as np
 import matplotlib.pyplot as plt
-import kimpy_utilities as ku
+import SciInf_utilities as ku
 from math import *
 import sys
 percentsign = '%'

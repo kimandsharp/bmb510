@@ -7,7 +7,7 @@ using the approach of gelman et al, DBA3 chapter 3.7, the 'bioassay expt'
 import random as rn
 import numpy as np
 import matplotlib.pyplot as plt
-import kimpy_utilities as ku
+import SciInf_utilities as ku
 import arviz as az
 from math import *
 import sys
@@ -163,12 +163,13 @@ ab_post_grid_norm = ab_post_grid/ab_post_sum # normalize
 #print('post value min %12.5f max %12.5f  ' %(ab_post_min,ab_post_max))
 print('\nWARNING: if the lhood peak is not comfortably within the grid ')
 print('boundaries you may need to adjust the boundaries manually!!')
-plt.figure(1)
-plt.contour(a_axis,b_axis,ab_post_grid_norm)
-plt.title('posterior for hyper-parameters p(a,b|data)')
-plt.xlabel('a')
-plt.ylabel('b')
-plt.show()
+if(ku.MAKEPLOT):
+  plt.figure(1)
+  plt.contour(a_axis,b_axis,ab_post_grid_norm)
+  plt.title('posterior for hyper-parameters p(a,b|data)')
+  plt.xlabel('a')
+  plt.ylabel('b')
+  plt.show()
 #
 # now sample from p(a,b|data) using rejection sampling
 # first scaling so pmax = 1 upper bound and we can simply/accept reject based on
@@ -222,10 +223,11 @@ ld50_u = ld50[iu]
 percentsign = '%'
 print('LD50 median %12.5f 95%s CI (%12.5f , %12.5f) ' %(ld50_m,percentsign,ld50_l,ld50_u))
 #
-plt.figure(3)
-plt.hist(ld50,nbins,facecolor='green',alpha=0.5)
-plt.title('posterior distribution of LD50')
-plt.ylabel('frequency')
-plt.xlabel('LD50 Dose')
-#plt.boxplot(ld50)
-plt.show()
+if(ku.MAKEPLOT):
+  plt.figure(3)
+  plt.hist(ld50,nbins,facecolor='green',alpha=0.5)
+  plt.title('posterior distribution of LD50')
+  plt.ylabel('frequency')
+  plt.xlabel('LD50 Dose')
+  #plt.boxplot(ld50)
+  plt.show()

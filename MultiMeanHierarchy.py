@@ -9,7 +9,7 @@ using the approach of gelman et al, DBA3 chapter 5, e.g. the famous 8-schools ca
 import random as rn
 import numpy as np
 import matplotlib.pyplot as plt
-import kimpy_utilities as ku
+import SciInf_utilities as ku
 import arviz as az
 from math import *
 percentsign = '%'
@@ -115,24 +115,26 @@ print('tau 95{:1s} limits: ({:12.5f} to {:12.5f})'.format(percentsign,0.,tau_up)
 #print(tau_axis)
 #print(tau_quantile)
 
-plt.figure(1)
-plt.title('posterior marginal for hyperparameter tau (spread of means)')
-plt.plot(tau_axis,tau_prob,'g-')
-plt.plot(tau_axis,tau_cdf,'r-')
-plt.xlim(0.,tau_axis[-1])
-plt.ylim(0.,1.1)
-plt.xlabel('tau ')
-plt.ylabel('p(tau|data) ')
-plt.show()
+if(ku.MAKEPLOT):
+  plt.figure(1)
+  plt.title('posterior marginal for hyperparameter tau (spread of means)')
+  plt.plot(tau_axis,tau_prob,'g-')
+  plt.plot(tau_axis,tau_cdf,'r-')
+  plt.xlim(0.,tau_axis[-1])
+  plt.ylim(0.,1.1)
+  plt.xlabel('tau ')
+  plt.ylabel('p(tau|data) ')
+  plt.show()
 #
 """
-plt.figure(2)
-plt.title(' inverse cdf for p(tau|data')
-plt.plot(quantile_axis,tau_quantile,'g-')
-plt.xlim(0.,100.)
-plt.xlabel('%')
-plt.ylabel('tau ')
-plt.show()
+if(ku.MAKEPLOT):
+  plt.figure(2)
+  plt.title(' inverse cdf for p(tau|data')
+  plt.plot(quantile_axis,tau_quantile,'g-')
+  plt.xlim(0.,100.)
+  plt.xlabel('%')
+  plt.ylabel('tau ')
+  plt.show()
 """
 #
 # sample global spread paramter tau from p(tau|data)
@@ -177,15 +179,17 @@ for j in range(nset):
   %(j+1,theta_sample[j][im],percentsign,theta_sample[j][il],theta_sample[j][iu]))
 #print(theta_sample)
 nbins = 20
-plt.figure()
-#n, bins, patches = plt.hist(theta_sample[0], nbins)
-az.plot_forest(theta_sample,quartiles=True) # better than box plot for large data sets
-#plt.boxplot(ts)
-plt.show()
+if(ku.MAKEPLOT):
+  plt.figure(3)
+  #n, bins, patches = plt.hist(theta_sample[0], nbins)
+  az.plot_forest(theta_sample,quartiles=True) # better than box plot for large data sets
+  #plt.boxplot(ts)
+  plt.show()
 #
 """
-nbins = 20
-plt.figure(3)
-n, bins, patches = plt.hist(tau_sample, nbins)
-plt.show()
+if(ku.MAKEPLOT):
+  nbins = 20
+  plt.figure(3)
+  n, bins, patches = plt.hist(tau_sample, nbins)
+  plt.show()
 """

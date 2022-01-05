@@ -1,7 +1,7 @@
 #
-# Bayesian hierarchical conujgate beta proportion parameter model test data
+# Bayesian hierarchical conjugate beta proportion parameter model test data
 # from gelman et al, DBA3 chapter 5, e.g. the rat tumor data set
-# n positive, sample size
+# number of positives, sample size
   0  20
   0  20
   0  20

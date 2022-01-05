@@ -8,7 +8,7 @@ using the approach of gelman et al, DBA3 chapter 5, e.g. the rat tumor data set
 import random as rn
 import numpy as np
 import matplotlib.pyplot as plt
-import kimpy_utilities as ku
+import SciInf_utilities as ku
 import arviz as az
 from math import *
 import sys
@@ -146,12 +146,13 @@ ab_post_grid = np.exp(ab_post_grid) # convert back to probability
 ab_post_sum = ab_post_grid.sum()
 ab_post_grid_norm = ab_post_grid/ab_post_sum # normalize
 #print('post value min %12.5f max %12.5f  ' %(ab_post_min,ab_post_max))
-plt.figure(2)
-plt.contour(y_axis,z_axis,ab_post_grid_norm)
-plt.title('posterior for hyper-parameters p(a,b|data)')
-plt.xlabel('log(a/b)')
-plt.ylabel('log(a+b)')
-plt.show()
+if(ku.MAKEPLOT):
+  plt.figure(2)
+  plt.contour(y_axis,z_axis,ab_post_grid_norm)
+  plt.title('posterior for hyper-parameters p(a,b|data)')
+  plt.xlabel('log(a/b)')
+  plt.ylabel('log(a+b)')
+  plt.show()
 #
 # posterior expectations of a, b
 a_ex = 0.
@@ -196,10 +197,11 @@ while(isample < nsample):
 print (' drew ',nsample, ' samples in ',ntry, ' tries')
 #
 # scatter plot to check sampling distbn looks like analytical
-plt.figure(3)
-plt.title('sampling from posterior for hyper-parameters p(a,b|data)')
-plt.scatter(y_sample,z_sample,marker='.')
-plt.show()
+if(ku.MAKEPLOT):
+  plt.figure(3)
+  plt.title('sampling from posterior for hyper-parameters p(a,b|data)')
+  plt.scatter(y_sample,z_sample,marker='.')
+  plt.show()
 #
 # given samples of a,b, generate samples of each f_j given
 # posterior conditional p(f_j|a,b,data), eq. 5.7 DBA3
@@ -235,13 +237,14 @@ for j in range(nset):
 xx = [0., 1.0]
 yy = [0., 1.0]
 f_pop_plot = [f_pop,f_pop]
-plt.figure(4)
-plt.errorbar(fj_data,fj_m,yerr=fj_err,fmt='.')
-plt.xlim(-0.1,1.1)
-plt.ylim(-0.1,1.1)
-plt.plot(xx,yy,'r-')
-plt.plot(xx,f_pop_plot,'y--')
-plt.xlabel('f_j raw data')
-plt.ylabel('f_j posterior')
-plt.title('posterior median and 95% CI for individual data sets')
-plt.show()
+if(ku.MAKEPLOT):
+  plt.figure(4)
+  plt.errorbar(fj_data,fj_m,yerr=fj_err,fmt='.')
+  plt.xlim(-0.1,1.1)
+  plt.ylim(-0.1,1.1)
+  plt.plot(xx,yy,'r-')
+  plt.plot(xx,f_pop_plot,'y--')
+  plt.xlabel('f_j raw data')
+  plt.ylabel('f_j posterior')
+  plt.title('posterior median and 95% CI for individual data sets')
+  plt.show()
