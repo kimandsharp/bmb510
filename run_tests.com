@@ -2,7 +2,7 @@
 # run all python programs for sci inf class
 # all files now executable directly with #!/usr/bin/env python3
 #
-goto new
+#goto new
 ProportionParameter.py 2 9
 #
 TagAndRelease.py 10 10 3
