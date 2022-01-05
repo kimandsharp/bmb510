@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 simple box and whisker plot kas 2016
 adapted from examples at matplotlib.org/examples/pylab_examples

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 basic bayesian version of parametric model of survival data
 using the general, flexible Weibull distbn.

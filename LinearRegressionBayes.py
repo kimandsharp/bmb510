@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 implement linear regression equations with variances of slope, intercept, and 2-sigma(95% CI)  lines
 see mendenhall and schaeffer, sivia & skilling

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 bayesian analysis for population size whereby label Na, mix/release,
 resample Nb, and find Nc of Nb labelled

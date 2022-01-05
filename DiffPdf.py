@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 obtain pdf for difference in parameter dX = X2 - X1 from two pdfs
 p(X1), p(X2) by forming joint probability

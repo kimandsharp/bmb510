@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 implement bayesian estimation of mean of population, using 
 cauchy (== T-distributed N=2) distributed noise - allowing for larger magnitude noise (outliers)

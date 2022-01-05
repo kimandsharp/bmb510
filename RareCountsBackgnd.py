@@ -1,4 +1,4 @@
-#!/home/kim/anaconda2/bin/python
+#!/usr/bin/env python3
 """
   implement bayesian method for pdf of rate k_source for source with a background rate k_rate
   taken from Tom Loredo's tutorial: From Laplace to supernova 1987a

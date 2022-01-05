@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 implement bayesian estimation of mean of population, using exact (t-distribution) 
 and approximation (Gaussian) posterior pdf

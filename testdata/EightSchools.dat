@@ -1,6 +1,7 @@
 #
-# 8 schoools data from gelman et al DBA3 table 5.2
 # example of hierarch gaussian bayes analysis of multiple means
+# 8 schools data from gelman et al DBA3 table 5.2
+# effect std. error 
 28.   15.
 8.    10.
 -3.   16.

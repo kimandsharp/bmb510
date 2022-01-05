@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 bayesian analysis for population of marked items
 Known total population: Nt We sample Nb, and find Nc of Nb marked

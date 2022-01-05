@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Bayesian analysis of multiple populations characterized by a J (mean, sample standard 
 error mean_j, sigma_j) pairs, or alternatively J sets {yi}j of N_j size raw data sets

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 bayes analysis of rare events using poisson distbn
 """
@@ -33,7 +34,8 @@ for i in range(NPOINT):
   r_axis[i] = (i+1)*d_rate
   rt = r_axis[i]*t_source
   # r_pdf[i] = t_source*(rt**nm1)*exp(-1.*rt)/gamma(n_source)
-  log_r_pdf[i] = nm1*log(rt) + log(t_source) - rt - lgamma(n_source)
+  #log_r_pdf[i] = nm1*log(rt) + log(t_source) - rt - lgamma(n_source)
+  log_r_pdf[i] = nm1*log(rt) - rt 
 pdf_max = max(log_r_pdf)
 log_r_pdf = log_r_pdf - pdf_max
 r_pdf = np.exp(log_r_pdf)

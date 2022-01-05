@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 implement bayesian analysis of proportion/fraction/percent type parameter
 like bias of coin, % of mutations etc

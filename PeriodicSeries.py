@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 bayesian test for periodicity in equally spaced spatial/time data (ti,yi) etc
 following Jaynes, 'Probability Theory: The Logic of Science' section 17.6

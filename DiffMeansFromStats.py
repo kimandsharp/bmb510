@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 calculate pdf, cdf for difference in means given:
 n1, mean1, stdev1, n2, mean2, stdev2
@@ -35,6 +36,7 @@ dav = av_y - av_x
 print('\n===========================================================')
 print('sample (data) summary')
 print('===========================================================')
+print(' Number of points in set 1: {:8d} set2: {:8d} '.format(n_x,n_y))
 print(' Av X1 {:12.5f} Av X2 {:12.5f} Var of X1 {:12.5f} Var of X2 {:12.5f} '.format(av_x,av_y,var_x,var_y))
 print(' Av X2 - Av X1 {:12.5f} '.format(dav))
 print(' sigma of X1 data {:12.5f} sigma of X2 data {:12.5f} '.format(sd_x,sd_y))

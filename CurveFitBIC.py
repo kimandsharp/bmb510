@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 python version of curve_fit_bayes.f
 using Bayesian information criterion (BIC)
@@ -31,7 +32,7 @@ print('\nCurve fit to a set of basis functions')
 print('using Bayesian information criterion (BIC)')
 print('G. Schwartz "Estimating the dimension of a model"')
 print('(1978) Ann. Stats. 6:461-464')
-print('BIC = log Likelihood - 0.5 k log(n), k,n #re of parameters, data\n')
+print('BIC = log Likelihood - 0.5 k log(n), k,n are of parameters, data\n')
 #
 # read in data
 #
@@ -77,6 +78,9 @@ dyy = np.zeros(ndata)
 # loop over increasing # of basis functions/polynomial order
 #
 ncup = min(ndata-3,ncmax)
+nc_best = 1
+logBic_best = -100.
+done = False
 for n in range(0,ncup):
   nc = n + 1
   print('---------------')
@@ -121,17 +125,25 @@ for n in range(0,ncup):
   Vmin = V0
   for j in range(nc):
     Vmin -= Bvec[j]*Cmin[j] # alternative way to find SS dev
+  #print('Sum Sq. dev: %15.6g '% (Vmin))
   #
   # curvature matrix gives sigmas for coefficients
   #
+  # noise estimated from rms residuals, or 'errors' see Gull, 1988
   sigma2 = Vmin/(ndata - nc)
   sigma = math.sqrt(abs(sigma2))
   #print('Sum Sq. dev from B.C, sigma2: ',Vmin,sigma2)
   for j in range(nc):
     for l  in range(nc):
       Covmat[j][l] = Amatinv[j][l]*sigma2
+  #print('\n Covmat: \n',Covmat)
   for j in range(nc):
+    if(Covmat[j][j] < 0.):
+      print('Higher order polynomial fit degenerate - stopping here\n')
+      done = True
+    if(done): break
     Csigma[j]  = math.sqrt(Covmat[j][j])
+  if(done): break
   #
   #print('Covmat: ',Covmat)
   #print('Max Likelihood Coefficients: ',Cmin)
@@ -141,14 +153,17 @@ for n in range(0,ncup):
   # for coefficients
   # and posterior for # of terms nc
   #
-  print('MLE   coefficients   sigma')
+  print('coefficients    +/- sigma')
   for j in range(nc):
     print('%12.5g %12.5g  '%(Cmin[j],Csigma[j]))
   print('|noise| %12.5g     Sum. Sq. dev. fit: %12.5g ' % (sigma,Vmin))
   logBic = - math.log(Vmin) - 0.5*nc*math.log(ndata)
   #logBic = - Vmin - 0.5*nc*math.log(ndata)
   #logBic = - math.log(Vmin) - nc
-  print('Bayesian Info. Criterion log10 P(#basis=%1d): %12.5g ' % (nc,logBic))
+  if(logBic > logBic_best):
+    logBic_best = logBic
+    nc_best = nc
+  print('Bayesian Info. Criterion log P for #basis = %1d: %12.5g ' % (nc,logBic))
   
   #
   #-----------------------------------------
@@ -171,4 +186,8 @@ for n in range(0,ncup):
     plt.grid(True)
     plt.show()
   #-----------------------------------------
+print('=================')
+print('Best # of basis = %1d with Bayesian Info. Criterion log P %12.5g ' % (nc_best,logBic_best))
+print('=================')
+
 sys.exit()

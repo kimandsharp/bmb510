@@ -1,5 +1,9 @@
 """
-some useful defs for bayes programs
+copyright 2017 Kim A. Sharp, Ph.D
+University of Pennsylvania
+
+defs and global variables required for Bayesian
+data analysis programs
 """
 import numpy as np
 #-------
@@ -9,7 +13,10 @@ CREDIBLE_MAX = 97.5 # upper percentile for credible interval # covers 95%
 #CREDIBLE_MIN = 5. # lower percentile for credible interval
 #CREDIBLE_MAX = 95. # upper percentile for credible interval # covers 90%
 NPOINT = 2501
-print('number of integration points: ',NPOINT)
+print('\n=====================')
+print('BMB510 Being Bayesian')
+print('=====================\n')
+print(NPOINT,' integration points\n')
 MAKEPLOT = True
 #-------
 def read_n(n,filename):

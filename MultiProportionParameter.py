@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Bayesian analysis of multiple proportion parameters characterized by J fractional/proportion
 parameters f_j using a hierarchically beta function model characterized by hyper-parameters 

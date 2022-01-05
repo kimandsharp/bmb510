@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 fit data to y = mx + b using
 least sum of |y - mx - b|, or L1 norm instead of sum of sq's

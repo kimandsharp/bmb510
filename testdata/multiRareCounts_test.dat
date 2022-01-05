@@ -1,0 +1,6 @@
+#
+# test data for MultiRareCounts.py
+# one pair of count t observation per line
+2 1.
+4 3.
+4 1.

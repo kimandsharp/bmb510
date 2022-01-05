@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 bayesian analysis of two sets of non-parametric data
 bayesian version of wilcoxon rank test, as suggested in

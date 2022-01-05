@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 bayesian analysis of rank order or serial # type:
 e.g. birth order, dice problem (Allen Dewney), Locomotive problem (Mostellor)

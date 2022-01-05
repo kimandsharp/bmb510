@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 implement bayesian analysis of difference in two
 proportion/fraction/percent type parameters

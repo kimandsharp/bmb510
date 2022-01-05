@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 implement bayesian analysis of two diff pops, X1 and X2, called here x and y
 """

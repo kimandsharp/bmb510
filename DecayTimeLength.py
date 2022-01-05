@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 bayesian analysis of decay length/time data, assuming exponential decay
 work with log prob for large N
