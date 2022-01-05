@@ -1,0 +1,379 @@
+number of integration points:  501
+
+ implement bayesian analysis of proportion/fraction/percent type parameter
+ like bias of coin, % of mutations etc 
+
+
+ # of positive, negative events:  2 9 
+
+
+===========================================================
+SUMMARY of posterior distribution for fraction parameter 
+===========================================================
+mean:        0.23077  mode:      0.18127 
+median:      0.21514
+   2.5% to   97.5% limits: (     0.05378 to      0.48406)
+===========================================================
+
+number of integration points:  501
+
+ bayesian analysis for population size whereby label Na, mix/release,
+resample Nb, and find Nc of Nb labelled 
+
+ labelled:       10 sampled:       10 of which        3 are labelled
+Total known/found:       17 
+computing pdf from min     17 up to max N of    255 
+
+ # of pdf points generated:      239 
+ 
+fraction of resample labelled:      0.30000 Population size (Max. Like. Est):     33
+
+===========================================================
+SUMMARY of posterior distribution for population size 
+===========================================================
+mean:       64.74922  mode:     33.00000 
+median:     49.00000
+   2.5% to   97.5% limits: (    21.00000 to    192.00000)
+===========================================================
+
+number of integration points:  501
+
+ bayesian analysis for population of marked items
+ Known total population: Nt We sample Nb, and find Nc of Nb marked
+ what is total population of marked items? based on same hypergeometric distribution as TagAndRelease 
+
+from total of:       15   # sampled:       10   of which        3   are marked
+unsampled:        5  # marked min:        3 and max:        8 
+fraction of sample marked:      0.30000 Max. Like. Est of total Marked:      4
+
+===========================================================
+SUMMARY of posterior distribution for total # marked 
+===========================================================
+mean:        4.66667  mode:      4.00000 
+median:      4.00000
+   2.5% to   97.5% limits: (     3.00000 to      6.00000)
+===========================================================
+
+number of integration points:  501
+
+ bayesian analysis of rank order or serial # type: 
+ e.g. birth order, dice problem (Allen Dewney), Locomotive problem (Mostellor) 
+ German tank problem WWII 
+
+
+ input file:  familySize_test.dat 
+
+# data for family size program 6 6 8
+
+# data points 5 
+largest rank:      109 is set to minimum population size 
+Setting upper size limit as 5 times Max:      545
+
+===========================================================
+Summary of posterior distribution for population size
+===========================================================
+median    128.00000
+ min -   97.5% limits: (   109.00000,    268.00000 ) 
+===========================================================
+
+number of integration points:  501
+
+ bayes analysis of rate of rare events using poisson distbn 
+
+# of events:  5  in time  5.0
+
+===========================================================
+SUMMARY of posterior distribution for rate 
+===========================================================
+mean:        0.99806  mode:      0.79800 
+median:      0.93000
+   2.5% to   97.5% limits: (     0.32400 to      2.03400)
+===========================================================
+
+number of integration points:  501
+
+ implement bayesian method for pdf of rate k_source for source 
+ with a background rate k_rate
+ taken from Tom Loredo's tutorial: From Laplace to supernova 1987a 
+
+
+ background obs. time    1.000 and # counts      9
+ source     obs. time    1.000 and # counts      9
+coefficients: 
+[ 0.19638062  0.19638062  0.18328857  0.15710449  0.12084961  0.08056641
+  0.04394531  0.01757812  0.00390625]
+
+===========================================================
+SUMMARY of posterior distribution for rate of source 
+ accounting for background 
+===========================================================
+mean:        3.33581  mode:      0.00000 
+median:      2.73054
+   2.5% to   97.5% limits: (     0.10778 to      9.73653)
+===========================================================
+
+number of integration points:  501
+
+ implement bayesian method for pdf of rate k_source for source 
+ with a background rate k_rate
+  taken from Tom Loredo's later tutorial slides, using uniform prior for rate [0 - large], i.e. 
+  source rate could be 0
+  compared to earelier uniform in log(rate) or 1/rate, where rate [>0 - large]
+ 
+
+ background obs. time    1.000 and # counts      9
+ source     obs. time    1.000 and # counts      9
+coefficients: 
+[ 0.18547058  0.18547058  0.17456055  0.15274048  0.12219238  0.08728027
+  0.05371094  0.02685547  0.00976562  0.00195312]
+
+===========================================================
+SUMMARY of posterior distribution for rate of source 
+ accounting for background 
+===========================================================
+mean:        3.51950  mode:      0.00000 
+median:      2.91018
+   2.5% to   97.5% limits: (     0.10778 to     10.23952)
+===========================================================
+
+number of integration points:  501
+
+ bayesian analysis of decay length/time data, assuming exponential decay 
+ 
+work with log prob for large N 
+
+file with event distance or time data, 1 per line> 
+ input file:  decayTime_test.dat
+# data for bayesian decay length/time  analysis using exp. decay model
+
+# data points 6 
+
+ data: smallest:      1.50000 largest:         12.0 sum:     27.50000
+enter lower exptl. window: must be less than min of data> enter upper exptl. window: must be more than max of data> 
+ lower 1.000000 and upper 20.0 length or time windows 
+
+===========================================================
+SUMMARY of posterior distribution for decay length/time 
+===========================================================
+mean:        7.70687  mode:      3.11966 
+median:      4.36045
+   2.5% to   97.5% limits: (     1.88786 to     42.30000)
+===========================================================
+
+number of integration points:  501
+
+ implement bayesian analysis of difference in two
+ proportion/fraction/percent type parameters 
+
+ 
+===========================================================
+sample (data) summary
+===========================================================
+ first  # of positive     2 negative     9 events
+ second # of positive     3 negative     8 events
+ fraction 1      0.18182 fraction 2      0.27273 difference (2-1)      0.09091 
+===========================================================
+ 
+
+===========================================================
+SUMMARY of posterior distribution for set 1 fraction parameter 
+===========================================================
+mean:        0.23077  mode:      0.18127 
+median:      0.21514
+   2.5% to   97.5% limits: (     0.05378 to      0.48406)
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for set 2 fraction parameter 
+===========================================================
+mean:        0.30769  mode:      0.27291 
+median:      0.29681
+   2.5% to   97.5% limits: (     0.09761 to      0.57171)
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for difference (set 2 - set 1) fraction parameter 
+===========================================================
+mean:        0.06555  mode:      0.04980 
+median:      0.06175
+   2.5% to   97.5% limits: (    -0.23904 to      0.37251)
+===========================================================
+
+number of integration points:  501
+
+ implement bayesian estimation of mean of population, using exact (t-distribution)
+
+ and approximation (Gaussian) posterior pdf
+
+ and chi-sq posterior pdf of std. dev
+
+# data points 11 
+
+===========================================================
+sample (data) summary
+===========================================================
+ Min X      0.32900 Max X         0.89800 
+ Av X       0.72182 Var of X      0.03042 Sigma of <X>      0.17440
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for population mean 
+===========================================================
+mean:        0.72182  mode:      0.72182 
+median:      0.72182
+   2.5% to   97.5% limits: (     0.60067 to      0.84213)
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for population std. deviation 
+===========================================================
+mean:        0.19821  mode:      0.17440 
+median:      0.18879
+   2.5% to   97.5% limits: (     0.12731 to      0.32090)
+===========================================================
+
+number of integration points:  501
+
+ implement bayesian analysis of two diff population means
+ using gaussian approx to distributions, i.e. large sample case
+
+
+ input file 1:  mean1_test.dat
+ input file 2:  mean2_test.dat 
+
+# data points 11 
+# data points 10 
+
+===========================================================
+sample (data) summary
+===========================================================
+ Av X1      0.72182 Av X2      0.63600 Var of X1      0.03042 Var of X2      0.02176 
+ Av X2 - Av X1     -0.08582 
+ sigma of X1 data      0.17440 sigma of X2 data      0.14753 
+ sigma of <X1>      0.05515 sigma of <X2>      0.04918 sigma of <X2-X1>      0.07389 
+ st.dev ratio data (s1/s2):       1.1821 
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for difference (set 2 - set 1) of population means 
+===========================================================
+mean:       -0.08582  mode:     -0.08582 
+median:     -0.08582
+   2.5% to   97.5% limits: (    -0.23124 to      0.05842)
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for set 1 std. deviation 
+===========================================================
+mean:        0.19821  mode:      0.17431 
+median:      0.18885
+   2.5% to   97.5% limits: (     0.12674 to      0.31967)
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for set 2 std. deviation 
+===========================================================
+mean:        0.17015  mode:      0.14788 
+median:      0.16110
+   2.5% to   97.5% limits: (     0.10692 to      0.28267)
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for sigma1/sigma2 
+===========================================================
+mean:        1.09582  mode:      0.94867 
+median:      1.16470
+   2.5% to   97.5% limits: (     0.58870 to      2.17537)
+===========================================================
+
+number of integration points:  501
+
+ implement bayesian analysis of two diff population means
+
+ using small population (T-distribution) form
+
+
+ input file 1:  mean1_test.dat
+ input file 2:  mean2_test.dat 
+
+two populations have different variance
+# data points 11 
+# data points 10 
+
+===========================================================
+sample (data) summary
+===========================================================
+ Av X1      0.72182 Av X2      0.63600 Var of X1      0.03042 Var of X2      0.02176 
+ Av X2 - Av X1     -0.08582 
+ sigma of X1 data      0.17440 sigma of X2 data      0.14753 
+ sigma of <X1>      0.05515 sigma of <X2>      0.04918 sigma of <X2-X1>      0.07389 
+ st.dev ratio data (s1/s2):       1.1821 
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for difference (set 2 - set 1) of population means 
+===========================================================
+mean:       -0.08582  mode:     -0.08582 
+median:     -0.08582
+   2.5% to   97.5% limits: (    -0.25074 to      0.07733)
+===========================================================
+
+number of integration points:  501
+
+ implement linear regression equations with variances of slope, intercept, and 2-sigma lines
+ see mendenhall and schaeffer, sivia & skilling 
+ slope from bayesian analysis which treats x, y symmetrically - see S. Gull (1988)
+
+input file:  linearRegression_test.dat
+# xy data
+
+# test for linear_regression.py
+
+# data points 63 
+
+===========================================================
+data summary
+===========================================================
+av x         0.57777 y       10.11651 xy      5.73491 
+av x^2       0.39472 y^2    104.04982  
+var x        0.06090 y        1.70609 xy     -0.11007 
+stdev x      0.24678 y        1.30617  
+Pearson R     -0.34147 R^2      0.11660 
+===========================================================
+
+
+===========================================================
+"Standard" fitting, that minimizes mean sq Y-distance to line
+===========================================================
+standard slope   -1.80734 intercept   11.16073  
+zero intercept slope   14.52924 Pearson R    0.89488 
+===========================================================
+
+
+===========================================================
+"Alternative" fitting parameters
+===========================================================
+slope  -15.01354 intercept   18.79083 that minimize distance to line 
+===========================================================
+
+
+===========================================================
+confidence intervals for fit
+===========================================================
+sum sq residuals:     94.95094  
+stdev slope          0.63695 intercept      0.40017  
+slope/intercept covariance     -0.23440  and R     -0.91962  
++2sigma slope   -0.53345 intercept   10.42472  
+-2sigma slope   -3.08123 intercept   11.89674  
+===========================================================
+
+plottable data written to linear_regression_plot.dat

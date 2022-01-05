@@ -1,0 +1,7 @@
+# ranks of set 2 read from file 
+# testdata/rank2_test.dat
+# as quantiles output from RankTest.py 
+     6.25000 
+    31.25000 
+    56.25000 
+    81.25000 
