@@ -3,6 +3,7 @@
 simple box and whisker plot kas 2016
 adapted from examples at matplotlib.org/examples/pylab_examples
 best way to run is install anaconda- contains python3, matplotlib, numpy, pandas and more
+or miniconda
 """
 import matplotlib.pyplot as plt
 import numpy as np
