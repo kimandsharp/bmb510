@@ -18,21 +18,18 @@ MAKEPLOT = True
 def base_func(ic,xx):
   # ic is index into which basis function
   # here  model is a polynomial, so basis functions are 
-  # simpy x^i, so index i simply specifies exponent
-  if(ic == 0):
-    fx = 1.
-  elif(ic == 1):
-    fx = xx
-  else:
-    fx  = xx**ic
+  # simply x^i, so index i just specifies exponent
+  fx  = xx**ic
   return fx
 #-------------------------------
-ncmax = 8 # max number of basis functions (1 = constant, 2= linear, 3=quadratic, etc)
+ncmax = 8 # max number of basis functions (1=constant, 2=linear, 3=quadratic, etc)
 print('\nCurve fit to a set of basis functions')
 print('using Bayesian information criterion (BIC)')
 print('G. Schwartz "Estimating the dimension of a model"')
 print('(1978) Ann. Stats. 6:461-464')
-print('BIC = log Likelihood - 0.5 k log(n), k,n are of parameters, data\n')
+print('BIC = log Likelihood - 0.5 k log(n)')
+print('n is number of (x,y) data pairs, k is number of parameters ')
+print('since basis functions are powers of x  1=constant, 2=linear, 3=quadratic, etc\n')
 #
 # read in data
 #
@@ -69,7 +66,7 @@ print('mean of     x: %12.5g y: %12.5g ' % (xx_mean,yy_mean))
 print('variance of x: %12.5g y: %12.5g ' % (xx_var,yy_var))
 print('y  min: %12.5g max: %12.5g ' %(yylw,yyup))
 #
-# 1st term in exponent of guassian posterior
+# 1st term in exponent of gaussian posterior
 #
 V0 = np.sum(y2)
 yyfit = np.zeros((ndata))
@@ -84,10 +81,7 @@ done = False
 for n in range(0,ncup):
   nc = n + 1
   print('---------------')
-  if(nc == 1):
-    print(nc,' Basis function')
-  else:
-    print(nc,' Basis functions')
+  print('# of parameters: ',nc)
   print('---------------')
   Bvec       = np.zeros(nc)
   Cmin       = np.zeros(nc)
@@ -163,12 +157,12 @@ for n in range(0,ncup):
   if(logBic > logBic_best):
     logBic_best = logBic
     nc_best = nc
-  print('Bayesian Info. Criterion log P for #basis = %1d: %12.5g ' % (nc,logBic))
+  print('Bayesian Info. Criterion log P for # parameters = %1d: %12.5g ' % (nc,logBic))
   
   #
   #-----------------------------------------
   if(MAKEPLOT):
-    ptitle = 'fit for %3d components' % (nc)
+    ptitle = 'fit for %3d parameters' % (nc)
     plt.figure()
     plt.subplot(211)
     plt.scatter(xx,yy,color='red',marker='o')
@@ -187,7 +181,7 @@ for n in range(0,ncup):
     plt.show()
   #-----------------------------------------
 print('=================')
-print('Best # of basis = %1d with Bayesian Info. Criterion log P %12.5g ' % (nc_best,logBic_best))
+print('Best # of parameters = %1d with Bayesian Info. Criterion log P %12.5g ' % (nc_best,logBic_best))
 print('=================')
 
 sys.exit()

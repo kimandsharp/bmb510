@@ -11,9 +11,10 @@ from SciInf_utilities import *
 import sys
 #-------------------------------
 #
-print("\n bayesian analysis for population of marked items")
-print(" Known total population: Nt We sample Nb, and find Nc of Nb marked")
-print(" what is total population of marked items? based on same hypergeometric distribution as TagAndRelease \n")
+print("\n bayesian analysis to estimate total number of 'marked' objects Nm, given:")
+print(" Total number of objects: Nt ")
+print(" A sample Nb of them in which we find Nc are 'marked' or 'labelled' ")
+print(" based on same hypergeometric distribution as TagAndRelease \n")
 #
 # test data
 #n_tot = 15
@@ -24,9 +25,9 @@ if(len(sys.argv) == 4):
   n_got = int(sys.argv[2])
   n_lab = int(sys.argv[3])
 else:
-  n_tot = int(input('# total> '))
-  n_got = int(input('# sampled> '))
-  n_lab = int(input('# of samples that are marked> '))
+  n_tot = int(input('# total number of objexts >> '))
+  n_got = int(input('# of objects sampledb >> '))
+  n_lab = int(input('# in sample that are marked >> '))
 print('from total of: {:8d}   # sampled: {:8d}   of which {:8d}   are marked'.format(n_tot,n_got,n_lab))
 #
 # range of n_lab to explore

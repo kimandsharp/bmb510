@@ -15,6 +15,7 @@ src/RareCounts.py 5 5
 #
 src/RareCountsBackgnd.py 9 1 9 1
 #
+# first argument to DecayTimeLength.py is data filename, 2nd and 3rd are lower, upper time window values
 src/DecayTimeLength.py <<***
 testdata/decayTime_test.dat
 1.0
@@ -39,18 +40,27 @@ src/LinearRegression.py testdata/linearRegression_test.dat
 #
 src/PeriodicSeries.py testdata/CparkT_periodic_test.dat
 #
-src/SurvivalWeibull.py testdata/survival_test1.dat 
-src/SurvivalWeibull.py testdata/survival_test2.dat 
+# first argument to SurvivalWeibull is filename, second is left censoring time (deadtime)
+src/SurvivalWeibull.py testdata/survival_test1.dat 0.
+src/SurvivalWeibull.py testdata/survival_test2.dat 0.
 #
 src/CurveFitBIC.py testdata/curve3.dat
-new:
 src/DiffMeansFromStats.py 4 0.6777 0.0555 4 0.8384 0.1279
 src/LeastAbsDeviationLine.py testdata/linearRegression_test.dat
 src/LinearRegressionBayes.py testdata/linearRegression_test.dat
 src/MultiRareCounts.py testdata/multiRareCounts_test.dat
 src/MultiProportionParameter.py testdata/RatTumoursDBA3.dat
 src/ProportionDoseResponse.py testdata/doseResponse_test.dat
+new:
 src/MultiMeanHierarchy.py <<***
 1
 testdata/EightSchools.dat
+***
+#
+src/MultiMeanHierarchy.py <<***
+2
+testdata/mean1_test.dat
+testdata/mean2_test.dat
+testdata/mean3_test.dat
+exit
 ***

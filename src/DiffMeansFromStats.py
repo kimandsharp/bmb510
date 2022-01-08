@@ -8,12 +8,12 @@ import sys
 import matplotlib.pyplot as plt
 from math import sqrt
 NPOINT = 501
+print('\nCalculate posterior difference in means given only summary data')
+print('(# of sample points, sample mean and sample standard deviation) for two')
+print('data sets, without original raw data\n')
 if (len(sys.argv) < 6):
-  print('USAGE: python DiffFromStats.py nsample1 average1 stdev1 nsample2 average2 stdev2')
+  print('USAGE: DiffFromStats.py nsample1 average1 stdev1 nsample2 average2 stdev2')
   sys.exit()
-print('\nCalculate posterior difference in means given only ')
-print('# of sample points, sample mean and sample standard deviation for each ')
-print('data set, without original raw data\n')
 n_x = int(sys.argv[1])
 av_x = float(sys.argv[2])
 sd_x = float(sys.argv[3])

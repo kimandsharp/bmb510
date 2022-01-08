@@ -115,7 +115,7 @@ if(MAKEPLOT):
   #plt.xlabel(' fraction (r)')
   plt.xlabel(' f')
   plt.ylabel(' p(f)')
-  #plt.title(' posterior pdf, cdf for fraction')
+  plt.title(' posterior pdf, cdf for fraction, difference in fraction')
   plt.ylim((0.,1.2))
   plt.xlim((-1.,1.))
   plt.grid(True)

@@ -35,10 +35,12 @@ def lhood_weibull(t_data,ndata,nevent,sumLogT,tau,rexpnt):
 #------------------------------------------
 print('\nbasic bayesian version of parametric model of survival data')
 print('using the general, flexible Weibull distbn.')
-print('input file with 1 decay time or observation stop (right censored) time per line')
-print('latter flagged by negative value (!) to indicate that ')
+print('input file with either:')
+print('  one event/decay/death time \nor:')
+print('  one time at which observation was stopped (right censoring)')
+print('per line. In the file the latter should be entered as negative value (!) to indicate that ')
 print('observation was right censored, i.e. still surviving after observation stopped.')
-print('optionally followed by left censor time - defaults to 0.\n')
+print('Program also requires a left censor time (for no left censoring use 0.)\n')
 #
 #=========================================================
 #read in data, identify events vs. stopped/right censored obs.
@@ -51,7 +53,7 @@ if(len(sys.argv) >= 2):
     dead_time = 0.
 else:
   print("file with decay/die time data, 1 per line ")
-  file_in = input("right censored data flagged by -ve value of time! > ")
+  file_in = input("right censored data distinguished by -ve value of time! >> ")
   dead_time = float(input(" dead time/left (left censoring) > "))
 print('\n input file: \n',file_in)
 #t_data_raw = []
@@ -345,6 +347,7 @@ t_half_up = (tau_up - dead_time)*log(2.)**(1./rexpnt_up) + dead_time
 t_half_lw = (tau_lw - dead_time)*log(2.)**(1./rexpnt_lw) + dead_time
 print('\n 95% half life: ( {:12.5f} - {:12.5f} ) \n'.format(t_half_lw,t_half_up))
 #
+MAKEPLOT = True
 if(MAKEPLOT):
   plt.figure(3)
   plt.subplot(211)
@@ -362,7 +365,7 @@ if(MAKEPLOT):
   plt.plot(tau_axis,tau_cdf,'r-')
   plt.xlabel('scale (tau)')
   plt.ylabel('p(tau)')
-  plt.title('\n Marginal for Scale Parameter Marginal tau')
+  plt.title('\n Marginal for Scale Parameter tau')
   plt.grid(True)
   plt.show()
 #
@@ -423,7 +426,6 @@ for i in range(len(t_survive)):
   t_survive_up[i] = t_survive[i] + 2.*t_survive_err[i]
   t_survive_lw[i] = t_survive[i] - 2.*t_survive_err[i]
 #
-MAKEPLOT = True
 plt.figure(4)
 # survival
 #--------------

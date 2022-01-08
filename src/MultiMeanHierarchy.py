@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Bayesian analysis of multiple populations characterized by a J (mean, sample standard 
+Bayesian analysis of multiple populations characterized by J (mean, sample standard 
 error mean_j, sigma_j) pairs, or alternatively J sets {yi}j of N_j size raw data sets
-using a hierarchicaly gaussian model characterized by hyper-parameters 
+using a hierarchical gaussian model characterized by hyper-parameters 
 mu, tau govering gaussian prior distribution of population means
 using the approach of gelman et al, DBA3 chapter 5, e.g. the famous 8-schools case
 """
@@ -10,7 +10,6 @@ import random as rn
 import numpy as np
 import matplotlib.pyplot as plt
 import SciInf_utilities as ku
-import arviz as az
 from math import *
 percentsign = '%'
 #-------------------------------------
@@ -42,28 +41,31 @@ def tau_post(tau,means_data,sterr_data):
 #
 #-------------------------------------
 print('\nBayesian hierarchical multiple means analysis')
-print(' using Gaussian likelihood model\n')
-input_type = int(input('Input data as (1) pairs of mean, std. error (2) J sets of raw data {y_i}j >> '))
+print('using a hierarchical model characterized by hyper-parameters ')
+print('mu, tau govering gaussian prior distribution of population means')
+print('using the approach of Gelman et al, DBA3 chapter 5, in the 8-schools case\n')
+print('\nInput data as \n(1) pairs of mean, std. error \n(2) J sets of raw data {y_i}')
+input_type = int(input('\nOption 1 or 2 >> '))
 #input_type = 1 # debug
 means_data = []
 sterr_data = []
 if(input_type == 1):
-  data_file = input('name of file containing one (mean, std. err) per line>> ')
+  data_file = input('\nname of file containing one (mean, std. err) per line>> ')
   #data_file = 'EightSchools.dat' # debug
-  print('reading mean, std. err data from file ',data_file)
+  print('\nreading mean, std. err data from file ',data_file)
   ku.read_xy(means_data,sterr_data,data_file)
   nset = len(means_data)
 else:
   data_raw = []
   while(1):
-    data_file = input('name of file  1 set of raw data, one float per line (exit to end input)>> ')
+    data_file = input('\nname of file  1 set of raw data, one float per line (exit to end input)>> ')
     if(data_file == 'exit'): break
     yj = []
     ku.read_x(yj,data_file)
     data_raw.append(yj)
   # done with file reads,  convert raw data to mean, std errors
   nset = len(data_raw)
-  print('# of data sets read: ',nset )
+  print('\n# of data sets read: ',nset )
   for j in range(nset):
     muj = ku.average_x(data_raw[j])
     nj = len(data_raw[j])
@@ -170,26 +172,36 @@ mu_check /= nsample
 print('mean of means from %d samples: %12.5f   ' % (nsample,mu_check))
 #
 # extract median, 95% credible interval ranges
+# and also produce 'forest plot', basically a very skinny boxplot
+# good when there are a lot of sets
+yarr = np.zeros(nset)
+xq25 = np.zeros((2,nset))
+xq95 = np.zeros((2,nset))
+xmed = np.zeros(nset)
+# indices for various quantiles in sorted sample
+q50 = nsample//2
+q025 = int(nsample*0.025)
+q975 = int(nsample*0.975)
+q25 = int(nsample*0.25)
+q75 = int(nsample*0.75)
 for j in range(nset):
   theta_sample[j].sort()
-  im = nsample//2
-  il = int(nsample*0.025)
-  iu = int(nsample*0.975)
+  yarr[j] = j + 1
+  xmed[j] = theta_sample[j][q50]
+  #xq25[j] = (theta_sample[j][q75] - theta_sample[j][q25])/2.
+  #xq95[j] = (theta_sample[j][q975] - theta_sample[j][q025])/2.
+  xq25[0][j] = (xmed[j] - theta_sample[j][q25])
+  xq25[1][j] = (theta_sample[j][q75] - xmed[j])
+  xq95[0][j] = (xmed[j] - theta_sample[j][q025])
+  xq95[1][j] = (theta_sample[j][q975] - xmed[j])
   print('set %3d median %12.5f 95%s CI (%12.5f , %12.5f) ' \
-  %(j+1,theta_sample[j][im],percentsign,theta_sample[j][il],theta_sample[j][iu]))
+  %(j+1,theta_sample[j][q50],percentsign,theta_sample[j][q025],theta_sample[j][q975]))
 #print(theta_sample)
-nbins = 20
 if(ku.MAKEPLOT):
   plt.figure(3)
-  #n, bins, patches = plt.hist(theta_sample[0], nbins)
-  az.plot_forest(theta_sample,quartiles=True) # better than box plot for large data sets
-  #plt.boxplot(ts)
+  plt.errorbar(xmed,yarr,xerr=xq95,elinewidth=1,fmt='.',ecolor='r')
+  plt.errorbar(xmed,yarr,xerr=xq25,elinewidth=2,fmt='.',ecolor='b')
+  plt.title('posterior credible intervals for mean (blue=50% red=95%)')
+  plt.xlabel('Mean')
+  plt.ylabel('Data Set')
   plt.show()
-#
-"""
-if(ku.MAKEPLOT):
-  nbins = 20
-  plt.figure(3)
-  n, bins, patches = plt.hist(tau_sample, nbins)
-  plt.show()
-"""

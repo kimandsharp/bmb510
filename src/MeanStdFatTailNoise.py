@@ -11,8 +11,8 @@ from SciInf_utilities import *
 #import pymol_cgo
 #--------------------------------------
 NPOINT = 251
-print("\n implement bayesian estimation of mean of population, using ")
-print("Cauchy noise - allowing for larger magnitude noise (outliers)\n")
+print("\nImplement bayesian estimation of mean of population, using ")
+print("Cauchy distributed (fat-tailed) noise - allowing for larger magnitude noise (outliers)\n")
 # main
 x = []
 y = []

@@ -10,8 +10,11 @@ from SciInf_utilities import *
 import sys
 #-------------------------------
 #
-print("\nbayesian analysis for population size whereby label Na, mix/release,")
-print("resample Nb, and find Nc of Nb labelled \n")
+print("\nBayesian analysis to estimate a total population size, Nt, ")
+print("using the wild life biologists' tag and release method whereby")
+print("a number Na are labelled or tagged in some way, put back into ")
+print("the population, allowed to 'mix' and a number Nb are resampled")
+print("of which Nc of Nb are labelled \n")
 #
 if(len(sys.argv) == 4):
   n_tag = int(sys.argv[1])

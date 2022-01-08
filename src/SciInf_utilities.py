@@ -195,7 +195,7 @@ def summarize(x_axis,pdf,cdf,discrete=False,title='parameter'):
 
 def write_pdf_cdf(x_axis,pdf,cdf,title='x pdf cdf',filename='pdf_cdf.dat'):
   head1 = '#' + title + '\n'
-  head2 = '#  x      p(x)     cdf(x) ' + '\n'
+  head2 = '#  x      p(x)     cdf(x) \n'
   fileout = open(filename,'w')
   fileout.write(head1)
   fileout.write(head2)

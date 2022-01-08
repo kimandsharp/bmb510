@@ -9,7 +9,6 @@ import random as rn
 import numpy as np
 import matplotlib.pyplot as plt
 import SciInf_utilities as ku
-import arviz as az
 from math import *
 import sys
 #-------------------------------------
@@ -45,7 +44,9 @@ def ab_lhood(nj,nsize,a,b):
   return lprob
 #-------------------------------------
 print('\nBayesian analysis of multiple proportion/fraction parameters ')
-print(' using using a hierarchically conjugate beta function model\n')
+print('f_j using a hierarchically beta function model characterized by hyper-parameters ')
+print('alpha, beta, govering beta distribution of population fraction')
+print('using the approach of gelman et al, DBA3 chapter 5, the rat tumor data set\n')
 if(len(sys.argv) == 2):
   data_file = sys.argv[1]
 else:

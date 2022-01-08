@@ -2,13 +2,12 @@
 """
 Bayesian analysis of multiple proportion parameters dependent on dose,
 data as set of (d_i, y_i, n_i) 
-using the approach of gelman et al, DBA3 chapter 3.7, the 'bioassay expt'
+using the approach of Gelman et al, DBA3 chapter 3.7, the 'bioassay expt'
 """
 import random as rn
 import numpy as np
 import matplotlib.pyplot as plt
 import SciInf_utilities as ku
-import arviz as az
 from math import *
 import sys
 #-------------------------------------
@@ -28,11 +27,13 @@ def lhood_ab(nj,a,b,nsize,dose):
     lprob = lprob + nj[i]*log(fj) + (nsize[i] - nj[i])*log(1. - fj)
   return lprob
 #-------------------------------------
-print('\nBayesian analysis of set of dose dependent proportion parameters\n')
+print('\nBayesian analysis of multiple proportion parameters dependent on dose,')
+print('data given as set of (dose, # in sample, # of positives)') 
+print('using the approach of Gelman et al, DBA3 chapter 3.7, the bioassay experiment\n')
 if(len(sys.argv) == 2):
   filename = sys.argv[1]
 else:
-  filename = input('input file with one set of (dose, # sample, # positive) per line>> ') 
+  filename = input('input file with one set of (dose, # in sample, # of positives) per line>> ') 
 d_data = []
 n_data = []
 nsize_data = []

@@ -3,12 +3,15 @@
 obtain pdf for difference in parameter dX = X2 - X1 from two pdfs
 p(X1), p(X2) by forming joint probability
 p(dX,X1) = p(X1)*p(X2=X1+dx) and then marginalizing p(dX,X1) over X1
+
+note this code only works if parameter values equally spaced in input files
 """
 import matplotlib.pyplot as plt
 from SciInf_utilities import *
 import sys
-print('\n obtain pdf for difference in parameter dX = X2 - X1 from two pdfs')
-print(' p(X1), p(X2) by marginalizing p(dX,X1) over X1 \n')
+print('\n obtain posterior probability distribution (pdf) for')
+print('the difference between two parameters dX = X2 - X1 from two pdfs')
+print('p(X1), p(X2) by marginalizing p(dX,X1) over X1 \n')
 #
 # read in data
 #

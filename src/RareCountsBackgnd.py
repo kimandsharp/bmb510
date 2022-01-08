@@ -9,9 +9,10 @@ import matplotlib.pyplot as plt
 import sys
 from SciInf_utilities import *
 #-----------------------------------------
-print("\n implement bayesian method for pdf of rate k_source for source ")
-print(" with a background rate k_rate")
-print(" taken from Tom Loredo's tutorial: From Laplace to supernova 1987a ")
+print("\nImplement bayesian method for posterior probability distribution")
+print("of rate k_s for source with a background rate k_b")
+print("using Poisson likelihood model, taken from ")
+print("Tom Loredo's tutorial: From Laplace to supernova 1987a ")
 print(" work with logp \n")
 #
 #input
