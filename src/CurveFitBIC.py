@@ -98,10 +98,7 @@ for n in range(0,ncup):
       Bvec[j] += yy[i]*base_func(j,xx[i])
       for l in range(nc):
         Amat[j][l] += base_func(j,xx[i])*base_func(l,xx[i])
-  #print('Bvec: ',Bvec)
-  #print('Amat: ',Amat)
   Amatinv = inv(Amat)
-  #print('Amatinv: ',Amatinv)
   for j in range(nc):
     for l in range(nc):
       Cmin[j] += Amatinv[j][l]*Bvec[l]
@@ -115,22 +112,18 @@ for n in range(0,ncup):
       yyfit[i] += Cmin[j]*base_func(j,xx[i])
     dyy[i] = yyfit[i] - yy[i]
     Vmin += dyy[i]**2
-  print('Sum Sq. dev: %15.6g '% (Vmin))
+  #print('Sum Sq. dev: %15.6g '% (Vmin))
   Vmin = V0
   for j in range(nc):
     Vmin -= Bvec[j]*Cmin[j] # alternative way to find SS dev
-  #print('Sum Sq. dev: %15.6g '% (Vmin))
   #
   # curvature matrix gives sigmas for coefficients
-  #
   # noise estimated from rms residuals, or 'errors' see Gull, 1988
   sigma2 = Vmin/(ndata - nc)
   sigma = math.sqrt(abs(sigma2))
-  #print('Sum Sq. dev from B.C, sigma2: ',Vmin,sigma2)
   for j in range(nc):
     for l  in range(nc):
       Covmat[j][l] = Amatinv[j][l]*sigma2
-  #print('\n Covmat: \n',Covmat)
   for j in range(nc):
     if(Covmat[j][j] < 0.):
       print('Higher order polynomial fit degenerate - stopping here\n')
@@ -139,21 +132,17 @@ for n in range(0,ncup):
     Csigma[j]  = math.sqrt(Covmat[j][j])
   if(done): break
   #
-  #print('Covmat: ',Covmat)
-  #print('Max Likelihood Coefficients: ',Cmin)
-  #print('Coefficient sigmas: ',Csigma)
-  # 
   # posterior values for coefficients- includes shrinkage from prior
   # for coefficients
   # and posterior for # of terms nc
   #
-  print('coefficients    +/- sigma')
+  print('coefficients    +/- 1 sigma')
   for j in range(nc):
     print('%12.5g %12.5g  '%(Cmin[j],Csigma[j]))
   print('|noise| %12.5g     Sum. Sq. dev. fit: %12.5g ' % (sigma,Vmin))
   logBic = - math.log(Vmin) - 0.5*nc*math.log(ndata)
-  #logBic = - Vmin - 0.5*nc*math.log(ndata)
-  #logBic = - math.log(Vmin) - nc
+  #logBic = - Vmin - 0.5*nc*math.log(ndata) # BIC alternative 1
+  #logBic = - math.log(Vmin) - nc # BIC alternative 2
   if(logBic > logBic_best):
     logBic_best = logBic
     nc_best = nc

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
 implement bayesian analysis of two diff pops, X1 and X2, called here x and y
+jan 2022 now includes small N case, so combines DifferenceInMeans.py
+and DifferenceInMeansSmallN.py
 """
 from math import sqrt, exp, log
 import numpy as np
@@ -11,6 +13,9 @@ import sys
 
 print("\n implement bayesian analysis of two diff population means")
 print(" using gaussian approx to distributions, i.e. large sample case")
+print(" if both sample sizes > 10, otherwise uses small population ")
+print(" (T-distribution) form conservatively assuming two populations")
+print(" do NOT have same variance")
 print(" work with logp \n")
 # main
 x = []
@@ -49,22 +54,47 @@ print('sample (data) summary')
 print('===========================================================')
 print(' Av X1 {:12.5f} Av X2 {:12.5f} Var of X1 {:12.5f} Var of X2 {:12.5f} '.format(av_x,av_y,var_x,var_y))
 print(' Av X2 - Av X1 {:12.5f} '.format(dav))
-print(' sigma of X1 data {:12.5f} sigma of X2 data {:12.5f} '.format(sd_x,sd_y))
-print(' sigma of <X1> {:12.5f} sigma of <X2> {:12.5f} sigma of <X2-X1> {:12.5f} '.format(sigma_x,sigma_y,sigma_xy))
-print(' st.dev ratio data (s1/s2): {:12.5} '.format(s_ratio))
+print(' std. dev. of X1 data {:12.5f} std. dev. of X2 data {:12.5f} '.format(sd_x,sd_y))
+print(' st.dev ratio from data (s1/s2): {:12.5} '.format(s_ratio))
+print(' std.err of <X1> {:12.5f} std.err of <X2> {:12.5f} std.err of <X2-X1> {:12.5f} '.format(sigma_x,sigma_y,sigma_xy))
 print('===========================================================\n')
+#
+if((n_x < 10)or(n_y <10)):
+  smallN = 1
+  print(" using small population (T-distribution) form and assuming two populations")
+  print(" do NOT have same variance. Working....\n")
+  xrange = 6. # sigma range for x-axis
+else:
+  smallN = 0
+  print(" using gaussian approx to distributions, i.e. large sample case\n")
+  xrange = 4. # sigma range for x-axis
+#
 #
 # generate posterior pdf and cdf for diff in means
 #
-#npoint = 301
-xrange = 4. # sigma range for x-axis
 dav_min = dav - xrange*sigma_xy
 dav_incr = 2*xrange*sigma_xy/(NPOINT - 1)
 dav_axis = np.zeros(NPOINT)
 dav_pdf = np.zeros(NPOINT)
 for i in range(NPOINT):
   dav_axis[i] = dav_min + i*dav_incr
-  dav_pdf[i] = exp(-1.*(dav_axis[i] - dav)**2/2./sigma_xy**2)
+if(not smallN):
+  for i in range(NPOINT):
+    dav_pdf[i] = exp(-1.*(dav_axis[i] - dav)**2/2./sigma_xy**2)
+else:
+  av_min = av_x - xrange*sigma_x
+  av_incr = 2*xrange*sigma_x/(NPOINT - 1)
+  av_axis = np.zeros(NPOINT)
+  for i in range(NPOINT):
+    av_axis[i] = av_min + i*av_incr
+  expnt_x = n_x/-2.
+  expnt_y = n_y/-2.
+  for i in range(NPOINT):
+    for j in range(NPOINT):
+      arg_x = (av_axis[j] - av_x)**2/var_x
+      arg_y = (av_axis[j] + dav_axis[i] - av_y)**2/var_y
+      dav_pdf[i] += ((1 + arg_x)**expnt_x)*((1 + arg_y)**expnt_y)
+#
 pdf_max = max(dav_pdf)
 dav_pdf = dav_pdf/pdf_max
 dav_cdf = pdf_to_cdf(dav_axis,dav_pdf)
@@ -103,7 +133,7 @@ if(MAKEPLOT):
   #plt.title('posterior pdf,cdf for diff. in means')
   plt.ylim((0.,1.2))
   plt.xlabel('Difference in means')
-  plt.ylabel('p(dmu)')
+  plt.ylabel('p(dmean)')
   plt.grid(True)
   plt.show()
 #
@@ -141,15 +171,16 @@ if(MAKEPLOT):
   plt.figure(2)
   plt.plot(sd_axis,sd_x_pdf,'g-')
   plt.plot(sd_axis,sd_y_pdf,'b-')
-  plt.title('posterior pdf for st. devs')
-  plt.xlabel('st.dev')
-  plt.ylabel('p(st.dev)')
+  plt.title('posterior pdf for std.devs')
+  plt.xlabel('std.dev')
+  plt.ylabel('p(std.dev)')
   plt.grid(True)
   plt.show()
 #
 # calculate pdf for F = ratio of (sample variance/st.dev^2)
 # using marginalization integral over sd_x
 #
+print('Calculating posterior for ratio of sample std.deviations ...')
 xrange = 5. # range for x-axis
 f_min = 0.25/xrange
 f_max = xrange
@@ -171,20 +202,19 @@ for i in range(NPOINT):
 pdf_max = max(f_pdf)
 f_pdf = f_pdf/pdf_max
 f_cdf = pdf_to_cdf(f_axis,f_pdf)
-#summarize(f_axis,f_pdf,f_cdf,title='F = (V2/V1)*(sigma1/sigma2)^2')
 #
 # convert from F to ratio of population std. devs
 #
 for i in range(NPOINT):
   f_axis[i] = sqrt(f_axis[i]*var_x/var_y)
-summarize(f_axis,f_pdf,f_cdf,title='sigma1/sigma2')
-write_pdf_cdf(f_axis,f_pdf,f_cdf,title='sigma1/sigma2 pdf cdf',filename='sigma_ratio_pdf_cdf.dat')
+summarize(f_axis,f_pdf,f_cdf,title='std.dev1/std.dev2')
+write_pdf_cdf(f_axis,f_pdf,f_cdf,title='std.dev1/std.dev2 pdf cdf',filename='stddev_ratio_pdf_cdf.dat')
 #
 if(MAKEPLOT):
   plt.figure(3)
   plt.plot(f_axis,f_pdf,'g-')
   plt.plot(f_axis,f_cdf,'r-')
-  plt.title('posterior pdf for f = ratio of st. devs')
+  plt.title('posterior pdf for f = ratio of std.devs')
   plt.xlabel('f')
   plt.ylabel('p(f)')
   plt.grid(True)

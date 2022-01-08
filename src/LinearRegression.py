@@ -110,27 +110,25 @@ print('===========================================================\n')
 temp1 = (var_y - var_x)/(2*var_xy)
 slope_perp1 = temp1 + math.sqrt(temp1**2 + 1)
 slope_perp2 = temp1 - math.sqrt(temp1**2 + 1)
-print('candidates for slopes with Dperp minimized %10.5f %10.5f : ' % (slope_perp1,slope_perp2))
+print('candidates for slopes with Dperp minimized: %10.5f %10.5f  ' % (slope_perp1,slope_perp2))
 # we don't know which solution to quadratic gives min SSdist or max, so calculate residuals and take min
 icept_perp1 = av_y - slope_perp1*av_x
 icept_perp2 = av_y - slope_perp2*av_x
-print('candidates for intercepts with Dperp minimized %10.5f %10.5f : ' % (icept_perp1,icept_perp2))
+print('candidates for intercepts with Dperp minimized: %10.5f %10.5f ' % (icept_perp1,icept_perp2))
 resid1 = sum_dist(x,y,slope_perp1,icept_perp1,ndata)
 resid2 = sum_dist(x,y,slope_perp2,icept_perp2,ndata)
-print('Residuals for two candidates: %10.5f %10.5f : ' % (resid1,resid2))
+print('Residuals for two candidates: %10.5f %10.5f ' % (resid1,resid2))
 if(resid1 < resid2):
   slope_perp = slope_perp1
 else:
   slope_perp = slope_perp2
 icept_perp = av_y - slope_perp*av_x
 print('\n===========================================================')
-print('"Alternative" fitting parameters')
+print('Alternative fitting parameters that minimize distance to line')
+print('This fit is symmetric (unchanged if x and y are swapped)')
 print('===========================================================')
-print('slope %10.5f intercept %10.5f that minimize distance to line ' % (slope_perp,icept_perp))
+print('minmum distance slope %10.5f intercept %10.5f ' % (slope_perp,icept_perp))
 print('===========================================================\n')
-print('\n===========================================================')
-print('confidence intervals for fit')
-print('===========================================================')
 #
 # residuals to fit
 #
@@ -139,7 +137,7 @@ for i in range(ndata):
     resid_i = (y[i] - (slope_fit*x[i] + icept_fit))
     resid.append(resid_i)
 resid_sum = ndata*average_xy(resid,resid)
-print('sum sq residuals: %12.5f  ' % (resid_sum))
+#print('sum sq residuals: %12.5f  ' % (resid_sum))
 #
 # confidence intervals for slope, intercept
 #
@@ -148,28 +146,27 @@ icept_var = resid_sum*av_xx/(var_x*ndata*(ndata - 2))
 #print('variances slope %12.5f intercept %12.5f  ' % (slope_var,icept_var))
 slope_stdev = math.sqrt(slope_var)
 icept_stdev = math.sqrt(icept_var)
-print('stdev slope     %12.5f intercept %12.5f  ' % (slope_stdev,icept_stdev))
+#print('stdev slope     %12.5f intercept %12.5f  ' % (slope_stdev,icept_stdev))
 slope_icept_covar = -1.*resid_sum*av_x/(var_x*ndata*(ndata - 2))
 slope_icept_corr = slope_icept_covar/(slope_stdev*icept_stdev)
-print('slope/intercept covariance %12.5f  and R %12.5f  ' % (slope_icept_covar,slope_icept_corr))
+#print('slope/intercept covariance %12.5f  and R %12.5f  ' % (slope_icept_covar,slope_icept_corr))
 #
 # +/- 2 sigma (95% CI) fit lines
+# note that because they are highly correlated, slope, intercept come as pairs
+# you cannot put least value slope,intercept together, nor greatest values together
 #
 slope_plus_2s = slope_fit + 2*slope_stdev
 icept_plus_2s = icept_fit + 2*slope_icept_corr*icept_stdev
-# alternate- v similar
-#slope_plus_2s = slope_fit + 2*slope_stdev*slope_icept_corr
-#icept_plus_2s = icept_fit + 2*icept_stdev
-print('upper 95 percent CI slope %10.5f intercept %10.5f  ' % (slope_plus_2s,icept_plus_2s))
 slope_less_2s = slope_fit - 2*slope_stdev
 icept_less_2s = icept_fit - 2*slope_icept_corr*icept_stdev
-# alternate- v similar
-#slope_less_2s = slope_fit - 2*slope_stdev*slope_icept_corr
-#icept_less_2s = icept_fit - 2*icept_stdev
+print('\n===========================================================')
+print('confidence intervals for standard fit')
+print('===========================================================')
+print('upper 95 percent CI slope %10.5f intercept %10.5f  ' % (slope_plus_2s,icept_plus_2s))
 print('lower 95 percent CI slope %10.5f intercept %10.5f  ' % (slope_less_2s,icept_less_2s))
-resid_sump = sum_sq(x,y,slope_plus_2s,icept_plus_2s,ndata)
+#resid_sump = sum_sq(x,y,slope_plus_2s,icept_plus_2s,ndata)
 #print(' plus 2sigma sum sq %10.5f ' % (resid_sump))
-resid_suml = sum_sq(x,y,slope_less_2s,icept_less_2s,ndata)
+#resid_suml = sum_sq(x,y,slope_less_2s,icept_less_2s,ndata)
 #print(' less 2sigma sum sq %10.5f ' % (resid_suml))
 print('===========================================================\n')
 #
@@ -179,23 +176,18 @@ print('plottable data written to linear_regression_plot.dat')
 file_out = open('linear_regression_plot.dat','w')
 file_out.write('#  n       x         y        yfit       yresid    y+2sigma    y-2sigma \n')
 ycalc = []
-ycalcb = []
 ycalcp = []
 ycalc_plus_2s = []
 ycalc_less_2s = []
 for i in range(ndata):
     ytemp = x[i]*slope_fit + icept_fit
     ycalc.append(float(ytemp))
-    #ytemp = x[i]*slope_fitb + icept_fitb
-    #ycalcb.append(float(ytemp))
     ytemp = x[i]*slope_perp + icept_perp
     ycalcp.append(float(ytemp))
     ytemp = x[i]*slope_plus_2s + icept_plus_2s
     ycalc_plus_2s.append(float(ytemp))
     ytemp = x[i]*slope_less_2s + icept_less_2s
     ycalc_less_2s.append(float(ytemp))
-    #print('%4d %10.3f %10.3f %10.3f %10.3f %10.3f %10.3f ' % \
-    #      (i,x[i],y[i],ycalc[i],resid[i],ycalc_plus_2s[i],ycalc_less_2s[i]))
     str_buf = '%4d %10.3f %10.3f %10.3f %10.3f %10.3f %10.3f \n' % \
           (i,x[i],y[i],ycalc[i],resid[i],ycalc_plus_2s[i],ycalc_less_2s[i])
     file_out.write(str_buf)
@@ -207,13 +199,12 @@ if(MAKEPLOT):
   plt.figure(figsize=(8,7.75))
   plt.scatter(x,y,color='red',marker='o')
   plt.plot(x,ycalc,'b-')
-  #plt.plot(x,ycalcb,color="cyan",linestyle="--")
   plt.plot(x,ycalcp,color="black")
   plt.plot(x,ycalc_plus_2s,'g-')
   plt.plot(x,ycalc_less_2s,'g-')
   plt.xlabel('x')
   plt.ylabel('y')
-  plt.title('Standard fit (blue) with 95% CI limits (green). Min distance (black) ')
+  plt.title('Standard fit (blue) with 95% CI limits (green). Min distance fit (black) ')
   plt.grid(True)
   plt.show()
 #

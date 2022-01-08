@@ -24,15 +24,15 @@ testdata/decayTime_test.dat
 #
 src/DifferenceProportionParameter.py 2 9 3 8
 #
-src/MeanStd.py testdata/mean1_test.dat
+src/MeanStdDev.py testdata/mean1_test.dat
 #
-src/MeanStdFatTailNoise.py testdata/mean1_test.dat
+src/MeanStdDevFatTailNoise.py testdata/mean1_test.dat
 #
 src/DifferenceInMeans.py testdata/mean1_test.dat testdata/mean2_test.dat
 #
-# third argument to DifferenceInMeansSmallN.py: do two populations have same variance? 0=no 1=yes
-# if you are not sure put 0 (no)
-src/DifferenceInMeansSmallN.py testdata/mean1_test.dat testdata/mean2_test.dat 0
+## third argument to DifferenceInMeansSmallN.py: do two populations have same variance? 0=no 1=yes
+## if you are not sure put 0 (no)
+#src/DifferenceInMeansSmallN.py testdata/mean1_test.dat testdata/mean2_test.dat 0
 #
 # rank test has two parts- turn ranked data into quantiles, then use standard difference in means
 # WARNING: the only output from DifferenceInMeans.py that has any meaning when ranked data in input

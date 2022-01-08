@@ -13,9 +13,9 @@ from SciInf_utilities import *
 #--------------------------------------
 
 print("\n implement bayesian estimation of mean of population, using exact (t-distribution)")
-print("\n and approximation (Gaussian) posterior pdf")
-print("\n and chi-sq posterior pdf of std. dev\n")
-print("\n work with logp \n")
+print(" and approximation (Gaussian) posterior pdf")
+print(" and chi-sq posterior pdf of std. dev\n")
+print(" work with logp \n")
 # main
 x = []
 y = []
@@ -41,7 +41,7 @@ print('\n===========================================================')
 print('sample (data) summary')
 print('===========================================================')
 print(' Min X {:12.5f} Max X    {:12.5f} '.format(min_x,max_x))
-print(' Av X  {:12.5f} Var of X {:12.5f} Sigma of  X  {:12.5f}'.format(av_x,var_x,sigma_x))
+print(' Av X  {:12.5f} Var of X {:12.5f} Std.dev of  X  {:12.5f}'.format(av_x,var_x,sigma_x))
 print('===========================================================\n')
 exponent = n_x/2. # result if use log prior for sigma or prob(sigma) = const./sigma
 #exponent = (n_x-1)/2. # result if use flat prior for sigma or prob(sigma) = const
