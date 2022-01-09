@@ -124,7 +124,7 @@ if(MAKEPLOT):
   plt.subplot(211)
   plt.boxplot(data_all,notch=0,sym='b+',vert=0,showmeans=True)
   plt.yticks([1,2],['X 1','X 2'],rotation=0,fontsize=12)
-  #plt.title('SciInf difference in means')
+  plt.title('input data')
   #plt.xlim(xmin=0.3,xmax=1.)
   #plt.show()
   plt.subplot(212)
@@ -180,7 +180,7 @@ if(MAKEPLOT):
 # calculate pdf for F = ratio of (sample variance/st.dev^2)
 # using marginalization integral over sd_x
 #
-print('Calculating posterior for ratio of sample std.deviations ...')
+print('Calculating posterior for ratio of population std.deviations ...')
 xrange = 5. # range for x-axis
 f_min = 0.25/xrange
 f_max = xrange
@@ -214,7 +214,7 @@ if(MAKEPLOT):
   plt.figure(3)
   plt.plot(f_axis,f_pdf,'g-')
   plt.plot(f_axis,f_cdf,'r-')
-  plt.title('posterior pdf for f = ratio of std.devs')
+  plt.title('posterior pdf for F = ratio of std.devs')
   plt.xlabel('f')
   plt.ylabel('p(f)')
   plt.grid(True)

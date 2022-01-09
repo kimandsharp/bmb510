@@ -1,0 +1,1206 @@
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+Bayesian analysis to estimate a total population size, Nt, 
+using the wild life biologists' tag and release method whereby
+a number Na are labelled or tagged in some way, put back into 
+the population, allowed to 'mix' and a number Nb are resampled
+of which Nc of Nb are labelled 
+
+ labelled:       10 sampled:       10 of which        3 are labelled
+Total known/found:       17 
+computing pdf from min     17 up to max N of    255 
+
+ # of pdf points generated:      239 
+ 
+fraction of resample labelled:      0.30000 Population size (Max. Like. Est):     33
+
+===========================================================
+SUMMARY of posterior distribution for population size 
+===========================================================
+mean:       64.74922  mode:     33.00000 
+median:     49.00000
+   2.5% to   97.5% limits: (    21.00000 to    192.00000)
+===========================================================
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+ bayesian analysis to estimate total number of 'marked' objects Nm, given:
+ Total number of objects: Nt 
+ A sample Nb of them in which we find Nc are 'marked' or 'labelled' 
+ based on same hypergeometric distribution as TagAndRelease 
+
+from total of:       15   # sampled:       10   of which        3   are marked
+unsampled:        5  # marked min:        3 and max:        8 
+fraction of sample marked:      0.30000 Max. Like. Est of total Marked:      4
+
+===========================================================
+SUMMARY of posterior distribution for total # marked 
+===========================================================
+mean:        4.66667  mode:      4.00000 
+median:      4.00000
+   2.5% to   97.5% limits: (     3.00000 to      6.00000)
+===========================================================
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+ bayesian analysis of rank order or serial # type: 
+ e.g. birth order, dice problem (Allen Dewney), Locomotive problem (Mostellor) 
+ German tank problem WWII 
+
+
+ input file:  testdata/familySize_test.dat 
+
+# data for family size program 6 6 8
+# data points 5 
+largest rank:      109 is set to minimum population size 
+Setting upper size limit as 5 times Max:      545
+
+===========================================================
+Summary of posterior distribution for population size
+===========================================================
+median    128.00000
+ min -   97.5% limits: (   109.00000,    268.00000 ) 
+===========================================================
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+ implement bayesian analysis of proportion/fraction/percent type parameter
+ like bias of coin, % of mutations etc
+ work with log p 
+
+
+ # of positive, negative events:  2 9 
+
+
+===========================================================
+SUMMARY of posterior distribution for fraction parameter 
+===========================================================
+mean:        0.23077  mode:      0.18185 
+median:      0.21663
+   2.5% to   97.5% limits: (     0.05476 to      0.48401)
+===========================================================
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+ implement bayesian analysis of difference in two
+ proportion/fraction/percent type parameters 
+ work with logp 
+
+ 
+===========================================================
+sample (data) summary
+===========================================================
+ first  # of positive     2 negative     9 events
+ second # of positive     3 negative     8 events
+ fraction 1      0.18182 fraction 2      0.27273 difference (2-1)      0.09091 
+===========================================================
+ 
+
+===========================================================
+SUMMARY of posterior distribution for set 1 fraction parameter 
+===========================================================
+mean:        0.23077  mode:      0.18185 
+median:      0.21663
+   2.5% to   97.5% limits: (     0.05476 to      0.48401)
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for set 2 fraction parameter 
+===========================================================
+mean:        0.30769  mode:      0.27258 
+median:      0.29736
+   2.5% to   97.5% limits: (     0.09912 to      0.57154)
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for difference (set 2 - set 1) fraction parameter 
+===========================================================
+mean:        0.07692  mode:      0.07554 
+median:      0.07714
+   2.5% to   97.5% limits: (    -0.25420 to      0.40368)
+===========================================================
+
+p(f1 >= f2):     32.063%    p(f1 < f2)     67.937% 
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+Bayesian analysis of multiple proportion/fraction parameters 
+f_j using a hierarchically beta function model characterized by hyper-parameters 
+alpha, beta, govering beta distribution of population fraction
+using the approach of gelman et al, DBA3 chapter 5, the rat tumor data set
+
+#
+# Bayesian hierarchical conjugate beta proportion parameter model test data
+# from gelman et al, DBA3 chapter 5, e.g. the rat tumor data set
+# number of positives, sample size
+#  4  14
+# data points 70 
+n total:    263.00000  nsize total   1725.00000 global <f>:      0.15246 
+input data f_j mean      0.13601 stdev      0.10275 
+estimated modal a,b:  1.3777748392916775 8.752435447153111
+estimated modal y,z and log(p(a,b|data)):  -1.8488622359581879 2.315522076825466 -725.6096220772147
+lower y bound:  -2.248862235958188
+upper y bound:  -1.3488622359581874
+lower z bound:  1.5155220768254654
+lower z bound:  4.515522076825466
+posterior expectations of population hyperparameters
+E(a)      2.36258 E(b)     14.26501 
+giving posterior population fraction      0.14209 and its std. err      0.08316 
+ drew  1000  samples in  12674  tries
+set   1 median      0.05983 95% CI (     0.01399 ,      0.15902) 
+set   2 median      0.06023 95% CI (     0.01335 ,      0.16380) 
+set   3 median      0.05957 95% CI (     0.01393 ,      0.15042) 
+set   4 median      0.05990 95% CI (     0.01325 ,      0.15558) 
+set   5 median      0.06040 95% CI (     0.01402 ,      0.16985) 
+set   6 median      0.06198 95% CI (     0.01476 ,      0.16911) 
+set   7 median      0.05942 95% CI (     0.01316 ,      0.15855) 
+set   8 median      0.06294 95% CI (     0.01563 ,      0.16815) 
+set   9 median      0.06010 95% CI (     0.01387 ,      0.15691) 
+set  10 median      0.06218 95% CI (     0.01252 ,      0.16029) 
+set  11 median      0.06231 95% CI (     0.01301 ,      0.16775) 
+set  12 median      0.06133 95% CI (     0.01185 ,      0.17235) 
+set  13 median      0.06164 95% CI (     0.01333 ,      0.15585) 
+set  14 median      0.06665 95% CI (     0.01420 ,      0.16413) 
+set  15 median      0.08778 95% CI (     0.02801 ,      0.18955) 
+set  16 median      0.08368 95% CI (     0.02280 ,      0.18504) 
+set  17 median      0.08410 95% CI (     0.02419 ,      0.19422) 
+set  18 median      0.08692 95% CI (     0.02460 ,      0.19583) 
+set  19 median      0.08490 95% CI (     0.02220 ,      0.19545) 
+set  20 median      0.08525 95% CI (     0.02746 ,      0.19638) 
+set  21 median      0.08656 95% CI (     0.02441 ,      0.21336) 
+set  22 median      0.08921 95% CI (     0.03040 ,      0.19861) 
+set  23 median      0.09325 95% CI (     0.03449 ,      0.20000) 
+set  24 median      0.09964 95% CI (     0.03340 ,      0.20529) 
+set  25 median      0.09939 95% CI (     0.03509 ,      0.21060) 
+set  26 median      0.10760 95% CI (     0.03928 ,      0.22652) 
+set  27 median      0.10972 95% CI (     0.03685 ,      0.21870) 
+set  28 median      0.10950 95% CI (     0.03769 ,      0.23187) 
+set  29 median      0.10924 95% CI (     0.04164 ,      0.21924) 
+set  30 median      0.10787 95% CI (     0.04079 ,      0.23038) 
+set  31 median      0.10870 95% CI (     0.04062 ,      0.21868) 
+set  32 median      0.11350 95% CI (     0.03507 ,      0.25055) 
+set  33 median      0.10785 95% CI (     0.04908 ,      0.19803) 
+set  34 median      0.11075 95% CI (     0.03736 ,      0.24016) 
+set  35 median      0.11076 95% CI (     0.05212 ,      0.20360) 
+set  36 median      0.11312 95% CI (     0.04711 ,      0.22013) 
+set  37 median      0.11503 95% CI (     0.04025 ,      0.24575) 
+set  38 median      0.13438 95% CI (     0.06840 ,      0.22443) 
+set  39 median      0.13726 95% CI (     0.07127 ,      0.23158) 
+set  40 median      0.13059 95% CI (     0.05343 ,      0.25387) 
+set  41 median      0.13281 95% CI (     0.05270 ,      0.25603) 
+set  42 median      0.12921 95% CI (     0.05006 ,      0.26960) 
+set  43 median      0.16608 95% CI (     0.08931 ,      0.26429) 
+set  44 median      0.17532 95% CI (     0.09720 ,      0.26953) 
+set  45 median      0.15301 95% CI (     0.06775 ,      0.28976) 
+set  46 median      0.15620 95% CI (     0.06726 ,      0.27665) 
+set  47 median      0.15282 95% CI (     0.07153 ,      0.28569) 
+set  48 median      0.15446 95% CI (     0.06398 ,      0.28526) 
+set  49 median      0.15288 95% CI (     0.06750 ,      0.28730) 
+set  50 median      0.15000 95% CI (     0.06592 ,      0.28281) 
+set  51 median      0.15360 95% CI (     0.06814 ,      0.28915) 
+set  52 median      0.17895 95% CI (     0.10196 ,      0.28135) 
+set  53 median      0.15983 95% CI (     0.06700 ,      0.28829) 
+set  54 median      0.16423 95% CI (     0.07038 ,      0.30248) 
+set  55 median      0.16091 95% CI (     0.06847 ,      0.29076) 
+set  56 median      0.17414 95% CI (     0.08250 ,      0.30711) 
+set  57 median      0.20066 95% CI (     0.11662 ,      0.29836) 
+set  58 median      0.20496 95% CI (     0.12929 ,      0.30660) 
+set  59 median      0.18158 95% CI (     0.08688 ,      0.31284) 
+set  60 median      0.17882 95% CI (     0.08512 ,      0.32931) 
+set  61 median      0.18658 95% CI (     0.09660 ,      0.31227) 
+set  62 median      0.18419 95% CI (     0.08727 ,      0.31857) 
+set  63 median      0.19606 95% CI (     0.09844 ,      0.33310) 
+set  64 median      0.20666 95% CI (     0.10217 ,      0.34579) 
+set  65 median      0.20332 95% CI (     0.10426 ,      0.33805) 
+set  66 median      0.20079 95% CI (     0.10523 ,      0.33899) 
+set  67 median      0.25001 95% CI (     0.16657 ,      0.35430) 
+set  68 median      0.25700 95% CI (     0.16560 ,      0.37847) 
+set  69 median      0.25955 95% CI (     0.16685 ,      0.37765) 
+set  70 median      0.24912 95% CI (     0.14497 ,      0.38887) 
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+Bayesian analysis of multiple proportion parameters dependent on dose,
+data given as set of (dose, # in sample, # of positives)
+using the approach of Gelman et al, DBA3 chapter 3.7, the bioassay experiment
+
+# the bioassay dose-response test data from table 3.1, ch 3 DBA3
+# for the proportion/fraction paramter model, where f is function 
+# of dose
+# dose log g/ml, # of samples, # of positives
+# dose sets:  4
+
+     dose          n            n+            f_j          logit(f_j)
+     -0.86000      5.00000      0.00000      0.14286     -1.79176 
+     -0.30000      5.00000      1.00000      0.28571     -0.91629 
+     -0.05000      5.00000      3.00000      0.57143      0.28768 
+      0.73000      5.00000      5.00000      0.85714      1.79176 
+
+fitting to logit(f+i) = a + b*dose...
+to locate probablity peak in (a,b) parameter space
+R      0.98584 
+modal a      0.12132  b      2.32061 log(p)     -7.73814 
+grid lower a bound:  -2.7786787703735776
+grid upper a bound:  4.921321229626426
+grid lower b bound:  -18.51938837931666
+grid upper b bound:  42.520611620683816
+
+WARNING: if the lhood peak is not comfortably within the grid 
+boundaries you may need to adjust the boundaries manually!!
+drew  1000  samples in  21900  tries
+LD50 median     -0.11098 95% CI (    -0.27988 ,      0.12755) 
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+ bayes analysis of rate of rare events using poisson distbn
+ work with log p 
+
+# of events:  5  in time  5.0
+
+===========================================================
+SUMMARY of posterior distribution for rate 
+===========================================================
+mean:        0.99807  mode:      0.80040 
+median:      0.93360
+   2.5% to   97.5% limits: (     0.32400 to      2.03760)
+===========================================================
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+Implement bayesian method for posterior probability distribution
+of rate k_s for source with a background rate k_b
+using Poisson likelihood model, taken from 
+Tom Loredo's tutorial: From Laplace to supernova 1987a 
+ work with logp 
+
+
+ background obs. time    1.000 and # counts      9
+ source     obs. time    1.000 and # counts      9
+
+===========================================================
+SUMMARY of posterior distribution for rate of source 
+ accounting for background 
+===========================================================
+mean:        3.34055  mode:      0.00720 
+median:      2.76369
+   2.5% to   97.5% limits: (     0.12955 to      9.75210)
+===========================================================
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+Bayesian analysis of multiple observations of rare events
+each observation characterized by n_i counts in time t_i
+posterior is equivalent to that from a single observation of
+n_total counts in t_total time
+
+reading n t data from file  testdata/multiRareCounts_test.dat
+#
+# test data for MultiRareCounts.py
+# one pair of (counts time) per line
+# data points 3 
+ total count       10  observation time      5.00000 mean rate      2.00000 
+
+===========================================================
+SUMMARY of posterior distribution for rate 
+===========================================================
+mean:        1.99997  mode:      1.80000 
+median:      1.93200
+   2.5% to   97.5% limits: (     0.95760 to      3.41520)
+===========================================================
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+ implement bayesian estimation of mean of population, using exact (t-distribution)
+ and approximation (Gaussian) posterior pdf
+ and chi-sq posterior pdf of std. dev
+
+ work with logp 
+
+# data points 11 
+
+===========================================================
+sample (data) summary
+===========================================================
+ Min X      0.32900 Max X         0.89800 
+ Av X       0.72182 Var of X      0.03042 Std.dev of  X       0.17440
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for population mean 
+===========================================================
+mean:        0.72182  mode:      0.72182 
+median:      0.72182
+   2.5% to   97.5% limits: (     0.60083 to      0.84263)
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for population std. deviation 
+===========================================================
+mean:        0.19821  mode:      0.17440 
+median:      0.18905
+   2.5% to   97.5% limits: (     0.12757 to      0.32090)
+===========================================================
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+Implement bayesian estimation of mean of population, using 
+Cauchy distributed (fat-tailed) noise - allowing for larger magnitude noise (outliers)
+
+# data points 11 
+
+===========================================================
+sample (data) summary
+===========================================================
+ Min X      0.32900 Max X         0.89800 
+ Av X       0.72182 Var of X      0.03042 Std.dev of  X       0.17440
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for population mean 
+===========================================================
+mean:        0.79882  mode:      0.81268 
+median:      0.80259
+   2.5% to   97.5% limits: (     0.70163 to      0.86821)
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for population std. deviation 
+===========================================================
+mean:        0.08724  mode:      0.06464 
+median:      0.07848
+   2.5% to   97.5% limits: (     0.03500 to      0.18521)
+===========================================================
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+ implement bayesian analysis of two diff population means
+ using gaussian approx to distributions, i.e. large sample case
+ if both sample sizes > 10, otherwise uses small population 
+ (T-distribution) form conservatively assuming two populations
+ do NOT have same variance
+ work with logp 
+
+
+ input file 1:  testdata/mean1_test.dat
+ input file 2:  testdata/mean2_test.dat 
+
+# data points 11 
+# data points 10 
+
+===========================================================
+sample (data) summary
+===========================================================
+ Av X1      0.72182 Av X2      0.63600 Var of X1      0.03042 Var of X2      0.02176 
+ Av X2 - Av X1     -0.08582 
+ std. dev. of X1 data      0.17440 std. dev. of X2 data      0.14753 
+ st.dev ratio from data (s1/s2):       1.1821 
+ std.err of <X1>      0.05515 std.err of <X2>      0.04918 std.err of <X2-X1>      0.07389 
+===========================================================
+
+ using gaussian approx to distributions, i.e. large sample case
+
+
+===========================================================
+SUMMARY of posterior distribution for difference (set 2 - set 1) of population means 
+===========================================================
+mean:       -0.08582  mode:     -0.08582 
+median:     -0.08582
+   2.5% to   97.5% limits: (    -0.23076 to      0.05889)
+===========================================================
+
+p(dMean) < 0., >0.:      0.878       0.122
+
+===========================================================
+SUMMARY of posterior distribution for set 1 std. deviation 
+===========================================================
+mean:        0.19821  mode:      0.17431 
+median:      0.18911
+   2.5% to   97.5% limits: (     0.12780 to      0.32073)
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for set 2 std. deviation 
+===========================================================
+mean:        0.17015  mode:      0.14762 
+median:      0.16136
+   2.5% to   97.5% limits: (     0.10692 to      0.28373)
+===========================================================
+
+Calculating posterior for ratio of sample std.deviations ...
+
+===========================================================
+SUMMARY of posterior distribution for std.dev1/std.dev2 
+===========================================================
+mean:        1.09587  mode:      0.94721 
+median:      1.16707
+   2.5% to   97.5% limits: (     0.58870 to      2.17791)
+===========================================================
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+Calculate posterior difference in means given only summary data
+(# of sample points, sample mean and sample standard deviation) for two
+data sets, without original raw data
+
+using t-dist
+
+===========================================================
+sample (data) summary
+===========================================================
+ Number of points in set 1:        4 set2:        4 
+ Av X1      0.67770 Av X2      0.83840 Var of X1      0.00308 Var of X2      0.01636 
+ Av X2 - Av X1      0.16070 
+ std.dev of X1 data      0.05550 std.dev of X2 data      0.12790 
+ std.dev ratio from data (s1/s2):      0.43393 
+ std.err of <X1>      0.03204 std.err of <X2>      0.07384 std.err of <X2-X1>      0.08050 
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for difference (set 2 - set 1) of population means 
+===========================================================
+mean:        0.16070  mode:      0.16070 
+median:      0.15941
+   2.5% to   97.5% limits: (    -0.00931 to      0.32942)
+===========================================================
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+Bayesian hierarchical multiple means analysis
+using a hierarchical model characterized by hyper-parameters 
+mu, tau govering gaussian prior distribution of population means
+using the approach of Gelman et al, DBA3 chapter 5, in the 8-schools case
+
+
+Input data as 
+(1) pairs of mean, std. error 
+(2) J sets of raw data {y_i}
+
+Option 1 or 2 >> 
+name of file containing one (mean, std. err) per line>> 
+reading mean, std. err data from file  testdata/EightSchools.dat
+#
+# example of hierarch gaussian bayes analysis of multiple means
+# 8 schools data from gelman et al DBA3 table 5.2
+# effect std. error 
+# data points 8 
+
+input data mean    stderr: 
+    28.00000     15.00000 
+     8.00000     10.00000 
+    -3.00000     16.00000 
+     7.00000     11.00000 
+    -1.00000      9.00000 
+     1.00000     11.00000 
+    18.00000     10.00000 
+    12.00000     18.00000 
+
+global mean, stdev of means:      8.75000      9.76921 
+tau 95% limits: (     0.00000 to     18.28796)
+
+sampling randomly from posterior...
+mean of means from 5000 samples:      7.87687   
+set   1 median     10.28887 95% CI (    -2.01211 ,     31.88738) 
+set   2 median      7.70503 95% CI (    -4.83842 ,     20.89632) 
+set   3 median      6.41031 95% CI (   -11.61624 ,     20.61656) 
+set   4 median      7.57669 95% CI (    -5.66269 ,     21.25376) 
+set   5 median      5.56937 95% CI (    -8.74886 ,     16.55189) 
+set   6 median      6.50121 95% CI (    -8.80387 ,     18.62579) 
+set   7 median      9.95110 95% CI (    -1.49663 ,     25.86756) 
+set   8 median      8.14581 95% CI (    -6.96957 ,     25.45583) 
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+Bayesian hierarchical multiple means analysis
+using a hierarchical model characterized by hyper-parameters 
+mu, tau govering gaussian prior distribution of population means
+using the approach of Gelman et al, DBA3 chapter 5, in the 8-schools case
+
+
+Input data as 
+(1) pairs of mean, std. error 
+(2) J sets of raw data {y_i}
+
+Option 1 or 2 >> 
+name of file  1 set of raw data, one float per line (exit to end input)>> # data points 11 
+
+name of file  1 set of raw data, one float per line (exit to end input)>> # data points 10 
+
+name of file  1 set of raw data, one float per line (exit to end input)>> # data points 10 
+
+name of file  1 set of raw data, one float per line (exit to end input)>> 
+# of data sets read:  3
+
+input data mean    stderr: 
+     0.72182      0.05515 
+     0.63600      0.04918 
+     0.63400      0.08042 
+
+global mean, stdev of means:      0.66394      0.04093 
+tau 95% limits: (     0.00000 to      0.26958)
+
+sampling randomly from posterior...
+mean of means from 5000 samples:      0.66629   
+set   1 median      0.69550 95% CI (     0.60709 ,      0.80182) 
+set   2 median      0.64935 95% CI (     0.55748 ,      0.73051) 
+set   3 median      0.65438 95% CI (     0.52340 ,      0.76589) 
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+ 
+ Bayesian analysis of two sets of non-parametric data
+ bayesian version of wilcoxon rank test, as suggested in
+ ch. 4 of Gelman, BDA3 
+
+ Preprocesses two data files, produces two output files 
+ quantile_rank1.dat, quantile_rank2.dat in which the data is transform
+ into its rank within the two data sets
+ Then use DifferenceInMeans.py on these two files to compare mean ranks 
+ HOWEVER, the only quantity that has meaning is probability 'mean rank' 
+ of A is < or > than 'mean rank' of B 
+
+
+ input file 1:  testdata/rank1_test.dat
+ input file 2:  testdata/rank2_test.dat 
+
+# test data for bayesian rank test
+# data points 4 
+# test data for bayesian rank test
+# data points 4 
+
+merging, sorting and ranking data...
+
+converting data to quantiles...
+writing quantile files  quantile_rank1.dat quantile_rank2.dat
+
+Now run Bayesian analysis of difference in means on quantile files by: 
+DifferenceInMeans.py  quantile_rank1.dat quantile_rank2.dat
+and look for p(dMean) < 0., >0.
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+ implement bayesian analysis of two diff population means
+ using gaussian approx to distributions, i.e. large sample case
+ if both sample sizes > 10, otherwise uses small population 
+ (T-distribution) form conservatively assuming two populations
+ do NOT have same variance
+ work with logp 
+
+
+ input file 1:  quantile_rank1.dat
+ input file 2:  quantile_rank2.dat 
+
+# ranks of set 1 read from file 
+# testdata/rank1_test.dat
+# as quantiles output from RankTest.py 
+# data points 4 
+# ranks of set 2 read from file 
+# testdata/rank2_test.dat
+# as quantiles output from RankTest.py 
+# data points 4 
+
+===========================================================
+sample (data) summary
+===========================================================
+ Av X1     50.00000 Av X2     43.75000 Var of X1    820.31250 Var of X2    781.25000 
+ Av X2 - Av X1     -6.25000 
+ std. dev. of X1 data     28.64110 std. dev. of X2 data     27.95085 
+ st.dev ratio from data (s1/s2):       1.0247 
+ std.err of <X1>     16.53595 std.err of <X2>     16.13743 std.err of <X2-X1>     23.10528 
+===========================================================
+
+ using small population (T-distribution) form and assuming two populations
+ do NOT have same variance. Working....
+
+
+===========================================================
+SUMMARY of posterior distribution for difference (set 2 - set 1) of population means 
+===========================================================
+mean:       -6.25000  mode:     -6.25000 
+median:     -6.36091
+   2.5% to   97.5% limits: (   -75.23314 to     62.62223)
+===========================================================
+
+p(dMean) < 0., >0.:      0.591       0.409
+
+===========================================================
+SUMMARY of posterior distribution for set 1 std. deviation 
+===========================================================
+mean:       41.61848  mode:     28.63214 
+median:     36.59281
+   2.5% to   97.5% limits: (    18.64902 to     93.26421)
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for set 2 std. deviation 
+===========================================================
+mean:       40.77060  mode:     27.94365 
+median:     35.73220
+   2.5% to   97.5% limits: (    18.21872 to     92.23147)
+===========================================================
+
+Calculating posterior for ratio of sample std.deviations ...
+
+===========================================================
+SUMMARY of posterior distribution for std.dev1/std.dev2 
+===========================================================
+mean:        0.79733  mode:      0.45881 
+median:      0.95016
+   2.5% to   97.5% limits: (     0.30672 to      2.11727)
+===========================================================
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+ bayesian analysis of decay length/time data, assuming exponential decay 
+ 
+work with log p for large N 
+
+file with event distance or time data, 1 per line> 
+ input file:  testdata/decayTime_test.dat
+# data for bayesian decay length/time  analysis using exp. decay model
+# data points 6 
+
+ data: smallest:      1.50000 largest:         12.0 sum:     27.50000
+enter lower exptl. window: must be less than min of data> enter upper exptl. window: must be more than max of data> 
+ lower 1.000000 and upper 20.0 length or time windows 
+
+===========================================================
+SUMMARY of posterior distribution for decay length/time 
+===========================================================
+mean:        7.72757  mode:      3.10841 
+median:      4.35749
+   2.5% to   97.5% limits: (     1.90676 to     42.93642)
+===========================================================
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+basic bayesian version of parametric model of survival data
+using the general, flexible Weibull distbn.
+input file with either:
+  one event/decay/death time 
+or:
+  one time at which observation was stopped (right censoring)
+per line. In the file the latter should be entered as negative value (!) to indicate that 
+observation was right censored, i.e. still surviving after observation stopped.
+Program also requires a left censor time (for no left censoring use 0.)
+
+
+ input file: 
+ testdata/survival_test1.dat
+# test data for survival curves, taken from table 1.1 of
+# cox and oakes 'analysis of survival data' p8,
+# control group - censored data flagged by -ve time
+# data points 21 
+dead time (left censor limit), # in dead time:  0.0 0
+# of events, stopped observations:  21 0
+min, max times:  1.0 23.0
+nt =  13
+MLE estimate of hazard:      0.11538 
+
+===========================================================
+SUMMARY of posterior distribution for shape parameter 
+===========================================================
+mean:        1.30786  mode:      1.27305 
+median:      1.29370
+   2.5% to   97.5% limits: (     0.87919 to      1.78496)
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for scale parameter 
+===========================================================
+mean:        9.61414  mode:      9.18559 
+median:      9.46099
+   2.5% to   97.5% limits: (     6.44401 to     13.48613)
+===========================================================
+
+
+ 95% half life: (      4.24727 -     10.98277 ) 
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+basic bayesian version of parametric model of survival data
+using the general, flexible Weibull distbn.
+input file with either:
+  one event/decay/death time 
+or:
+  one time at which observation was stopped (right censoring)
+per line. In the file the latter should be entered as negative value (!) to indicate that 
+observation was right censored, i.e. still surviving after observation stopped.
+Program also requires a left censor time (for no left censoring use 0.)
+
+
+ input file: 
+ testdata/survival_test2.dat
+# test data for survival curves, taken from table 1.1 of
+# cox and oakes 'analysis of survival data' p8,
+# treatment with 6-MP group - censored data flagged by -ve time
+# data points 21 
+dead time (left censor limit), # in dead time:  0.0 0
+# of events, stopped observations:  9 12
+min, max times:  6.0 35.0
+nt =  17
+MLE estimate of hazard:      0.02507 
+
+===========================================================
+SUMMARY of posterior distribution for shape parameter 
+===========================================================
+mean:        1.28260  mode:      1.19368 
+median:      1.23272
+   2.5% to   97.5% limits: (     0.66874 to      2.06318)
+===========================================================
+
+
+===========================================================
+SUMMARY of posterior distribution for scale parameter 
+===========================================================
+mean:       44.66466  mode:     32.05281 
+median:     38.42975
+   2.5% to   97.5% limits: (    22.29786 to    101.91203)
+===========================================================
+
+
+ 95% half life: (     12.88967 -     85.32480 ) 
+
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+ implement linear regression equations with variances of slope, intercept, and 2-sigma 
+ (95% credible interval) lines 
+ see mendenhall and schaeffer, sivia & skilling 
+ also do model where minimize perpendicular distance from line, not dy - this is symmetric in x &y 
+
+input file:  testdata/linearRegression_test.dat
+# xy data
+# test for linear_regression.py
+# data points 63 
+
+===========================================================
+data summary
+===========================================================
+av x         0.57777 y       10.11651 xy      5.73491 
+av x^2       0.39472 y^2    104.04982  
+var x        0.06090 y        1.70609 xy     -0.11007 
+stdev x      0.24678 y        1.30617  
+Pearson R     -0.34147 R^2      0.11660 
+===========================================================
+
+
+===========================================================
+"Standard" fitting, that minimizes mean sq Y-distance to line
+===========================================================
+standard slope   -1.80734 intercept   11.16073  
+zero intercept slope   14.52924 Pearson R    0.89488 
+===========================================================
+
+candidates for slopes with Dperp minimized:    0.06661  -15.01354  
+candidates for intercepts with Dperp minimized:   10.07802   18.79083 
+Residuals for two candidates:  107.94550    3.37488 
+
+===========================================================
+Alternative fitting parameters that minimize distance to line
+This fit is symmetric (unchanged if x and y are swapped)
+===========================================================
+minmum distance slope  -15.01354 intercept   18.79083 
+===========================================================
+
+
+===========================================================
+confidence intervals for standard fit
+===========================================================
+upper 95 percent CI slope   -0.53345 intercept   10.42472  
+lower 95 percent CI slope   -3.08123 intercept   11.89674  
+===========================================================
+
+plottable data written to linear_regression_plot.dat
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+ fit data to y = mx + b using
+ least sum of |y - mx - b|, or L1 norm instead of sum of sq's 
+
+input file:  testdata/linearRegression_test.dat
+# xy data
+# test for linear_regression.py
+# data points 63 
+
+===========================================================
+data summary
+===========================================================
+av x         0.57777 y       10.11651 xy      5.73491 
+av x^2       0.39472 y^2    104.04982  
+var x        0.06090 y        1.70609 xy     -0.11007 
+stdev x      0.24678 y        1.30617  
+Pearson R     -0.34147 R^2      0.11660 
+===========================================================
+
+minimizing absolute Y-deviation...
+mean abs deviation      0.94754 by passing through points 12 and 40
+mean absolute deviation    0.94754 slope   -1.84739 intercept   11.17920  
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+ implement linear regression equations with variances of slope, intercept, and 2-sigma(95% CI)  lines
+ see mendenhall and schaeffer, sivia & skilling 
+ slope from bayesian analysis which treats x, y symmetrically - see S. Gull (1988)
+
+input file:  testdata/linearRegression_test.dat
+# xy data
+# test for linear_regression.py
+# data points 63 
+
+===========================================================
+data summary
+===========================================================
+av x         0.57777 y       10.11651 xy      5.73491 
+av x^2       0.39472 y^2    104.04982  
+var x        0.06090 y        1.70609 xy     -0.11007 
+stdev x      0.24678 y        1.30617  
+Pearson R     -0.34147 R^2      0.11660 
+===========================================================
+
+
+===========================================================
+"Standard" fitting, that minimizes mean sq Y-distance to line
+===========================================================
+standard slope   -1.80734 intercept   11.16073  
+zero intercept slope   14.52924 Pearson R    0.89488 
+===========================================================
+
+
+===========================================================
+"Alternative" fitting parameters
+===========================================================
+slope  -15.01354 intercept   18.79083 that minimize distance to line 
+Bayesian best slope   -5.30042 intercept   13.17891
+===========================================================
+
+
+===========================================================
+confidence intervals for fit
+===========================================================
+sum sq residuals:     94.95094  
+stdev slope          0.63695 intercept      0.40017  
+slope/intercept covariance     -0.23440  and R     -0.91962  
++2sigma slope   -0.53345 intercept   10.42472  
+-2sigma slope   -3.08123 intercept   11.89674  
+===========================================================
+
+plottable data written to linear_regression_plot.dat
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+Curve fit to a set of basis functions
+using Bayesian information criterion (BIC)
+G. Schwartz "Estimating the dimension of a model"
+(1978) Ann. Stats. 6:461-464
+BIC = log Likelihood - 0.5 k log(n)
+n is number of (x,y) data pairs, k is number of parameters 
+since basis functions are powers of x  1=constant, 2=linear, 3=quadratic, etc
+
+input file:  testdata/curve3.dat
+# test data for bayesian information criterion CurveFitBIC.py
+# cubic: a + bx + cx^2 + dx^3 plus noise
+# data points 10 
+--------------
+ Input Data
+--------------
+           0        1.002 
+         0.1        1.104 
+         0.2        1.175 
+         0.3        1.226 
+         0.4        1.298 
+         0.5        1.361 
+         0.6        1.461 
+         0.7        1.558 
+         0.8        1.647 
+         0.9         1.82 
+mean of     x:         0.45 y:       1.3652 
+variance of x:       0.0825 y:     0.059283 
+y  min:        1.002 max:         1.82 
+---------------
+# of parameters:  1
+---------------
+coefficients    +/- 1 sigma
+      1.3652      0.08116  
+|noise|      0.25665     Sum. Sq. dev. fit:      0.59283 
+Bayesian Info. Criterion log P for # parameters = 1:     -0.62844 
+---------------
+# of parameters:  2
+---------------
+coefficients    +/- 1 sigma
+     0.98758     0.022654  
+     0.83915     0.042435  
+|noise|     0.038544     Sum. Sq. dev. fit:     0.011885 
+Bayesian Info. Criterion log P for # parameters = 2:       2.1299 
+---------------
+# of parameters:  3
+---------------
+coefficients    +/- 1 sigma
+      1.0332      0.01937  
+     0.49688      0.10023  
+      0.3803      0.10721  
+|noise|     0.024636     Sum. Sq. dev. fit:    0.0042485 
+Bayesian Info. Criterion log P for # parameters = 3:       2.0073 
+---------------
+# of parameters:  4
+---------------
+coefficients    +/- 1 sigma
+      1.0072     0.011509  
+     0.97221      0.11715  
+     -1.0117      0.31292  
+      1.0311      0.22816  
+|noise|      0.01268     Sum. Sq. dev. fit:   0.00096474 
+Bayesian Info. Criterion log P for # parameters = 4:       2.3385 
+---------------
+# of parameters:  5
+---------------
+coefficients    +/- 1 sigma
+      1.0056     0.013275  
+      1.0414      0.23031  
+     -1.4001        1.131  
+      1.7234        1.939  
+    -0.38462       1.0685  
+|noise|     0.013714     Sum. Sq. dev. fit:   0.00094037 
+Bayesian Info. Criterion log P for # parameters = 5:       1.2128 
+---------------
+# of parameters:  6
+---------------
+coefficients    +/- 1 sigma
+      1.0006    0.0098581  
+      1.5491      0.27316  
+      -6.102       2.1637  
+      16.491       6.4441  
+     -19.192       8.0468  
+       8.359       3.5598  
+|noise|    0.0099419     Sum. Sq. dev. fit:   0.00039536 
+Bayesian Info. Criterion log P for # parameters = 6:      0.92795 
+---------------
+# of parameters:  7
+---------------
+coefficients    +/- 1 sigma
+      1.0023    0.0075318  
+      1.0302      0.33344  
+      1.0107       3.9389  
+     -17.525       17.807  
+      53.846       37.269  
+     -63.829       36.438  
+      26.736       13.458  
+|noise|    0.0075436     Sum. Sq. dev. fit:   0.00017072 
+Bayesian Info. Criterion log P for # parameters = 7:      0.61644 
+=================
+Best # of parameters = 4 with Bayesian Info. Criterion log P       2.3385 
+=================
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+bayesian test for periodicity in equally spaced spatial/time data (ti,yi) etc
+following Jaynes, 'Probability Theory: The Logic of Science' section 17.6 
+
+input file:  testdata/CparkT_periodic_test.dat
+# YEAR       JAN mean Temp(F) in central park
+# data points 148 
+av  t   1942.50000   y     31.96149 
+min t   1869.00000   y     21.70000 
+max t   2016.00000   y     43.20000 
+t span   147.00000   dt     1.00000 
+doing marginalization integrals, please wait...
+max pdf      0.71893 for frequency      0.31840, period    19.73333 
+best p(ABw)      0.00000 best parameters      1.19444      2.06884
+
+=====================
+BMB510 Being Bayesian
+=====================
+
+2501  integration points
+
+
+Obtain posterior probability distribution (pdf) and
+cumulative probability distribution (cdf) for the difference
+in some parameter X between two different experiments, samples
+populations etc, given the two individual posterior pdfs of X
+p(dX) of the difference dX = X2 - X1 is obtained by marginalizing 
+p(dX,X1) over X1 
+
+input pdf/cdf files: 
+testdata/weibull_tpost1.dat
+testdata/weibull_tpost2.dat
+#tau pdf cdf
+#  x      p(x)     cdf(x) 
+# data points 201 
+#tau pdf cdf
+#  x      p(x)     cdf(x) 
+# data points 201 
+# pdf points read in:  201 201
+
+ranges of parameter: 
+X1:        0.250       92.000 range       91.750 
+X2:        1.500      140.000 range      138.500 
+
+regularizing pdfs...
+parameter increment # of grid points:      0.45875    199    300
+range of dX    -89.58250    138.41625 
+
+p(X1 >= X2):      0.002%    p(X1 < X2)     99.998% 
+
+
+===========================================================
+SUMMARY of posterior distribution for dX = X2 - X1 
+===========================================================
+mean:       35.00702  mode:     22.81125 
+median:     29.23375
+   2.5% to   97.5% limits: (    12.26000 to     92.54125)
+===========================================================
+

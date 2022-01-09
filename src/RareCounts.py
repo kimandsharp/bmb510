@@ -59,7 +59,7 @@ if(MAKEPLOT):
   plt.plot(r_axis,r_cdf,'r-')
   plt.xlabel('rate                   .')
   plt.ylabel(' prob(rate)')
-  plt.title(' posterior pdf of rate')
+  plt.title(' posterior pdf,cdf of rate')
   plt.ylim((0.,1.2))
   plt.grid(True)
   #

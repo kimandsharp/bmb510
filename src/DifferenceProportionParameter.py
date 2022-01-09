@@ -65,19 +65,25 @@ summarize(f_axis,f_pdf2,f_cdf2,title='set 2 fraction parameter')
 # by marginalization integral over f1
 # rather than recalculate pdf 1, 2 on fly, with possible overflow, just multiply previous pdfs
 #
+print('Calculating pdf for difference...')
 df_axis = np.zeros(2*NPOINT-1,'float')
 df_pdf = np.zeros(2*NPOINT-1,'float')
 for i in range(2*NPOINT-1):
   df_axis[i] = (i+2)*df - 1.
-#print(df_axis)
+p_neg = 0.
+p_pos = 0.
 for i in range(NPOINT):
+  f1 = f_axis[i]
   for j in range(NPOINT):
+    f2 = f_axis[j]
     i1 = j - i + (NPOINT -1)
     #df_pdf[i1] +=1
     df_pdf[i1] += f_pdf1[i]*f_pdf2[j]
-    #print(df,i1)
-#print(df_pdf)
-
+    if(f1 >= f2): 
+      p_pos += f_pdf1[i]*f_pdf2[j]
+    else:
+      p_neg += f_pdf1[i]*f_pdf2[j]
+#
 dpdf_max = max(df_pdf)
 df_pdf = df_pdf/dpdf_max
 df_cdf = pdf_to_cdf(df_axis,df_pdf)
@@ -87,17 +93,6 @@ fileout.write('#pdf,cdf from DifferenceProportionParameter.py')
 for i in range(2*NPOINT-1):
   fileout.write('%9.3f  %9.3f  %9.3f \n' % (df_axis[i],df_pdf[i],df_cdf[i]))
 #
-# calculate probability f1 < f2
-p_neg = 0.
-p_pos = 0.
-for i in range(NPOINT):
-  f1 = f_axis[i]
-  for j in range(NPOINT):
-    f2 = f_axis[j]
-    if(f1 >= f2): 
-      p_pos += f_pdf1[i]*f_pdf2[j]*df**2
-    else:
-      p_neg += f_pdf1[i]*f_pdf2[j]*df**2
 p_neg = 100.*p_neg/(p_neg + p_pos)
 p_pos = 100. - p_neg
 print('p(f1 >= f2): %10.3f%%    p(f1 < f2) %10.3f%% ' % (p_pos,p_neg))
@@ -115,7 +110,7 @@ if(MAKEPLOT):
   #plt.xlabel(' fraction (r)')
   plt.xlabel(' f')
   plt.ylabel(' p(f)')
-  plt.title(' posterior pdf, cdf for fraction, difference in fraction')
+  plt.title(' posterior pdf, cdf for fractions, difference in fractions')
   plt.ylim((0.,1.2))
   plt.xlim((-1.,1.))
   plt.grid(True)

@@ -151,7 +151,10 @@ for n in range(0,ncup):
   #
   #-----------------------------------------
   if(MAKEPLOT):
-    ptitle = 'fit for %3d parameters' % (nc)
+    if(nc == 1):
+      ptitle = 'fit for %3d parameter' % (nc)
+    else:
+      ptitle = 'fit for %3d parameters' % (nc)
     plt.figure()
     plt.subplot(211)
     plt.scatter(xx,yy,color='red',marker='o')

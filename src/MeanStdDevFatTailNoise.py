@@ -155,7 +155,7 @@ if(MAKEPLOT):
   plt.subplot(211)
   plt.boxplot(x,notch=0,sym='b+',vert=0,showmeans=True)
   plt.yticks([1],['X 1'],rotation=0,fontsize=12)
-  #plt.title('SciInf Mean of Data')
+  plt.title('Input Data')
   #
   # plot posterior pdf, cdf for mean
   #

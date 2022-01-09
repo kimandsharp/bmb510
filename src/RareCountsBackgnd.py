@@ -106,7 +106,7 @@ if(MAKEPLOT):
   plt.xlabel('rate (/s)')
   plt.ylabel('p(rate)')
   plt.ylim((0.,1.2))
-  plt.title('Posterior pdf of rate (backgnd = blue source = green)')
+  plt.title('Rate Posteriors blue: background pdf green,red: source pdf,cdf')
   plt.grid(True)
   plt.show()
 
