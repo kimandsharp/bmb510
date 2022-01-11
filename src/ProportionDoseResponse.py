@@ -3,6 +3,10 @@
 Bayesian analysis of multiple proportion parameters dependent on dose,
 data as set of (d_i, y_i, n_i) 
 using the approach of Gelman et al, DBA3 chapter 3.7, the 'bioassay expt'
+J sets of data, in each set the fraction of positives npos_j/ntot_j has 
+beta distribution beta(f_j,npos,ntot) where proportion parameter fj depends 
+on dose in that set. function form: f_j has logistic dependence on dose (or log of dose)
+which is equivalent to hill model, with hyperparameters ld50 = a, hill slope = b
 """
 import random as rn
 import numpy as np
@@ -12,13 +16,13 @@ from math import *
 import sys
 #-------------------------------------
 def ab_prior(a,b):
-  """ dummy def for prior in case we want a non-uniform one later"""
+  """ dummy def for ln(prior) in case we want a non-uniform one later"""
   lprior = 0.
   return lprior
 
 def lhood_ab(nj,a,b,nsize,dose):
   """ likelihood for # positives, given a,b,dose, sample size
-  log form of eq. 5.8 DBA3 """
+  log form of eq. 5.8 DBA3 which is  beta(fj,nj,nsize)"""
   nset = len(nj)
   lprob = 0.
   for i in range(nset):
@@ -29,7 +33,11 @@ def lhood_ab(nj,a,b,nsize,dose):
 #-------------------------------------
 print('\nBayesian analysis of multiple proportion parameters dependent on dose,')
 print('data given as set of (dose, # in sample, # of positives)') 
-print('using the approach of Gelman et al, DBA3 chapter 3.7, the bioassay experiment\n')
+print('using the approach of Gelman et al, DBA3 chapter 3.7, the bioassay experiment')
+print('J sets of data, in each set the fraction of positives npos_j/ntot_j has ')
+print('beta distribution beta(f_j,npos,ntot) where proportion parameter fj depends ')
+print('on dose in that set. function form: f_j has logistic dependence on dose (or log of dose)')
+print('which is equivalent to hill model, with hyperparameters ld50 = a, hill slope = b\n')
 if(len(sys.argv) == 2):
   filename = sys.argv[1]
 else:
@@ -201,12 +209,12 @@ while(isample < nsample):
 print ('drew ',nsample, ' samples in ',ntry, ' tries')
 #
 # scatter plot to check sampling distbn looks like analytical
-#plt.figure(2)
-#plt.title('sampling from posterior for hyper-parameters p(a,b|data)')
-#plt.scatter(a_sample,b_sample,marker='.')
-#plt.xlim(a_lw,a_up)
-#plt.ylim(b_lw,b_up)
-#plt.show()
+plt.figure(2)
+plt.title('sampling from posterior for hyper-parameters p(a,b|data)')
+plt.scatter(a_sample,b_sample,marker='.')
+plt.xlim(a_lw,a_up)
+plt.ylim(b_lw,b_up)
+plt.show()
 #
 # ld50
 ld50 = np.zeros(nsample)
@@ -223,6 +231,8 @@ ld50_m = ld50[im]
 ld50_u = ld50[iu]
 percentsign = '%'
 print('LD50 median %12.5f 95%s CI (%12.5f , %12.5f) ' %(ld50_m,percentsign,ld50_l,ld50_u))
+b_sample.sort()
+print('Hill slope median %12.5f 95%s CI (%12.5f , %12.5f) ' %(b_sample[im],percentsign,b_sample[il],b_sample[iu]))
 #
 if(ku.MAKEPLOT):
   plt.figure(3)

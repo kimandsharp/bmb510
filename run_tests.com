@@ -123,7 +123,7 @@ src/CurveFitBIC.py testdata/curve3.dat
 src/PeriodicSeries.py testdata/CparkT_periodic_test.dat
 #
 #====================
-# Difference in any paramter from two of its pdf's
+# Difference in any parameter from two of its pdf's
 #====================
 #
 # DiffPdf.py can be used to get analyse the difference or change in any parameter if
