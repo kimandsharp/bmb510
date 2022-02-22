@@ -167,7 +167,7 @@ if(MAKEPLOT):
   plt.xlabel('t')
   plt.ylabel('y')
   #plt.ylim(ymin=0.)
-  plt.title('T Series ')
+  #plt.title('T Series ')
   plt.grid(True)
   #
   # plot posterior pdf of frequency/period
@@ -178,6 +178,6 @@ if(MAKEPLOT):
   plt.plot(period_axis,freq_pdf,color='red')
   plt.xlabel('period')
   plt.ylabel('pdf(period)')
-  plt.title('PDF ')
+  #plt.title('PDF ')
   plt.grid(True)
   plt.show()
