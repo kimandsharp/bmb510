@@ -44,7 +44,7 @@ x1_span =  x1[ndata1-1] - x1[0]
 x2_span =  x2[ndata2-1] - x2[0]
 print('\nranges of parameter: ')
 print('X1: %12.3f %12.3f range %12.3f '%(x1[0],x1[ndata1-1],x1_span))
-print('X2: %12.3f %12.3f range %12.3f '%(x2[0],x2[ndata1-1],x2_span))
+print('X2: %12.3f %12.3f range %12.3f '%(x2[0],x2[ndata2-1],x2_span))
 #
 #
 # first we regenerate pdfs for our NPOINT and equally spaced X1, X2

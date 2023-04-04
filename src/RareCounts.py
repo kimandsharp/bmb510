@@ -20,6 +20,7 @@ else:
   t_source = float(input('time of observation> '))
 print('# of events: ',n_source,' in time ',t_source)
 r_mean = float(n_source)/t_source
+#r_mean = float(n_source+1)/t_source # r_mean only used to set range of rate axis, so allow 0 counts
 r_stdev = sqrt(n_source)/t_source
 r_mode = float((n_source - 1.))/t_source
 #print("Mean Rate: {:12.5f} Std.Dev: {:12.5f} Max. Lhood Rate: {:12.5f} ".format(r_mean,r_stdev,r_mode))

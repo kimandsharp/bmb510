@@ -31,6 +31,9 @@ if((t_win_lw > t_min) or (t_win_up < t_max)):
   #t_win_lw = t_min
   #t_win_up = t_max
   sys.exit()
+if(t_win_lw <= 0.):
+  t_win_lw = t_min/10.
+  print('lower window must be > 0. setting to ',t_win_lw)
 print('\n lower {:f} and upper {:} length or time windows '.format(t_win_lw,t_win_up))
 #
 # set up time/length range to span about 10 times window
