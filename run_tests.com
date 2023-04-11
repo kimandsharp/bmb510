@@ -129,4 +129,6 @@ src/PeriodicSeries.py testdata/CparkT_periodic_test.dat
 # DiffPdf.py can be used to get analyse the difference or change in any parameter if
 # we have the posterior pdfs:
 src/DiffPdf.py testdata/weibull_tpost1.dat testdata/weibull_tpost2.dat
+# CombineTwoPdfs.py can multiply two pdfs, i.e. a l'hood pdf by a new prior pdf
+# or find posterior difference/cahnge, like DiffPdf.py can, by convoluting two pdfs (marginalizing)
 src/CombineTwoPdfs.py testdata/weibull_tpost1.dat testdata/weibull_tpost2.dat convolute
