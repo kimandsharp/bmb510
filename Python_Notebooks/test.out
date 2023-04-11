@@ -1,0 +1,6 @@
+default format for integers  : -1  2   3
+controlling number of columns:    -1  2       +3   
+default format for floats  : 31415926535.897930  0.333333   3.141593
+controlling number of columns:   3.1416e+10  0.33333        +3.14159    
+twelve    -1+31415926535.89793
+all done!
