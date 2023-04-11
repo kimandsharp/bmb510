@@ -1,5 +1,7 @@
 # bmb510
-Code for bmb510 data analysis class, taught to 1st year Ph.D students.
+Code for bmb510 data analysis class, taught to 1st year Ph.D students
+in the Biochemmistry and Molecular Biophysics program at the 
+University of Pennsylvania.
 Requires math, matplotlib, and numpy packages
 Bayesian versions of most basics stats operations used in conventional statistics:
 estimation of mean, std. dev of populations, difference in means (T-tests), Poisson, Binomial, Rank test
